@@ -1,17 +1,33 @@
 <template>
 	<b-container id="content-main" fluid class="m-0 p-0">
-		<b-row id="fixed-top" no-gutters style="background-color: #7dcce4">
-			<b-col cols="10">
-				<div class="content">BEM-VINDO !</div>
+		<b-row id="fixed-top" no-gutters style="background-color: #2aadd5">
+			<b-col 
+			v-for="content in contentTop"
+			:key="content.name"
+			:style="`font-family: ${content.font} font-size: ${content.fontSize}`"
+			cols="10"
+			class="mx-auto"
+			:class="`text-${content.align} ${content.margin}`">
+				<div
+				:class="`${content.inclination}`">
+					{{ content.text }}
+				</div>
 			</b-col>
-			<b-col cols="10" class="text-center">
-				<div class="content">Portifólio de Projetos</div>
-			</b-col>
-			<b-col cols="10">
-				<div class="content"></div>
+			<b-col cols="2" class="content">
+				<b-button 
+				v-for="buttonSocial in buttonsSocial" 
+				:key="buttonSocial.name"
+				class="m-2 p-0 button-social">
+					<b-img width="50px" :src="buttonSocial.icon"/>
+				</b-button>
 			</b-col>
 		</b-row>
-		<b-row v-for="project in projects" :style="`background-color: ${project.color}`" :key="project.name" no-gutters class="list-project">
+		<b-row 
+		v-for="project in projects" 
+		:style="`background-color: ${project.color};`" 
+		:key="project.name" 
+		no-gutters
+		class="list-project">
 			{{ project.name }}
 		</b-row>
 	</b-container>
@@ -21,22 +37,69 @@
 	export default {
 		data() {
 			return {
+				contentTop: [
+					{	name: 'welcome',
+						text: 'BEM-VINDO !',
+						font: 'Bangers, cursive;',
+						fontSize: '6em',
+						align: 'center',
+						margin: 'm-0',
+						inclination: 'content'
+					},
+					{	name: 'slogan',
+						text: 'Portifólio de Projetos',
+						font: 'Bangers, cursive;',
+						fontSize: '5em',
+						align: 'left',
+						margin: 'ml-2',
+						inclination: 'content'
+					},
+					{	name: 'create',
+						text: 'Create by: Bruno Alfieri',
+						font: 'Bangers, cursive;',
+						fontSize: '2em',
+						align: 'right',
+						margin: 'mt-auto',
+						inclination: ''
+					},
+				],
+				buttonsSocial: [
+					{	name: 'icon1',
+						icon: require('@/assets/github-icon.svg')
+					},
+					{	name: 'icon2',
+						icon: require('@/assets/linkedin-icon.svg')
+					},
+					{	name: 'icon3',
+						icon: require('@/assets/facebook-icon.svg')
+					}
+				],
 				projects: [
-					{	name: 'Projetos',
+					{	name: 'teste',
 						router: '',
-						backgroundImg: '',
-						color: '#00FFFF'
+						color: '#269cc0'
 					},
 					{	name: 'te',
 						router: '',
-						backgroundImg: '',
-						color: '#7dcce4'
+						color: '#2aadd5'
 					},
-					{	name: 'Prtestojetos',
+					{	name: 'teste1',
 						router: '',
 						backgroundImg: '',
-						color: '#00FFFF'
-					}
+						color: '#3fb5d9'
+					},
+					{	name: 'teste2',
+						router: '',
+						color: '#55bddd'
+					},
+					{	name: 'teste3',
+						router: '',
+						color: '#55bddd'
+					},
+					{	name: 'teste4',
+						router: '',
+						color: '#7fcee6'
+					},
 				]
 			
 			}
@@ -47,6 +110,7 @@
 <style lang="scss" scoped>
 
 @import url('https://fonts.googleapis.com/css2?family=Modak&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Modak&display=swap');
 
 $heightRow: 500px;
 
@@ -57,19 +121,24 @@ $heightRow: 500px;
 	height: 100%;
 	#fixed-top {
 		height: $heightRow;
+		max-width: 100%;
+		overflow: hidden!important;
 		width: 120%;
-		font-size: 6em;
-		transform: skewY(-3deg);
+		transform: skewY(-2deg);
 		transform-origin: top left;
+		.button-social {
+			border-radius: 50%;
+		
+		}
 	}
 	.list-project {
 		height: $heightRow;
 		width: 120%;
-		transform: skewY(-3deg);
+		transform: skewY(-2deg);
 		transform-origin: top left;
 	}
 	.content {
-		transform: skewY(3deg);
+		transform: skewY(2deg);
 		transform-origin: top left;
 	}
 }
