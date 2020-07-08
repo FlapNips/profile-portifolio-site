@@ -22,19 +22,17 @@
 				</b-button>
 			</b-col>
 		</b-row>
-		<b-row 
-		v-for="project in projects" 
-		:style="`background-color: ${project.color};`" 
-		:key="project.name" 
-		no-gutters
-		class="list-project">
-			{{ project.name }}
-		</b-row>
+		<ListProject/>
 	</b-container>
 </template>
 
 <script>
+import ListProject from './ListProject.vue'
+
 	export default {
+		components: {
+			ListProject
+		},
 		data() {
 			return {
 				contentTop: [
@@ -74,33 +72,6 @@
 						icon: require('@/assets/facebook-icon.svg')
 					}
 				],
-				projects: [
-					{	name: 'teste',
-						router: '',
-						color: '#269cc0'
-					},
-					{	name: 'te',
-						router: '',
-						color: '#2aadd5'
-					},
-					{	name: 'teste1',
-						router: '',
-						backgroundImg: '',
-						color: '#3fb5d9'
-					},
-					{	name: 'teste2',
-						router: '',
-						color: '#55bddd'
-					},
-					{	name: 'teste3',
-						router: '',
-						color: '#55bddd'
-					},
-					{	name: 'teste4',
-						router: '',
-						color: '#7fcee6'
-					},
-				]
 			
 			}
 		}
@@ -128,15 +99,10 @@ $heightRow: 500px;
 		transform-origin: top left;
 		.button-social {
 			border-radius: 50%;
-		
+			background-color: transparent;
 		}
 	}
-	.list-project {
-		height: $heightRow;
-		width: 120%;
-		transform: skewY(-2deg);
-		transform-origin: top left;
-	}
+
 	.content {
 		transform: skewY(2deg);
 		transform-origin: top left;
