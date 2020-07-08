@@ -38,25 +38,54 @@
 </template>
 
 <script>
+
+const vuejs = require('@/assets/vuejs-icon.svg')
+const javascript = require('@/assets/javascript-icon.svg')
+const api = require('@/assets/api-icon.svg')
+const nodejs = require('@/assets/nodejs-icon.svg')
+const mysql = require('@/assets/mysql-icon.svg')
+const psql = require('@/assets/postgresql-icon.svg')
+const firebase = require('@/assets/firebase-icon.svg')
+const bootstrap = require('@/assets/bootstrap-icon.svg')
+const docker = require('@/assets/docker-icon.svg')
+const html5 = require('@/assets/html5-icon.svg')
+const css3 = require('@/assets/css3-icon.svg')
+const sass = require('@/assets/sass-icon.svg')
+
 export default {
 	data() {
 		return {
+			
 			projects: [
-				{	name: 'DESAFIO DOG',
+				{	name: '# DESAFIO DOG',
 					router: '',
 					img: 'teste',
 					color: '#269cc0',
 					icons: [
-						require('@/assets/vuejs-icon.svg'),
-						require('@/assets/javascript-icon.svg')
+						vuejs,
+						javascript,
+						api,
+						html5,
+						css3,
+						sass
 					],
-					content: 'Conteudo1'
+					content:	'Objetivo: Permitir a criação de uma imagem com um nome estilizado selecionando uma raça.'
 				},
 				{	name: 'te',
 					router: '',
 					img: '',
 					color: '#2aadd5',
-					icons: '',
+					icons: [
+						nodejs,
+						mysql,
+						psql,
+						firebase,
+						bootstrap,
+						docker,
+						html5,
+						css3,
+						sass
+					],
 					content: 'Conteudo2'
 				},
 				{	name: 'teste1',
@@ -94,6 +123,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@500&display=swap');
+
 #division-project {
 	display: grid;
 	grid-template-areas:	"titulo introducao"
@@ -123,20 +155,21 @@ export default {
 		transform-origin: top left;
 	}
 	.conteudo { 
-		grid-area: conteudo; 
+		grid-area: conteudo;
 		transform: skewY(2deg); 
+		font-family: 'Heebo', sans-serif;
 		transform-origin: top left;
 	}
 	.tecnologia { 
 		grid-area: tecnologia;
 		transform: skewY(2deg);
-		width: 50px;
-		height: 50px;
+		width: 70px;
+		height: 70px;
 		transform-origin: top left;
 	}
 	.footer { grid-area: footer; }
 	.title-project {
-		font-size: 5em;
+		font-size: 4em;
 		vertical-align: center;
 	}
 	.botao {

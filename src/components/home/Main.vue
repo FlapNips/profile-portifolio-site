@@ -80,19 +80,19 @@ import ListProject from './ListProject.vue'
 
 <style lang="scss" scoped>
 
-@import url('https://fonts.googleapis.com/css2?family=Modak&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Modak&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
 
 $heightRow: 500px;
 
 #content-main {
 	overflow: hidden;
 	min-height: 100vh;
-	font-family: 'Modak', cursive;
+	font-family: 'Bangers', cursive;
 	height: 100%;
 	#fixed-top {
 		height: $heightRow;
 		max-width: 100%;
+		color: black;
 		overflow: hidden!important;
 		width: 120%;
 		transform: skewY(-2deg);
