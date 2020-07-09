@@ -3,33 +3,18 @@
 		<div class="content-area">
 			<b-col cols="5" style="background-color: gray">
 				<b-form>
-					<b-form-group 
-					v-for="input in formInput"
-					:key="input.id"
-					:label="input.label"
-					:label-for="input.id">
+					<b-form-group>
 						<b-form-input 
-							:id="input.id"
+							v-for="(input, index) in formInput"
+							:key="input.placeholder"
 							:placeholder="input.placeholder"
 							:type="input.type"
-							min="1"
-							max="5"
-							v-model="input.value"
-							class="my-3">
+							:min="input.min"
+							:max="input.max"
+							:value="input[index]">
 						</b-form-input>
 					</b-form-group>
-					<b-form-group>
-						<b-form-textarea 
-						v-for="inputTextArea in formTextArea"
-						:key="inputTextArea.id"
-						v-model="inputTextArea.content"
-						rows="4"
-						:state="inputTextArea.content.length >= 30 && inputTextArea.content.length <= 250"
-						class="my-3">
-						</b-form-textarea>
-					</b-form-group>
 				</b-form>
-				<b-button @click="levelNow()">CLICK</b-button>
 			</b-col>
 		</div>
 	</div>
@@ -40,81 +25,34 @@ export default {
 	data() {
 		return {
 			formInput: [
-				{	value: '',
-					id: 'title',
+				{	title: '',
 					placeholder: 'Digite o título.',
-					type: 'text',
-					label: 'Título:'
+					type: 'text'
 				},
-				{	value: '1',
-					id: 'level',
-					placeholder: 'level',
+				{	level: '',
+					placeholder: 'Nível de Dificuldade.',
 					type: 'range',
-					label: `Level: ${this.getLevel(parseInt(this.formInput[1].value))})`
-				},
-				{	value: '',
-					id: 'preview',
-					placeholder: 'Preview',
-					type: 'text',
-					label: 'Preview:'
-				},
-			],
-			formTextArea: [
-				{	content: '',
-					id: 'introduction',
-					placeholder: 'Introdução',
-					min: 3,
+					min: 0,
 					max: 5
-				
 				},
-				{	content: '',
-					id: 'knowledge',
-					placeholder: 'Aprendido',
-					min: 3,
-					max: 5
-				}
-			
+				{	introduction: '',
+					placeholder: 'Qual a introdução ?',
+					type: 'textarea'
+				},
+				{	objective: '',
+					placeholder: 'Qual o objetivo ?',
+					type: ''
+				},
+				{	previewImg: '',
+					placeholder: '',
+					type: ''
+				},
+				{	router: '',
+					placeholder: '',
+					type: ''
+				},
 			]
 		}
-	},
-	methods: {
-		getLevel(level) {
-			console.log(level)
-			switch(level) {
-				case 1: {
-				
-					return 'Newbie'
-				}
-				case 2: {
-				
-					return 'begginer'
-				}
-				case 3: {
-				
-					return 'Intermediate'
-				}
-				case 4: {
-				
-					return 'Advanced'
-				}
-				case 5: {
-				
-					return 'Expert'
-				}
-			}
-		},
-		levelNow() {
-		console.log(this.formInput[1].value)
-		},
-		teste(value) {
-			return this.getLevel(value)
-		}
-	},
-	computed: {
-		abc() {
-			return this.formInput[1].value
-		}
-	
 	}
 }
 </script>
