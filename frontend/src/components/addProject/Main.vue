@@ -4,9 +4,9 @@
 			<b-col cols="5" style="background-color: gray">
 				<b-form>
 					<b-form-group 
-					v-for="(input, index) in formInput"
+					v-for="input in formInput"
 					:key="input.id"
-					:label="labelList(index)"
+					:label="input.label"
 					:label-for="input.id">
 						<b-form-input 
 							:id="input.id"
@@ -15,7 +15,7 @@
 							min="1"
 							max="5"
 							v-model="input.value"
-							class="my-3 ">
+							class="my-3">
 						</b-form-input>
 					</b-form-group>
 					<b-form-group>
@@ -46,11 +46,11 @@ export default {
 					type: 'text',
 					label: 'Título:'
 				},
-				{	value: 1,
+				{	value: '1',
 					id: 'level',
 					placeholder: 'level',
 					type: 'range',
-					label: `Level: naofoi`
+					label: `Level: ${this.getLevel(parseInt(this.formInput[1].value))})`
 				},
 				{	value: '',
 					id: 'preview',
@@ -79,21 +79,42 @@ export default {
 	},
 	methods: {
 		getLevel(level) {
+			console.log(level)
 			switch(level) {
-				case 1: { return 'Newbie' }
-				case 2: { return 'begginer' }
-				case 3: { return 'Intermediate' }
-				case 4: { return 'Advanced' }
-				case 5: { return 'Expert' }
+				case 1: {
+				
+					return 'Newbie'
+				}
+				case 2: {
+				
+					return 'begginer'
+				}
+				case 3: {
+				
+					return 'Intermediate'
+				}
+				case 4: {
+				
+					return 'Advanced'
+				}
+				case 5: {
+				
+					return 'Expert'
+				}
 			}
 		},
-		labelList(index) {
-			if(index == 1) {
-				let valueRange = parseInt(this.formInput[index].value)
-				return `Level: ${this.getLevel(valueRange)}`
-			}
-			return this.formInput[index].label
+		levelNow() {
+		console.log(this.formInput[1].value)
 		},
+		teste(value) {
+			return this.getLevel(value)
+		}
+	},
+	computed: {
+		abc() {
+			return this.formInput[1].value
+		}
+	
 	}
 }
 </script>
