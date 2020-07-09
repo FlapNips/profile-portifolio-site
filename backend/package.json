@@ -1,0 +1,18 @@
+{
+  "name": "backend-portfolio",
+  "version": "1.0.0",
+  "description": "Sistema de controle de projetos",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app"
+  },
+  "author": "FlapNips",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.0.0",
+    "mongose": "0.0.2-security",
+    "nodemon": "^2.0.4"
+  }
+}
