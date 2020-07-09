@@ -13,10 +13,14 @@
 			</div>
 			<div class="buttons ml-auto">
 				<b-button id="adicionar" class="p-0 button-manager m-2">
-					<b-img src="@/assets/add-icon.svg" fluid-grow/>
+					<router-link to="/add">
+						<b-img src="@/assets/add-icon.svg" fluid-grow/>
+					</router-link>
 				</b-button>
 				<b-button id="remover" class="p-0 button-manager m-2">
-					<b-img src="@/assets/remove-icon.svg" fluid-grow/>
+					<router-link to="/remove">
+						<b-img src="@/assets/remove-icon.svg" fluid-grow/>
+					</router-link>
 				</b-button>
 				<b-tooltip target="adicionar">
 					Adicionar
@@ -27,14 +31,15 @@
 			</div>
 			<div class="social mt-auto ml-auto">
 				<b-button 
-				v-for="buttonSocial in buttonsSocial" 
+				v-for="buttonSocial in buttonsSocial"
+				:id="buttonSocial.name"
 				:key="buttonSocial.name"
 				class="m-2 p-0 button-social">
-					<b-img :id="buttonSocial.name" width="50px" :src="buttonSocial.icon"/>
+					<b-img width="50px" :src="buttonSocial.icon"/>
+					<b-tooltip :target="buttonSocial.name">
+						{{ buttonSocial.tooltip }}
+					</b-tooltip>
 				</b-button>
-				<b-tooltip :target="buttonSocial.name">
-					{{ buttonSocial.tooltip }}
-				</b-tooltip>
 			</div>
 		</div>
 		<ListProject/>
