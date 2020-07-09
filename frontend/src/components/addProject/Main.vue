@@ -3,18 +3,33 @@
 		<div class="content-area">
 			<b-col cols="5" style="background-color: gray">
 				<b-form>
-					<b-form-group>
+					<b-form-group 
+					v-for="(input, index) in formInput"
+					:key="input.id"
+					:label="labelList(index)"
+					:label-for="input.id">
 						<b-form-input 
-							v-for="(input, index) in formInput"
-							:key="input.placeholder"
+							:id="input.id"
 							:placeholder="input.placeholder"
 							:type="input.type"
-							:min="input.min"
-							:max="input.max"
-							:value="input[index]">
+							min="1"
+							max="5"
+							v-model="input.value"
+							class="my-3 ">
 						</b-form-input>
 					</b-form-group>
+					<b-form-group>
+						<b-form-textarea 
+						v-for="inputTextArea in formTextArea"
+						:key="inputTextArea.id"
+						v-model="inputTextArea.content"
+						rows="4"
+						:state="inputTextArea.content.length >= 30 && inputTextArea.content.length <= 250"
+						class="my-3">
+						</b-form-textarea>
+					</b-form-group>
 				</b-form>
+				<b-button @click="levelNow()">CLICK</b-button>
 			</b-col>
 		</div>
 	</div>
@@ -25,34 +40,60 @@ export default {
 	data() {
 		return {
 			formInput: [
-				{	title: '',
+				{	value: '',
+					id: 'title',
 					placeholder: 'Digite o título.',
-					type: 'text'
+					type: 'text',
+					label: 'Título:'
 				},
-				{	level: '',
-					placeholder: 'Nível de Dificuldade.',
+				{	value: 1,
+					id: 'level',
+					placeholder: 'level',
 					type: 'range',
-					min: 0,
+					label: `Level: naofoi`
+				},
+				{	value: '',
+					id: 'preview',
+					placeholder: 'Preview',
+					type: 'text',
+					label: 'Preview:'
+				},
+			],
+			formTextArea: [
+				{	content: '',
+					id: 'introduction',
+					placeholder: 'Introdução',
+					min: 3,
 					max: 5
+				
 				},
-				{	introduction: '',
-					placeholder: 'Qual a introdução ?',
-					type: 'textarea'
-				},
-				{	objective: '',
-					placeholder: 'Qual o objetivo ?',
-					type: ''
-				},
-				{	previewImg: '',
-					placeholder: '',
-					type: ''
-				},
-				{	router: '',
-					placeholder: '',
-					type: ''
-				},
+				{	content: '',
+					id: 'knowledge',
+					placeholder: 'Aprendido',
+					min: 3,
+					max: 5
+				}
+			
 			]
 		}
+	},
+	methods: {
+		getLevel(level) {
+			switch(level) {
+				case 1: { return 'Newbie' }
+				case 2: { return 'begginer' }
+				case 3: { return 'Intermediate' }
+				case 4: { return 'Advanced' }
+				case 5: { return 'Expert' }
+			}
+		},
+		labelList(index) {
+			if(index == 1) {
+				let valueRange = parseInt(this.formInput[index].value)
+				return `Level: ${this.getLevel(valueRange)}`
+			}
+			return this.formInput[index].label
+		},
 	}
 }
 </script>
