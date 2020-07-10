@@ -2,121 +2,101 @@
 	<div>
 		<div
 		id="division-project"
-		v-for="project in projects" 
-		:style="`background-color: ${project.color};`" 
-		:key="project.name" 
+		v-for="(project, index) in projects" 
+		:style="`background-color: ${setColor(index)}`" 
+		:key="project.name"
 		no-gutters>
-				<div class="titulo title-project ml-5">
+				<!-- FIRST COLUMN -->
+				<div class="title title-project ml-2">
 					{{ project.name }}
 				</div>
-				<div class="introducao my-auto">
+				<ButtonsListProject/>
+				<!-- SECOND COLUMN -->
+				<div class="introduction my-auto mx-auto">
 					Introdução
 				</div>
-				<div class="botoes mx-auto my-auto">
-					<b-button class="mx-5 botao">
-						<div>VISITAR PROJETO REAL</div>
-					</b-button>
-					<b-button :id="project.name" class="mx-5 botao">
-						<div>PREVIEW</div>
-					</b-button>
-					<b-tooltip :target="project.name" placement="right">
-						<b-img :src="project.img"/>
-					</b-tooltip>
+				<div class="content-intro p-2">
+					{{ project.introductionText }}
 				</div>
-				<div class="conteudo">
-					{{ project.content }}
+				<!-- THIRD COLUMN -->
+				<div class="learning my-auto mx-auto">
+					Aprendizado
 				</div>
-				<div class="text-center">
-					Tecnologias:
-					<b-img v-for="icon in project.icons" :key="icon" class="tecnologia mx-3" :src="icon"/>
+				<div class="content-learning p-2">
+					{{ project.learningText }}
 				</div>
-				<div class="footer mt-auto">
-					footeraaaaaaaaaaaaaaaa
+				<div class="footer mt-auto ml-auto mx-2">
+					Finalizado em: {{ project.date }}
 				</div>
+				<!-- ICONS LIST PROJECT -->
+				<TechnologyIcons/>
 		</div>
 	</div>
 </template>
 
 <script>
 
-const vuejs = require('@/assets/vuejs-icon.svg')
-const javascript = require('@/assets/javascript-icon.svg')
-const api = require('@/assets/api-icon.svg')
-const nodejs = require('@/assets/nodejs-icon.svg')
-const mysql = require('@/assets/mysql-icon.svg')
-const psql = require('@/assets/postgresql-icon.svg')
-const firebase = require('@/assets/firebase-icon.svg')
-const bootstrap = require('@/assets/bootstrap-icon.svg')
-const docker = require('@/assets/docker-icon.svg')
-const html5 = require('@/assets/html5-icon.svg')
-const css3 = require('@/assets/css3-icon.svg')
-const sass = require('@/assets/sass-icon.svg')
+import ButtonsListProject from './ButtonsListProject.vue'
+import TechnologyIcons from './TechnologyIcons.vue'
 
 export default {
+	components: {
+		ButtonsListProject,
+		TechnologyIcons
+	},
 	data() {
 		return {
-			
 			projects: [
-				{	name: '# DESAFIO DOG',
+				{	name: '#DESAFIO_DOG',
 					router: '',
-					img: 'teste',
-					color: '#269cc0',
-					icons: [
-						vuejs,
-						javascript,
-						api,
-						html5,
-						css3,
-						sass
-					],
-					content:	'Objetivo: Permitir a criação de uma imagem com um nome estilizado selecionando uma raça.'
+					color: '',
+					introductionText: 'Introdução Conteudo',
+					learningText: 'Aprendizado Conteudo',
+					date: '20/20/20'
 				},
-				{	name: 'te',
+				{	name: '#PROJETO 2',
 					router: '',
-					img: '',
 					color: '#2aadd5',
-					icons: [
-						nodejs,
-						mysql,
-						psql,
-						firebase,
-						bootstrap,
-						docker,
-						html5,
-						css3,
-						sass
-					],
-					content: 'Conteudo2'
+					introductionText: '',
+					learningText: '',
+					date: ''
 				},
-				{	name: 'teste1',
+				{	name: '#PROJETO 3',
 					router: '',
-					img: '',
 					color: '#3fb5d9',
-					icons: '',
-					content: 'Conteudo'
+					introductionText: '',
+					learningText: '',
+					date: ''
 				},
-				{	name: 'teste2',
+				{	name: '#PROJETO 4',
 					router: '',
-					img: '',
-					color: '#55bddd',
-					icons: '',
-					content: 'Conteudo'
+					color: '',
+					introductionText: '',
+					learningText: '',
+					date: ''
 				},
-				{	name: 'teste3',
+				{	name: '#PROJETO 5',
 					router: '',
-					img: '',
-					color: '#55bddd',
-					icons: '',
-					content: 'Conteudo'
+					color: '',
+					introductionText: '',
+					learningText: '',
+					date: ''
 				},
-				{	name: 'teste4',
+				{	name: '#PROJETO 6',
 					router: '',
-					img: '',
-					color: '#7fcee6',
-					icons: '',
-					content: 'Conteudo'
+					color: '',
+					introductionText: '',
+					learningText: '',
+					date: ''
 				},
 			]
+		}
+	},
+	methods: {
+		setColor(index) {
+			const projectLength = 1/this.projects.length
+			let transparentColor = 1 - ( projectLength * index )
+			return `rgba(38, 156, 192, ${transparentColor})`
 		}
 	}
 }
@@ -128,58 +108,60 @@ export default {
 
 #division-project {
 	display: grid;
-	grid-template-areas:	"titulo introducao"
-							"botoes conteudo"
-							"tecnologia footer";
-	grid-template-columns: 2fr 1fr;
+	grid-template-areas:	"title introduction learning"
+							"buttons content-intro content-learning"
+							"tecnologia tecnologia footer";
+	grid-template-columns: 2fr 2fr 2fr;
 	grid-template-rows: 1fr 3fr 1fr;
 	margin: 0;
 	padding: 0;
 	height: 500px;
 	transform: skewY(-2deg);
 	transform-origin: top left;
-	.titulo { 
-		grid-area: titulo; 
+	.title { 
+		grid-area: title; 
 		transform: skewY(2deg); 
 		transform-origin: top left;
 	}
-	.introducao { 
-		grid-area: introducao;
+	.introduction { 
+		grid-area: introduction;
 		font-size: 3em;
 		transform: skewY(2deg); 
 		transform-origin: top left;
 	}
-	.botoes { 
-		grid-area: botoes; 
+	.learning { 
+		grid-area: learning;
+		font-size: 3em;
 		transform: skewY(2deg); 
 		transform-origin: top left;
+		
 	}
-	.conteudo { 
-		grid-area: conteudo;
+
+	.content-intro { 
+		grid-area: content-intro;
 		transform: skewY(2deg); 
 		font-family: 'Heebo', sans-serif;
 		transform-origin: top left;
+		border-left: 2px solid black;
+
 	}
-	.tecnologia { 
-		grid-area: tecnologia;
-		transform: skewY(2deg);
-		width: 70px;
-		height: 70px;
+	.content-learning { 
+		grid-area: content-learning;
+		transform: skewY(2deg); 
+		font-family: 'Heebo', sans-serif;
 		transform-origin: top left;
+		border-left: 2px solid black;
+
 	}
-	.footer { grid-area: footer; }
+	.footer { 
+		grid-area: footer;
+		font-size: 2em;
+	}
 	.title-project {
 		font-size: 4em;
 		vertical-align: center;
 	}
-	.botao {
-		background-color: black;
-		font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-		&:hover {
-			background-color: white;
-			color: black;
-		}
-	}
+
 }
 .list-project {
 	height: 500px;
