@@ -4,7 +4,7 @@
 		id="division-project"
 		v-for="(project, index) in projects" 
 		:style="`background-color: ${setColor(index)}`" 
-		:key="project.name"
+		:key="project.id"
 		no-gutters>
 				<!-- FIRST COLUMN -->
 				<div class="title title-project ml-2">
@@ -29,7 +29,7 @@
 					Finalizado em: {{ project.date }}
 				</div>
 				<!-- ICONS LIST PROJECT -->
-				<TechnologyIcons/>
+				<TechnologyIcons :id="project.id"/>
 		</div>
 	</div>
 </template>
@@ -48,6 +48,7 @@ export default {
 		return {
 			projects: [
 				{	name: '#DESAFIO_DOG',
+					id: 1,
 					router: '',
 					color: '',
 					introductionText: 'Introdução Conteudo',
@@ -55,6 +56,7 @@ export default {
 					date: '20/20/20'
 				},
 				{	name: '#PROJETO 2',
+					id: 2,
 					router: '',
 					color: '#2aadd5',
 					introductionText: '',
@@ -62,6 +64,7 @@ export default {
 					date: ''
 				},
 				{	name: '#PROJETO 3',
+					id: 3,
 					router: '',
 					color: '#3fb5d9',
 					introductionText: '',
@@ -69,6 +72,7 @@ export default {
 					date: ''
 				},
 				{	name: '#PROJETO 4',
+					id: 4,
 					router: '',
 					color: '',
 					introductionText: '',
@@ -76,13 +80,7 @@ export default {
 					date: ''
 				},
 				{	name: '#PROJETO 5',
-					router: '',
-					color: '',
-					introductionText: '',
-					learningText: '',
-					date: ''
-				},
-				{	name: '#PROJETO 6',
+					id: 5,
 					router: '',
 					color: '',
 					introductionText: '',

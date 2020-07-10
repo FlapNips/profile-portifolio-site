@@ -19,6 +19,7 @@ export default new Vuex.Store({
 			css3: require('@/assets/css3-icon.svg'),
 			sass: require('@/assets/sass-icon.svg'),
 			json: require('@/assets/json-icon.svg'),
+			empty: require('@/assets/empty-icon.svg'),
 		}
 	},
 	mutations: {
