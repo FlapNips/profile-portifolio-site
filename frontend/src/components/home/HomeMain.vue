@@ -1,6 +1,6 @@
 <template>
 	<b-container id="content-main" fluid class="m-0 p-0">
-		<div id="fixed-top" no-gutters style="background-color: #2aadd5">
+		<div id="fixed-top" no-gutters>
 			<div 
 			v-for="content in contentTop"
 			:key="content.name"
@@ -117,12 +117,13 @@ $heightRow: 500px;
 		display: grid;
 		align-items: start;
 		grid-template-rows: 3fr 4fr 1fr;
-		grid-template-columns: 5fr 1fr;
+		grid-template-columns: 3fr 1fr;
 		grid-template-areas:	"bem-vindo buttons"
 								"title social"
 								" footer footer";
 		color: black;
 		transform: skewY(-2deg);
+		background-color: #3366ff;
 		transform-origin: top left;
 
 		.bem-vindo{ 
