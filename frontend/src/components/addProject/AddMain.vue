@@ -5,10 +5,11 @@
 				<b-form>
 					<FormInput/>
 					<FormTextArea/>
+					<FormDatepicker/>
 				</b-form>
 			</b-col>
 			<b-col cols="6">
-				tyersfgsa
+				<SelectTechnology/>
 			</b-col>
 		</b-row>
 	</div>
@@ -18,11 +19,15 @@
 
 import FormInput from './FormInput.vue'
 import FormTextArea from './FormTextArea.vue'
+import FormDatepicker from './FormDatepicker.vue'
+import SelectTechnology from './SelectTechnology.vue'
 
 export default {
 	components: {
 		FormInput,
-		FormTextArea
+		FormTextArea,
+		FormDatepicker,
+		SelectTechnology
 	},
 }
 </script>
