@@ -9,9 +9,9 @@
 			:id="inputTextArea.id"
 			v-model="inputTextArea.content"
 			:placeholder="inputTextArea.placeholder"
-			rows="4"
+			:rows="inputTextArea.min"
 			:state="inputTextArea.content.length >= 30 && inputTextArea.content.length <= 250"
-			class="my-3"/>
+			class="my-3 input-text-area"/>
 		</b-form-group>
 	</div>
 </template>
@@ -25,16 +25,14 @@ export default {
 					label: 'Introdução:',
 					id: 'introduction',
 					placeholder: 'Entre 30 e 250 caracteres.',
-					min: 3,
-					max: 5
+					min: 5
 				
 				},
 				{	content: '',
 					label: 'Aprendizado:',
 					id: 'knowledge',
 					placeholder: 'Entre 30 e 250 caracteres.',
-					min: 3,
-					max: 5
+					min: 5
 				}
 			
 			]
@@ -44,5 +42,9 @@ export default {
 </script>
 
 <style>
+.input-text-area {
+	width: 100%;
+	height: 200px;
 
+}
 </style>
