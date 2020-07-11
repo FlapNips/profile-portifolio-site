@@ -1,7 +1,7 @@
 <template>
 	<div id="layout-add-project">
 		<b-row class="content-area">
-			<b-col cols="6" style="background-color: gray" class="p-3 h-100">
+			<b-col id="content-form-layout" cols="6" class="p-3 h-100">
 				<b-form>
 					<FormInput/>
 					<FormTextArea/>
@@ -17,9 +17,9 @@
 
 <script>
 
-import FormInput from './FormInput.vue'
-import FormTextArea from './FormTextArea.vue'
-import FormDatepicker from './FormDatepicker.vue'
+import FormInput from './form/FormInput.vue'
+import FormTextArea from './form/FormTextArea.vue'
+import FormDatepicker from './form/FormDatepicker.vue'
 import SelectTechnology from './SelectTechnology.vue'
 
 export default {
@@ -34,10 +34,13 @@ export default {
 
 
 <style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
 #layout-add-project {
+	font-family: 'Bangers', cursive;
+	font-size: 1.3em;
 	height: 100vh;
 	width: 100vw;
-	overflow: hidden;
+	overflow-x: hidden;
 	display: grid;
 	grid-template-rows: 3fr 80fr 3fr;
 	grid-template-columns: 3fr 80fr 3fr;
@@ -46,7 +49,11 @@ export default {
 							"margin-bottom margin-bottom margin-bottom";
 	.content-area { 
 		grid-area: conteudo; 
-		background-color: green;
+		#content-form-layout {
+			border-radius: 1em;
+			background-color: #578ab3;
+		}
 	}
 }
+
 </style>
