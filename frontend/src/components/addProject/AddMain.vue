@@ -6,10 +6,15 @@
 					<FormInput/>
 					<FormTextArea/>
 					<FormDatepicker/>
+					<FormSelectImage/>
+					<FormButtons/>
 				</b-form>
 			</b-col>
 			<b-col cols="6">
 				<SelectTechnology/>
+				<b-button id="button-submit">
+					SALVAR E ENVIAR
+				</b-button>
 			</b-col>
 		</b-row>
 	</div>
@@ -20,6 +25,8 @@
 import FormInput from './form/FormInput.vue'
 import FormTextArea from './form/FormTextArea.vue'
 import FormDatepicker from './form/FormDatepicker.vue'
+import FormSelectImage from './form/FormSelectImage.vue'
+import FormButtons from './form/FormButtons.vue'
 import SelectTechnology from './SelectTechnology.vue'
 
 export default {
@@ -27,6 +34,8 @@ export default {
 		FormInput,
 		FormTextArea,
 		FormDatepicker,
+		FormSelectImage,
+		FormButtons,
 		SelectTechnology
 	},
 }
@@ -52,6 +61,13 @@ export default {
 		#content-form-layout {
 			border-radius: 1em;
 			background-color: #578ab3;
+		}
+		#button-submit {
+			position: fixed;
+			overflow: auto;
+			right: 50px;
+			bottom: 50px;
+			background-color: black;
 		}
 	}
 }
