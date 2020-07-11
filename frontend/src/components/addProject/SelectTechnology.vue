@@ -4,9 +4,10 @@
 		v-for="(icon) in buttons" 
 		:key="icon.id" 
 		@click="icon.pressed = !icon.pressed"
-		:class="{ buttonteste: icon.pressed }"
+		:class="{ 'button-selected': icon.pressed }"
 		class="button-default m-2 p-0">
-			<b-img width="50" height="50" :src="icon.value"/>
+			<b-img width="100" height="100" :src="icon.value"/>
+			<!--<b-img v-show="icon.pressed" src="@/assets/check-icon.svg" class="image-selected"/>-->
 		</b-button>
 	</b-row>
 </template>
@@ -32,8 +33,6 @@ export default {
 					'value': Object.values(icons)[i]
 				})
 			}
-			//this.$set(this.buttons, 0, teste)
-			console.log(this.buttons)
 		}
 	},
 	created() {
@@ -44,12 +43,30 @@ export default {
 </script>
 
 <style lang="scss">
-.button-default {
-	background-color: transparent;
-	border: 0!important;
+.button-selected {
+	position: relative;
+	box-shadow: 0 0 5px 2px black;
+	opacity: 1!important;
+	.image-selected {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-repeat: no-repeat;
+		opacity: 0.5;
+	}
 }
-.buttonteste {
-	background-color: black!important;
+.btn.btn-secondary {
+	background-color: white;
+	opacity: 0.5;
 
+}
+
+.btn.btn-secondary:active,
+.btn.btn-secondary:hover,
+.btn.btn-secondary:focus {
+	box-shadow: 0 0 5px 3px black;
+	background-color: white
 }
 </style>
