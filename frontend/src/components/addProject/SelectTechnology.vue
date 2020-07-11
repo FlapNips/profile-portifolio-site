@@ -42,7 +42,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .button-selected {
 	position: relative;
 	box-shadow: 0 0 5px 2px black;
@@ -57,15 +57,15 @@ export default {
 		opacity: 0.5;
 	}
 }
-.btn.btn-secondary {
+.button-default {
 	background-color: white;
 	opacity: 0.5;
 
 }
 
-.btn.btn-secondary:active,
-.btn.btn-secondary:hover,
-.btn.btn-secondary:focus {
+.button-default:active,
+.button-default:hover,
+.button-default:focus {
 	box-shadow: 0 0 5px 3px black;
 	background-color: white
 }
