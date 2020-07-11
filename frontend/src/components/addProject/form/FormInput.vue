@@ -5,17 +5,24 @@
 		:key="input.id">
 			<label 
 			:for="input.id" 
-			:class="returnValueLevel(index)"
+			:class="returnClassLevel(index)"
 			class="pl-1">
-				{{ labelList(index) }}
+				{{ input.label }} 
+				<span v-if="index == 0" class="label-dynamic">
+					{{ getTitle }}
+				</span>
+				<span v-if="index == 1">
+					{{ getLevel }}
+				</span>
 			</label>
 			<b-form-input 
 			:id="input.id"
 			:placeholder="input.placeholder"
 			:type="input.type"
+			v-model="input.value"
+			@input="commitAttributes(index, input.value)"
 			min="1"
 			max="5"
-			v-model="input.value"
 			class="my-3"/>
 		</b-form-group>
 	</div>
@@ -30,24 +37,34 @@ export default {
 					id: 'title',
 					placeholder: 'Digite o título.',
 					type: 'text',
-					label: 'Título:'
+					label: 'Título: ',
 				},
 				{	value: 1,
 					id: 'level',
 					type: 'range',
+					label: 'Nível: ',
 				}
 			],
 		}
 	},
+	computed: {
+		getTitle() {
+			return this.$store.getters.getTitle
+		},
+		getLevel() {
+			return this.$store.getters.getLevel
+		}
+	},
 	methods: {
-		returnValueLevel(id) {
+		returnClassLevel(id) { //RETORNA A CLASSE DO LABEL DO NÍVEL
 			if(id == 1) {
 				let value = this.formInput[1].value
 				return `label-background-${value}`
 			}
 		},
-		getLevel(level) {
-			switch(level) {
+		transformLevelInName(level) { //TRANSFORMAR EM NOME
+			const newLevel = parseInt(level)
+			switch(newLevel) {
 				case 1: { return 'Newbie' }
 				case 2: { return 'begginer' }
 				case 3: { return 'Intermediate' }
@@ -55,13 +72,20 @@ export default {
 				case 5: { return 'Expert' }
 			}
 		},
-		labelList(index) {
-			if(index == 1) {
-				let valueRange = parseInt(this.formInput[index].value)
-				return `Level: ${this.getLevel(valueRange)}`
+		commitAttributes(index, value) { //DEFINE O MUTATION EM STORE
+			if(index == 0) { //TITLE
+				value = value.replace(/\s/g, '_')
+				const newValue = `#${value}`
+				this.$store.commit('setTitle', newValue)
+				if(value == "") this.$store.commit('setTitle', '')
+				return
 			}
-			return this.formInput[index].label
-		},
+			if(index == 1) { // RANGE
+				const newValue = this.transformLevelInName(value)
+				this.$store.commit('setLevel', newValue)
+				return
+			}
+		}
 	}
 }
 </script>
@@ -91,6 +115,9 @@ $expert: rgb(255, 0, 0);
 };
 .custom-range::-webkit-slider-thumb {
 	background: black;
+}
+.label-dynamic {
+	color: rgb(92, 92, 92);
 }
 
 </style>
