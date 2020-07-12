@@ -23,11 +23,11 @@ export default new Vuex.Store({
 		},
 		project: {
 			title: '',
-			level: "Newbie",
+			level: 1,
 			introduction: '',
 			learning: '',
 			date: '',
-			file: ''
+			file: []
 		}
 	},
 	mutations: {
@@ -35,7 +35,7 @@ export default new Vuex.Store({
 			state.project.title = payload
 		},
 		setLevel(state, payload) {
-			state.project.level = payload
+			state.project.level = parseInt(payload)
 		},
 		setIntroduction(state, payload) {
 			state.project.introduction = payload
@@ -49,6 +49,14 @@ export default new Vuex.Store({
 		setFile(state, payload) {
 			state.project.file = payload
 		},
+		resetAll(state) {
+			state.project.title = ''
+			state.project.level = 1
+			state.project.introduction = ''
+			state.project.learning = ''
+			state.project.date = ''
+			state.project.file = []
+		}
 	},
 	actions: {
 	},
