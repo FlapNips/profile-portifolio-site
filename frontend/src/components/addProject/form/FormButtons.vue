@@ -1,9 +1,9 @@
 <template>
-	<b-row>
+	<b-row class="mt-3">
 		<b-button 
 		v-for="button in buttons" 
 		:key="button.name" 
-		@click="button.reset" 
+		@click="resetAll()" 
 		class="button-reset mx-auto">
 			{{button.title}}
 		</b-button>
@@ -24,6 +24,12 @@ export default {
 					reset: ''
 				}
 			]
+		}
+	},
+	methods: {
+		resetAll() {
+			this.$store.commit('resetAll')
+			console.log(this.$store.state.project)
 		}
 	}
 }
