@@ -12,15 +12,15 @@
 					{{ getTitle }}
 				</span>
 				<span v-if="index == 1">
-					{{ getLevel }}
+					{{ getLevelName }}
 				</span>
 			</label>
 			<b-form-input 
 			:id="input.id"
 			:placeholder="input.placeholder"
 			:type="input.type"
-			v-model="input.value"
-			@input="commitAttributes(index, input.value)"
+			:value="returnValue(input.id)"
+			@input="commitAttributes(input.id, $event)"
 			min="1"
 			max="5"
 			class="my-3"/>
@@ -33,14 +33,12 @@ export default {
 	data() {
 		return {
 			formInput: [
-				{	value: '',
-					id: 'title',
+				{	id: 'Title',
 					placeholder: 'Digite o título.',
 					type: 'text',
 					label: 'Título: ',
 				},
-				{	value: 1,
-					id: 'level',
+				{	id: 'Level',
 					type: 'range',
 					label: 'Nível: ',
 				}
@@ -49,22 +47,27 @@ export default {
 	},
 	computed: {
 		getTitle() {
-			return this.$store.getters.getTitle
+			return this.transformTextTitle(this.$store.getters.getTitle)
 		},
-		getLevel() {
+		getLevelName() {
+			return this.transformLevelInName(this.$store.getters.getLevel)
+		},
+		getLevelNumber() {
 			return this.$store.getters.getLevel
 		}
 	},
 	methods: {
+		returnValue(id) {
+			return eval(`this.$store.getters.get${id}`)
+		},
 		returnClassLevel(id) { //RETORNA A CLASSE DO LABEL DO NÍVEL
 			if(id == 1) {
-				let value = this.formInput[1].value
+				let value = this.getLevelNumber
 				return `label-background-${value}`
 			}
 		},
 		transformLevelInName(level) { //TRANSFORMAR EM NOME
-			const newLevel = parseInt(level)
-			switch(newLevel) {
+			switch(level) {
 				case 1: { return 'Newbie' }
 				case 2: { return 'begginer' }
 				case 3: { return 'Intermediate' }
@@ -72,19 +75,14 @@ export default {
 				case 5: { return 'Expert' }
 			}
 		},
-		commitAttributes(index, value) { //DEFINE O MUTATION EM STORE
-			if(index == 0) { //TITLE
-				value = value.replace(/\s/g, '_')
-				const newValue = `#${value}`
-				this.$store.commit('setTitle', newValue)
-				if(value == "") this.$store.commit('setTitle', '')
-				return
-			}
-			if(index == 1) { // RANGE
-				const newValue = this.transformLevelInName(value)
-				this.$store.commit('setLevel', newValue)
-				return
-			}
+		transformTextTitle(text){ //TRANSFORMA EM TÍTULO (#TITLE_EXAMPLE)
+			if(text.length === 0) return ''
+			const value = text.replace(/\s/g, '_')
+			return `#${value}`
+		},
+		commitAttributes(id, value) { //DEFINE O MUTATION EM STORE
+			this.$store.commit(`set${id}`, value)
+			console.log(this.$store.state.project)
 		}
 	}
 }
