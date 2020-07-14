@@ -3,7 +3,7 @@
 		<b-button 
 		v-for="button in buttons" 
 		:key="button.name" 
-		@click="resetAll()" 
+		@click="resetAll(button.name)" 
 		class="button-reset mx-auto">
 			{{button.title}}
 		</b-button>
@@ -27,9 +27,8 @@ export default {
 		}
 	},
 	methods: {
-		resetAll() {
-			this.$store.commit('resetAll')
-			console.log(this.$store.state.project)
+		resetAll(name) {
+			this.$store.commit(name)
 		}
 	}
 }
