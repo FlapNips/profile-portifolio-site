@@ -5,20 +5,10 @@ Vue.use(VueRouter)
 
 	const routes = [
 		{
-			path: '/',
-			name: 'Home',
-			component: () => import('@/components/home/HomeMain.vue')
+			path: '/profile',
+			name: 'Perfil',
+			component: () => import('@/components/profile/MainProfile.vue')
 		},
-		{
-			path: '/add',
-			name: 'AddProject',
-			component: () => import('@/components/addProject/AddMain.vue')
-		},
-		{
-			path: '/remove',
-			name: 'RemoveProject',
-			component: () => import('@/components/removeProject/RemoveMain.vue')
-		}
 	]
 
 const router = new VueRouter({
