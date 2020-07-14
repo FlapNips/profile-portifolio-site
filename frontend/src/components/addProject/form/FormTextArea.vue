@@ -1,16 +1,16 @@
 <template>
 	<div>
 		<b-form-group
-		v-for="(inputTextArea, index) in formTextArea"
+		v-for="inputTextArea in formTextArea"
 		:key="inputTextArea.id">
 			<label :for="inputTextArea.id">
 				{{ inputTextArea.label }}
 			</label>
 			<b-form-textarea
 			:id="inputTextArea.id"
-			v-model="formTextArea[index].content"
 			:placeholder="inputTextArea.placeholder"
-			@input="commitAttribute(index, $event)"
+			:value="returnValue(inputTextArea.id)"
+			@input="commitAttribute(inputTextArea.id, $event)"
 			:rows="inputTextArea.min"
 			:state="30 <= warningLimitText(inputTextArea.id) && warningLimitText(inputTextArea.id) <= 250"
 			class="mt-1 input-text-area"/>
@@ -44,9 +44,11 @@ export default {
 		}
 	},
 	methods: {
-		commitAttribute(index, value) {
-			const textArea = this.formTextArea
-			this.$store.commit( `set${textArea[index].id}`, value)
+		returnValue(id) {
+			return eval(`this.$store.getters.get${id}`)
+		},
+		commitAttribute(id, value) {
+			this.$store.commit( `set${id}`, value)
 		},
 		warningLimitText(id) {
 			const textAreaLength = eval(`this.$store.getters.get${id}.length`)
