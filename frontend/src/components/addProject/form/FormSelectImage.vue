@@ -4,11 +4,12 @@
 		placeholder="Arraste a imagem até aqui ou clique em escolher."
 		drop-placeholder="Solte a imagem aqui !"
 		accept=".jpeg, .png, .gif, .jpg"
-		v-model="file"
-		:state="validateFile(file)"
+		:state="validateFile(getFile)"
+		:value="getFile"
+		@input="commitFile($event)"
 		class="mt-1">
 		</b-form-file>
-		<div id="warning-file-text" v-show="validateFile(file) === false" class="text-right">
+		<div id="warning-file-text" v-show="validateFile(getFile) === false" class="text-right">
 			EXTENSÃO DE ARQUIVO NÃO ACEITO !
 		</div>
 	</div>
@@ -18,7 +19,6 @@
 export default {
 	data() {
 		return {
-			file: null,
 			acceptExtension: [
 				'jpeg',
 				'gif',
@@ -28,9 +28,14 @@ export default {
 		
 		}
 	},
+	computed: {
+		getFile() {
+			return this.$store.getters.getFile
+		}
+	},
 	methods: {
 		validateFile(file) {
-			if(file === (undefined || null)) return null
+			if(file == (null || undefined)) return undefined
 			const fileName = file.name
 			const extension = fileName.split('.').pop()
 			try {
@@ -41,6 +46,9 @@ export default {
 				return false
 			}
 			return true
+		},
+		commitFile(file) {
+			this.$store.commit('setFile', file)
 		}
 	}
 }
