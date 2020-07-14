@@ -6,20 +6,20 @@ Vue.use(Vuex)
 export default new Vuex.Store({
 	state: {
 		icons: {
-			html5: require('@/assets/html5-icon.svg'),
-			css3: require('@/assets/css3-icon.svg'),
-			sass: require('@/assets/sass-icon.svg'),
-			javascript: require('@/assets/javascript-icon.svg'),
-			vuejs: require('@/assets/vuejs-icon.svg'),
-			bootstrap: require('@/assets/bootstrap-icon.svg'),
-			nodejs: require('@/assets/nodejs-icon.svg'),
-			api: require('@/assets/api-icon.svg'),
-			json: require('@/assets/json-icon.svg'),
-			mysql: require('@/assets/mysql-icon.svg'),
-			psql: require('@/assets/postgresql-icon.svg'),
-			firebase: require('@/assets/firebase-icon.svg'),
-			docker: require('@/assets/docker-icon.svg'),
-			empty: require('@/assets/empty-icon.svg'),
+			html5: require('@/assets/icons/html5-icon.svg'),
+			css3: require('@/assets/icons/css3-icon.svg'),
+			sass: require('@/assets/icons/sass-icon.svg'),
+			javascript: require('@/assets/icons/javascript-icon.svg'),
+			vuejs: require('@/assets/icons/vuejs-icon.svg'),
+			bootstrap: require('@/assets/icons/bootstrap-icon.svg'),
+			nodejs: require('@/assets/icons/nodejs-icon.svg'),
+			api: require('@/assets/icons/api-icon.svg'),
+			json: require('@/assets/icons/json-icon.svg'),
+			mysql: require('@/assets/icons/mysql-icon.svg'),
+			psql: require('@/assets/icons/postgresql-icon.svg'),
+			firebase: require('@/assets/icons/firebase-icon.svg'),
+			docker: require('@/assets/icons/docker-icon.svg'),
+			empty: require('@/assets/icons/empty-icon.svg'),
 		},
 		project: {
 			title: '',
@@ -27,7 +27,8 @@ export default new Vuex.Store({
 			introduction: '',
 			learning: '',
 			date: '',
-			file: []
+			file: null,
+			icons: []
 		}
 	},
 	mutations: {
@@ -49,13 +50,24 @@ export default new Vuex.Store({
 		setFile(state, payload) {
 			state.project.file = payload
 		},
+		addIcon(state, payload) {
+			state.project.icons.push(payload)
+			console.log(state.project.icons)
+		},
+		removeIcon(state, payload) {
+			const index = state.project.icons.indexOf(payload)
+			if(index > -1) state.project.icons.splice(index, 1)
+		},
 		resetAll(state) {
 			state.project.title = ''
 			state.project.level = 1
 			state.project.introduction = ''
 			state.project.learning = ''
 			state.project.date = ''
-			state.project.file = []
+			state.project.file = null
+		},
+		resetImage(state) {
+			state.project.file = null
 		}
 	},
 	actions: {
