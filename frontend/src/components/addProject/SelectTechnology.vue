@@ -1,9 +1,9 @@
 <template>
 	<b-row>
 		<b-button 
-		v-for="(icon) in buttons" 
-		:key="icon.id" 
-		@click="icon.pressed = !icon.pressed"
+		v-for="(icon, index) in buttons" 
+		:key="icon.name" 
+		@click="clickIcon(icon.name, icon.pressed, index)"
 		:class="{ 'button-selected': icon.pressed }"
 		class="button-default m-2 p-0">
 			<b-img width="100" height="100" :src="icon.value"/>
@@ -27,16 +27,20 @@ export default {
 			const lengthIcons = Object.keys(icons).length
 			for(let i = 0; i < lengthIcons; i++) {
 				this.$set(this.buttons, i, {
-					'id': i,
 					'pressed': false,
 					'name': Object.keys(icons)[i],
 					'value': Object.values(icons)[i]
 				})
 			}
+		},
+		clickIcon(iconName, iconPressed, index) {
+			this.buttons[index].pressed = !iconPressed
+			const pressed = this.buttons[index].pressed
+			if(pressed) this.$store.commit('addIcon', iconName)
+			else this.$store.commit('removeIcon', iconName)
 		}
 	},
 	created() {
-		console.log('create foi')
 		this.getIcons()
 	}
 }
