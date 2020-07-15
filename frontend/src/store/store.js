@@ -91,5 +91,8 @@ export default new Vuex.Store({
 		getFile(state) {
 			return state.project.file
 		},
+		getIcon: state => icon => {
+			return state.icons[icon]
+		}
 	}
 })
