@@ -1,13 +1,25 @@
 {
+	"menu": {
+		"profile": "PERFIL",
+		"experience": "EXPERIÊNCIA", 
+		"skills": "HABILIDADES", 
+		"projects": "PROJETOS",
+		"contact": "CONTATO",
+		"aboutme": "SOBRE MIM",
+		"login": "ENTRAR"
+	},
 	"profile": {
-		"fullname": "NOME COMPLETO",
-		"age": 0, 
-		"profession": "Web Designe",
-		"phone": "(11) 9 11111-1111",
-		"email": "(11) 9 11111-1111",
+		"tags": {
+			"address" : "ENDEREÇO",
+			"phone" : "CELULAR",
+			"email" : "EMAIL"
+		},
+		"fullname": "BRUNO ALFIERI",
+		"profession": "Desenvolvedor FullStack Web",
+		"age": 21, 
+		"phone": "(11) 95468-2303",
+		"email": "ALFIERI@OUTLOOK.COM.BR",
 		"aboutme": "WRITE TO ABOUT YOU !!!!!",
-		"country": "(11) 9 11111-1111",
-		"state": "(11) 9 11111-1111",
-		"city": "(11) 9 11111-1111"
+		"address": "Brasil, SP, São Paulo"
 	}
 }
