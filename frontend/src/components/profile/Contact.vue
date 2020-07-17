@@ -1,5 +1,6 @@
 <template>
-	<b-container style="grid-area: contact;">
+	<b-col
+	cols="3">
 		<div class="tag-layout">
 			<div v-textJSON="'menu.contact'" class="text-inclination"/>
 		</div>
@@ -23,7 +24,7 @@
 				</b-tooltip>
 			</b-button>
 		</b-row>
-	</b-container>
+	</b-col>
 </template>
 
 <script>
