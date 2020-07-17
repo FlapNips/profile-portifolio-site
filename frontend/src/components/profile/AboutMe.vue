@@ -1,5 +1,7 @@
 <template>
-	<b-row id="layout-aboutme" no-gutters class="">
+	<b-col
+	cols="9"
+	id="layout-aboutme">
 		<b-col id="content-image-profile">
 			<b-img src="@/assets/profile.png" class="image-profile"/>
 			<div v-textJSON="'profile.fullname'" class="aboutme-fullname"/>
@@ -12,7 +14,7 @@
 			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iure dicta reiciendis id quam accusamus voluptatem ab, laboriosam quas tenetur tempora hic, dolores illo asperiores nostrum? Soluta adipisci fuga officia dolorem.
 			</p>
 		</b-col>
-	</b-row>
+	</b-col>
 </template>
 
 <script>
@@ -23,12 +25,11 @@ export default {
 
 <style lang="scss" scoped>
 #layout-aboutme {
-	grid-area: aboutme;
+	grid-area: content-area;
 	display: grid;
 	grid-template-columns: 2fr 5fr;
 	grid-template-rows: max-content;
 	border-top: rgb(86, 11, 116) 5px solid;
-	border-bottom: rgb(86, 11, 116) 5px solid;
 	padding: 1em 0 1em 0;
 	#content-image-profile {
 		grid-area: 1/1;
