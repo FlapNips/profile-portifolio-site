@@ -1,6 +1,5 @@
 <template>
-	<b-col
-	cols="3">
+	<b-col xl="3">
 		<div class="tag-layout">
 			<div v-textJSON="'menu.contact'" class="text-inclination"/>
 		</div>

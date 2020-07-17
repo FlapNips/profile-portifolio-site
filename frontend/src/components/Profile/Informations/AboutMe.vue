@@ -1,6 +1,6 @@
 <template>
 	<b-col
-	cols="9"
+	xl="9"
 	id="layout-aboutme">
 		<b-col id="content-image-profile">
 			<b-img src="@/assets/profile.png" class="image-profile"/>

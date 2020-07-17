@@ -1,48 +1,26 @@
 <template>
-	<b-col id="layout-profile-skills">
-		<flickity ref="flickity" :options="flickityOptions" class="mb-5">
-			<div v-for="icon in technologies" :key="icon.id" class="carousel-cell">
-				<div class="box">
-					<svg>
-						<circle cx="70" cy="70" r="70"/>
-						<circle cx="70" cy="70" r="70"/>
-					</svg>
-					<b-img :src="getIcon(icon.id)" width="90" height="90" class="icon"/>
+	<b-row no-gutters style="grid-area: content-area;">
+		<b-col xl="3" class="tag-layout">
+			<span v-textJSON="'menu.skills'" class="text-inclination"/>
+		</b-col>
+		<b-col xl="9" class="line-division"/>
+		<b-col cols="12" class="mt-4" id="layout-profile-skills">
+			<flickity ref="flickity" :options="flickityOptions" class="mb-5">
+				<div v-for="icon in technologies" :key="icon.id" class="carousel-cell">
+					<div class="box">
+						<svg>
+							<circle cx="70" cy="70" r="70"/>
+							<circle cx="70" cy="70" r="70"/>
+						</svg>
+						<b-img :src="getIcon(icon.id)" width="90" height="90" class="icon"/>
+					</div>
+						<div class="percent">
+							90%
+						</div>
 				</div>
-					<div class="percent">
-						90%
-					</div>
-			</div>
-		</flickity>
-		<b-row
-		v-for="icon in technologies"
-		:key="icon.id"
-		class="list-technology my-2 mx-auto w-75"
-		:style="borderList(icon.collapsed)">
-			<b-collapse :id="icon.id" v-model="icon.collapsed" accordion="unique-active">
-				<div id="layout-list-technology">
-					<div class="icon">
-						<b-img :src="getIcon(icon.id)" width="150" height="150"/>
-					</div>
-					<div class="content">
-						<p>{{ icon.description }}</p>
-					</div>
-					<div class="level">
-						<b-progress 
-						:value="icon.level"
-						variant="success"
-						striped
-						animated>
-							<b-progress-bar :value="icon.level" :label="`${icon.level} %`"/>
-						</b-progress>
-					</div>
-				</div>
-			</b-collapse>
-		</b-row>
-		<b-row>
-			
-		</b-row>
-	</b-col>
+			</flickity>
+		</b-col>
+	</b-row>
 </template>
 
 <script>
@@ -53,10 +31,8 @@ export default {
 	},
 	data() {
 		return {
-			currentPage: 1,
-			perPage: 3,
 			flickityOptions: {
-				initialIndex: 3,
+				initialIndex: 2,
 				prevNextButtons: true,
 				pageDots: true,
 				wrapAround: false
@@ -132,27 +108,22 @@ export default {
 #layout-profile-skills {
 	position: relative;
 	grid-area: content-area;
-	.list-technology {
-		background-color: wheat;
-	}
-	#layout-list-technology {
-		display: grid;
-		grid-template-rows: 200px 50px;
-		grid-template-columns: 1fr 4fr;
-		grid-template-areas:	"icon content"
-								"icon level";
-	}
-	.icon { 
-	grid-area: icon;
-	margin: auto;
-	
-	}
-	.content { grid-area: content}
-	.level {
-		grid-area: level
-		
-	}
+
 }
+.tag-layout {
+	grid-area: content-area;
+	background-color: rgb(86, 11, 116);
+	height: max-content;
+	color: white;
+	transform: skewX(-20deg);
+	transform-origin: left bottom;
+	text-align: center;
+		.text-inclination {
+			transform: skewX(20deg);
+			font-size: 1.5em;
+			line-height: 1.5em;
+		}
+	}
 .carousel-cell {
 	position: relative;
 	display: flex;
@@ -206,5 +177,10 @@ export default {
 	.percent {
 		font-size: 2.5em;
 	}
+}
+.line-division {
+	border-top: rgb(86, 11, 116) 5px solid;
+	transform: skewX(-20deg);
+	transform-origin: top left;
 }
 </style>

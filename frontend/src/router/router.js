@@ -7,7 +7,7 @@ Vue.use(VueRouter)
 		{
 			path: '/profile',
 			name: 'Perfil',
-			component: () => import('@/components/profile/MainProfile.vue')
+			component: () => import('@/components/Profile/MainProfile.vue')
 		},
 	]
 
