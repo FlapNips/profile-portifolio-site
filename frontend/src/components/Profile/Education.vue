@@ -22,17 +22,17 @@ export default {
 	data() {
 		return {
 			educations: [
-				{	title: 'teste',
+				{	title: 'aaaa',
 					when: '20/01/2000',
 					duration: 360,
 					content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum inventore id enim velit assumenda adipisci odit error quaerat! Reprehenderit quasi odit fuga magni illum, ad ipsum eaque nam repudiandae consequuntur?'
 				},
-				{	title: 'teste',
+				{	title: 'tesbbbbte',
 					when: '20/01/2000',
 					duration: 360,
 					content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum inventore id enim velit assumenda adipisci odit error quaerat! Reprehenderit quasi odit fuga magni illum, ad ipsum eaque nam repudiandae consequuntur?'
 				},
-				{	title: 'teste',
+				{	title: 'tescccte',
 					when: '20/01/2000',
 					duration: 360,
 					content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum inventore id enim velit assumenda adipisci odit error quaerat! Reprehenderit quasi odit fuga magni illum, ad ipsum eaque nam repudiandae consequuntur?'

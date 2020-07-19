@@ -1,17 +1,19 @@
 const express = require('express')
-const handlebars = require('express-handlebars')
-const bodyParser = require('body-parser')
 const app = express()
+const consign = require('consign')
+const db = require('./config/db.js')
 //const mongose = require('mongose')
-
+app.db = db
 //Configuração
-	//bodyParser
-	app.use(bodyParser.urlencoded({extended: true}))
-	app.use(bodyParser.json)
+consign()
+	.then('./config/middlewares.js')
+	.then('./api/validator.js')
+	.then('./api')
+	.then('./config/routers.js')
+	.into(app)
 //Rotas
 
 //Outros
 app.listen(3000, () => {
-	console.log('Servidor Iniciado!')
-
+	console.log('Servidor Iniciado na porta 3000! ')
 })

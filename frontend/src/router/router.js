@@ -7,7 +7,17 @@ Vue.use(VueRouter)
 		{
 			path: '/profile',
 			name: 'Perfil',
-			component: () => import('@/components/Profile/MainProfile.vue')
+			component: () => import('@/views/Profile.vue')
+		},
+		{
+			path: '/experiences',
+			name: 'Experiencias',
+			component: () => import('@/views/Experiences.vue')
+		},
+		{
+			path: '/projects',
+			name: 'Projetos',
+			component: () => import('@/views/Projects.vue')
 		},
 	]
 

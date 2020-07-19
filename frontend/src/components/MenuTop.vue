@@ -1,14 +1,17 @@
 <template>
 	<div id="layout-menu-top" no-gutters align-h="between">
-		<b-row id="layout-menu" align-h="between">
+		<b-row id="row-menu" no-gutters>
 			<b-col
-			v-for="button in menu" 
-			:key="button.id"
-			class="button-menu"
-			@click="pushRouter(button.router)"
-			:style="button.style">
-				<div v-textJSON="`menu.${button.id}`"
-				class="text-button"/>
+			cols="12"
+			class="layout-menu"
+			v-for="button in menu"
+			:key="button.id">
+				<b-link
+				:to="button.router">
+					<div class="box">
+						<h3 v-textJSON="`menu.${button.id}`" class="text-button"/>
+					</div>
+				</b-link>
 			</b-col>
 		</b-row>
 	</div>
@@ -20,21 +23,19 @@ export default {
 		return {
 			menu: [
 				{	id: "profile",
-					router: "/foi",
-					style:	'border-radius: 25px 0 0 25px;'
+					router: "/profile",
 				},
 				{	id: "experience",
-					router: ""
+					router: "/experiences"
 				},
 				{	id: "projects",
-					router: ""
+					router: "/projects"
 				},
 				{	id: "contact",
-					router: ""
+					router: "/contact"
 				},
 				{	id: "login",
-					router: "",
-					style: 'border-radius: 0 25px 25px 0;'
+					router: "/login",
 				}
 			]
 		}
@@ -49,34 +50,60 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#layout-menu-top {
-	display: grid;
-	height: max-content;
-	padding-top: 30px;
-	padding-bottom: 30px;
-	width: 100%;
-	background-color: rgb(209, 209, 209);
-	grid-template-columns: 2fr 5fr 2fr;
-	#layout-menu {
-		grid-area: 1/2;
-		border-radius: 50px;
-		background-color: rgb(81, 11, 122);
-		.button-menu {
-			min-width: 130px;
-			width: 20%;
-			height: 50px;
-			cursor: pointer;
-			line-height: 50px;
-			color: white;
-			text-align: center;
-			border-radius: 0;
-			border: 0;
-			padding: 0;
-			background-color: transparent;
-			&:hover {
-				background-color: rgb(52, 5, 80);
-			}
+@media only screen and (min-width: 1200px) {
+	#row-menu {
+		transform: skewX(-20deg);
 	}
+	.layout-menu {
+		flex     : 0 0 20%;
+		max-width: 20%;
 	}
 }
+@media only screen and (max-width: 1199px) {
+	.text-button {
+		transform: skewX(0deg)!important;
+	}
+
+}
+#row-menu {
+	grid-area       : 1/2;
+	background-color: $color_blue_2;  //COLOR BACKGROUND BUTTONS
+	justify-content : space-between;
+}
+#layout-menu-top {
+	display              : grid;
+	height               : max-content;
+	padding-top          : 30px;
+	padding-bottom       : 30px;
+	width                : 100%;
+	grid-template-columns: 2fr 5fr 2fr;
+	background-color     : $color_black_4;  //COLOR BACKGROUND MENUTOP
+	.layout-menu {
+		width        : 100%;
+		height       : 50px;
+		border-radius: 0;
+		border       : 0;
+		padding      : 0;
+		text-align   : center;
+		.router-link-active {
+			background-color: $color_black_1;  //COLOR BACKGROUND ROUTER LINK ACTIVE
+		}
+		.box {
+			transform       : skewX(0deg);
+			background-color: inherit;
+			.text-button {
+				font-size       : 1em;
+				line-height     : 50px;
+				transform       : skewX(20deg);
+				text-decoration : none;
+				background-color: transparent;
+				color           : $color_black_4;  //COLOR TEXT MENU TOP
+				}
+			}
+		:hover {
+			background-color: $color_blue_1;  //MENU HOVER BACKGROUND COLOR
+		}
+	}
+}
+
 </style>

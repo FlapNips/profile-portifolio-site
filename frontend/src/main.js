@@ -1,13 +1,16 @@
+import Vue from 'vue'
+import './plugins/axios'
+import VueCarousel from 'vue-carousel'
 import '@babel/polyfill'
 import 'mutationobserver-shim'
-import Vue from 'vue'
 import './plugins/bootstrap-vue'
 import App from './App.vue'
 import router from './router/router.js'
 import store from './store/store.js'
-import textPTBR from './textPTBR.json'
+import textPTBR from '../public/textPTBR.json'
 
 Vue.config.productionTip = false
+Vue.use(VueCarousel)
 
 Vue.directive('textJSON', {
 	bind(el, binding) {

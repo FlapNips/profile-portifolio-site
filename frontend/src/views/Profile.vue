@@ -6,9 +6,6 @@
 		<div class="grid-division">
 			<Skills/>
 		</div>
-		<div class="grid-division">
-			<Experience/>
-		</div>
 		<div class="grid-division" style="background-color: gray;">
 			<Education/>
 		</div>
@@ -16,15 +13,13 @@
 </template>
 
 <script>
-import Skills from './Skills'
-import Personal from './Personal'
-import Experience from './Experience'
-import Education from './Education'
+import Skills from '@/components/Profile/Skills'
+import Personal from '@/components/Profile/Personal'
+import Education from '@/components/Profile/Education'
 export default {
 	components: {
 		Skills,
 		Personal,
-		Experience,
 		Education
 	}
 }
@@ -36,7 +31,9 @@ export default {
 	width: 100%;	
 	.grid-division {
 		display: grid;
-		grid-template-columns: 2fr 6fr 2fr;
+		width: 100%;
+		max-width: 100vw;
+		grid-template-columns: 20% 60% 20%;
 		grid-template-areas: ". content-area .";
 	}
 }

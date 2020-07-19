@@ -1,14 +1,20 @@
 <template>
-	<b-row v-if="experiences.length > 0" no-gutters style="grid-area: content-area;">
-		<b-col cols="12" xl="3" class="tag-layout">
+	<div class="grid-division">
+		<b-row class="tag-layout" no-gutters>
 			<span v-textJSON="'menu.experience'" class="text-inclination"/>
-		</b-col>
-		<b-col cols="12" xl="9" class="line-division"/>
-	</b-row>
+		</b-row>
+		<b-row style="grid-area: content-area;" no-gutters>
+			<ExperienceList/>
+		</b-row>
+	</div>
 </template>
 
 <script>
+import ExperienceList from '@/components/Experiences/ExperiencesList'
 export default {
+	components: {
+		ExperienceList
+	},
 	data() {
 		return {
 			experiences: []
@@ -23,11 +29,8 @@ export default {
 	background-color: rgb(86, 11, 116);
 	height: max-content;
 	color: white;
-	transform: skewX(-20deg);
-	transform-origin: left bottom;
-	text-align: center;
+	justify-content: center;
 		.text-inclination {
-			transform: skewX(20deg);
 			font-size: 1.5em;
 			line-height: 1.5em;
 		}
@@ -36,5 +39,12 @@ export default {
 	border-top: rgb(86, 11, 116) 5px solid;
 	transform: skewX(-20deg);
 	transform-origin: top left;
+}
+.grid-division {
+		display: grid;
+		width: 100%;
+		max-width: 100vw;
+		grid-template-columns: 20% 60% 20%;
+		grid-template-areas: ". content-area .";
 }
 </style>

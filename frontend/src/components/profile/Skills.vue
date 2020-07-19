@@ -5,101 +5,84 @@
 		</b-col>
 		<b-col xl="9" class="line-division"/>
 		<b-col cols="12" class="mt-4" id="layout-profile-skills">
-			<flickity ref="flickity" :options="flickityOptions" class="mb-5">
-				<div v-for="icon in technologies" :key="icon.id" class="carousel-cell">
+			<carousel
+			:autoplay="true"
+			:navigationEnabled="true"
+			paginationActiveColor="red"
+			paginationColor="green"
+			:paginationSize="15"
+			:perPage="4">
+				<slide id="slide-row" v-for="technology in sortTechnologies" :key="technology.icon">
 					<div class="box">
-						<svg>
-							<circle cx="70" cy="70" r="70"/>
-							<circle cx="70" cy="70" r="70"/>
+						<svg  viewBox="0 0 110 110">
+							<circle 
+							cx="55" 
+							cy="55" 
+							r="50"/>
+							<circle
+							:style="setStyle(technology.percent)"
+							cx="55" 
+							cy="55" 
+							r="50"/>
 						</svg>
-						<b-img :src="getIcon(icon.id)" width="90" height="90" class="icon"/>
+						{{technology.percent}}
+						<b-img :src="getIcon(technology.icon)" width="100" height="100" class="icon"/>
 					</div>
-						<div class="percent">
-							90%
-						</div>
-				</div>
-			</flickity>
+				</slide>
+			</carousel>
 		</b-col>
 	</b-row>
 </template>
 
 <script>
-import Flickity from 'vue-flickity';
 export default {
-	components: {
-		Flickity
-	},
 	data() {
 		return {
-			flickityOptions: {
-				initialIndex: 2,
-				prevNextButtons: true,
-				pageDots: true,
-				wrapAround: false
+			swiperOption: {
+				perPage: 4,
 			},
-			technologies: [
-				{	id: 'vuejs',
-					level: 20,
-					collapsed: false,
-					description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio deleniti laborum mollitia, repellat pariatur quaerat! Expedita, provident. Molestiae nostrum quisquam est ut iste dolores pariatur. Numquam asperiores eaque eum delectus!'
-				},
-				{	id: 'html5',
-					level: '',
-					collapsed: false,
-					description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio deleniti laborum mollitia, repellat pariatur quaerat! Expedita, provident. Molestiae nostrum quisquam est ut iste dolores pariatur. Numquam asperiores eaque eum delectus!'
-				},
-				{	id: 'css3',
-					level: '',
-					collapsed: false,
-					description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio deleniti laborum mollitia, repellat pariatur quaerat! Expedita, provident. Molestiae nostrum quisquam est ut iste dolores pariatur. Numquam asperiores eaque eum delectus!'
-				},
-				{	id: 'javascript',
-					level: '',
-					collapsed: false,
-					description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio deleniti laborum mollitia, repellat pariatur quaerat! Expedita, provident. Molestiae nostrum quisquam est ut iste dolores pariatur. Numquam asperiores eaque eum delectus!'
-				},
-				{	id: 'sass',
-					level: '',
-					collapsed: false,
-					description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio deleniti laborum mollitia, repellat pariatur quaerat! Expedita, provident. Molestiae nostrum quisquam est ut iste dolores pariatur. Numquam asperiores eaque eum delectus!'
-				},
-				{	id: 'bootstrap',
-					level: '',
-					collapsed: false,
-					description: ''
-				},
-				{	id: 'docker',
-					level: '',
-					collapsed: false,
-					description: ''
-				},
-				{	id: 'api',
-					level: '',
-					collapsed: false,
-					description: ''
-				},
-				{	id: 'json',
-					level: '',
-					collapsed: false,
-					description: ''
-				},
-			
-			]
+			technologies: [],
+			techImages: []
 		}
 	},
 	computed: {
 		getListTechnology() {
 			return this.technologies.length
+		},
+		sortTechnologies() {
+			return this.technologies.filter((element, index) => {
+				return this.technologies.lastIndexOf(element) === index
+			}).sort((a, b) => {
+				return a.percent > b.percent ? -1 : 1
+			})
 		}
 	},
 	methods: {
 		getIcon(name) {
-			return this.$store.getters.getIcon(name)
+			for(const value of this.techImages) {
+				if(value.icon === name) return require(`../../${value.img}`)
+			}
 		},
 		borderList(collapsed) {
-			if(collapsed) return 'border: black 3px solid;';
+			if(collapsed) return 'border: black 3px solid;'
 			return
+		},
+		setStyle(percent) {
+				return `stroke-dashoffset: calc(315 - (315 * ${percent}) / 100 );`
+
 		}
+	},
+	created() {
+		this.$http.get('/teste').then( x => {
+			x.data.forEach((value, index) => {
+				this.$set(this.technologies, index, value)
+			})
+		}).catch(error => console.log(error))
+		this.$http.get('alltechnologies').then( x => {
+				x.data.forEach((value, index) => {
+					this.$set(this.techImages, index, value)
+				})
+			})
 	}
 }
 </script>
@@ -108,7 +91,20 @@ export default {
 #layout-profile-skills {
 	position: relative;
 	grid-area: content-area;
+	max-width: 100%!important;
+	.swiper {
+		height: 200px;
+		width: 100%;
 
+		.swiper-slide {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			text-align: center;
+			font-weight: bold;
+			font-size: 2em;
+		}
+	}
 }
 .tag-layout {
 	grid-area: content-area;
@@ -124,23 +120,13 @@ export default {
 			line-height: 1.5em;
 		}
 	}
-.carousel-cell {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	align-items: center;;
-	width: 200px;
-	height: max-content;
-	text-align: center;
-	
+#slide-row {
+	height: 300px;
 	.box {
 		position: relative;
-		margin: 0 auto;
-		right: 0;
-		top: 0;
-		left: 0;
-		width: 150px;
-		height: 150px;
+		width: 170px;
+		height: 170px;
+		text-align: center;
 		.icon {
 			position: absolute;
 			margin: auto;
@@ -150,33 +136,29 @@ export default {
 			right: 0;
 		}
 		svg {
-			width: 150px;
-			height: 150px;
 			circle {
-				width: 150px;
-				height: 150px;
+				stroke-miterlimit: 0;
+				transform: rotate(-90);
+				translate: (-100 0);
 				fill: none;
 				stroke: black;
-				stroke-width: 10;
+				stroke-width: 5;
 				stroke-linecap: round;
-				transform: translate(5px, 5px);
-				stroke-dasharray: 440;
-				stroke-dashoffset: 440;
+				stroke-dasharray: 315;
+				stroke-dashoffset: 50;
 				&:nth-child(1) {
 					stroke-dashoffset: 0;
 					stroke: #f3f3f3;
 				}
 				&:nth-child(2) {
-					stroke-dashoffset: calc(440 - (440 * 90) / 100 );
 					stroke: red;
 				}
-					
 			}
 		}
 	}
-	.percent {
-		font-size: 2.5em;
-	}
+}
+.percent {
+	font-size: 2.5em;
 }
 .line-division {
 	border-top: rgb(86, 11, 116) 5px solid;

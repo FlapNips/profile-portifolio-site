@@ -1,15 +1,13 @@
 <template>
 	<div id="main-app">
 		<div id="layout-text-fixed-top">
-			<b-row
+			<div
 			id="text-fixed-top-fullname"
 			v-textJSON="'profile.fullname'"
-			style="grid-area: 1/2"
 			class="m-0 p-0"/>
-			<b-row 
+			<div 
 			id="text-fixed-top-profession"
 			v-textJSON="'profile.profession'"
-			style="grid-area: 2/2"
 			class="m-0 p-0"/>
 		</div>
 		<MenuTop/>
@@ -30,33 +28,33 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
 
 #main-app {
-	display: grid;
-	grid-template-rows: max-content max-content 1fr;
-	min-height: 100vh;
-	overflow-x: hidden;
-	width: 100%;
+	display           : grid;
+	grid-template-rows: max-content max-content;
+	min-height        : 100vh;
+	width             : 100%;
+	overflow-x        : hidden;
 	#layout-text-fixed-top {
-		display: grid;
-		height: max-content;
-		padding-top: 1em;	
-		background-color: rgb(209, 209, 209);
+		display              : grid;
+		height               : max-content;
+		padding-top          : 1em;
+		background-color     : $color_black_4;
 		grid-template-columns: 2fr 5fr 2fr;
-		grid-template-rows: 5fr 2fr;
+		grid-template-rows   : 5fr 2fr;
 		#text-fixed-top-fullname {
-			display: flex;
-			align-self: flex-end;
+			grid-area  : 1/2;
+			text-align : center;
 			font-family: 'Righteous', cursive;
-			font-size: 5.5em;
-			line-height: 100%;	
-			color: rgb(42, 1, 66);
+			font-size  : 5.5em;
+			line-height: 1;
+			color      : $color_blue_1;
 		}
 		#text-fixed-top-profession {
-			display: flex;
-			align-self: flex-start;
+			grid-area  : 2/2;
+			text-align : center;
 			font-family: 'Righteous', cursive;
-			color: rgb(81, 11, 122);
-			font-size: 1.5em;
-			line-height: 100%;
+			color      : $color_blue_1;
+			font-size  : 1.5em;
+			line-height: 1;
 		}
 	}
 }
