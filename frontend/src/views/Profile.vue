@@ -27,14 +27,14 @@ export default {
 
 <style lang="scss" scoped>
 #layout-profile-main {
-	background-color: rgb(255, 255, 255);
-	width: 100%;	
+	background-color: $color_black_5;
+	width           : 100%;
 	.grid-division {
-		display: grid;
-		width: 100%;
-		max-width: 100vw;
+		display              : grid;
+		width                : 100%;
+		max-width            : 100vw;
 		grid-template-columns: 20% 60% 20%;
-		grid-template-areas: ". content-area .";
+		grid-template-areas  : ". content-area .";
 	}
 }
 </style>
