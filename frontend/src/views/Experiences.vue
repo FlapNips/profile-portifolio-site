@@ -14,11 +14,6 @@ import ExperienceList from '@/components/Experiences/ExperiencesList'
 export default {
 	components: {
 		ExperienceList
-	},
-	data() {
-		return {
-			experiences: []
-		}
 	}
 }
 </script>
@@ -26,7 +21,7 @@ export default {
 <style lang="scss" scoped>
 .tag-layout {
 	grid-area: content-area;
-	background-color: rgb(86, 11, 116);
+	background-color: $color_blue_2;
 	height: max-content;
 	color: white;
 	justify-content: center;
@@ -34,11 +29,6 @@ export default {
 			font-size: 1.5em;
 			line-height: 1.5em;
 		}
-}
-.line-division {
-	border-top: rgb(86, 11, 116) 5px solid;
-	transform: skewX(-20deg);
-	transform-origin: top left;
 }
 .grid-division {
 		display: grid;
