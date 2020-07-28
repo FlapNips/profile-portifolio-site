@@ -1,9 +1,12 @@
 <template>
 	<b-row no-gutters style="grid-area: content-area;">
+
 		<b-col xl="3" class="tag-layout">
 			<span v-textJSON="'menu.skills'" class="text-inclination"/>
 		</b-col>
+
 		<b-col xl="9" class="line-division"/>
+
 		<b-col cols="12" class="mt-4" id="layout-profile-skills">
 			<carousel
 			:autoplay="true"
@@ -11,7 +14,7 @@
 			paginationActiveColor="red"
 			paginationColor="green"
 			:paginationSize="15"
-			:perPage="4">
+			:perPage="listIconPerWindow()">
 				<slide id="slide-row" v-for="technology in sortTechnologies" :key="technology.icon">
 					<div class="box">
 						<svg  viewBox="0 0 110 110">
@@ -55,7 +58,10 @@ export default {
 			}).sort((a, b) => {
 				return a.percent > b.percent ? -1 : 1
 			})
-		}
+		},
+		getWindowWidth() {
+			return this.$store.getters.getWindowWidth
+		},
 	},
 	methods: {
 		getIcon(name) {
@@ -69,7 +75,12 @@ export default {
 		},
 		setStyle(percent) {
 				return `stroke-dashoffset: calc(315 - (315 * ${percent}) / 100 );`
-
+		},
+		listIconPerWindow() {
+			if(this.getWindowWidth >= 1200) return 4
+			else if(this.getWindowWidth >= 900) return 3
+			else if(this.getWindowWidth >= 600) return 2
+			else return 1
 		}
 	},
 	created() {
@@ -88,67 +99,71 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.VueCarousel-slide {
+	display        : flex;
+	justify-content: center;
+}
 #layout-profile-skills {
-	position: relative;
+	position : relative;
 	grid-area: content-area;
 	max-width: 100%!important;
 	.swiper {
 		height: 200px;
-		width: 100%;
+		width : 100%;
 
 		.swiper-slide {
-			display: flex;
+			display        : flex;
 			justify-content: center;
-			align-items: center;
-			text-align: center;
-			font-weight: bold;
-			font-size: 2em;
+			align-items    : center;
+			text-align     : center;
+			font-weight    : bold;
+			font-size      : 2em;
 		}
 	}
 }
 .tag-layout {
-	grid-area: content-area;
+	grid-area       : content-area;
 	background-color: rgb(86, 11, 116);
-	height: max-content;
-	color: white;
-	transform: skewX(-20deg);
+	height          : max-content;
+	color           : white;
+	transform       : skewX(-20deg);
 	transform-origin: left bottom;
-	text-align: center;
+	text-align      : center;
 		.text-inclination {
-			transform: skewX(20deg);
-			font-size: 1.5em;
+			transform  : skewX(20deg);
+			font-size  : 1.5em;
 			line-height: 1.5em;
 		}
 	}
 #slide-row {
-	height: 300px;
+	height: 200px;
 	.box {
-		position: relative;
-		width: 170px;
-		height: 170px;
+		position  : relative;
+		width     : 170px;
+		height    : 170px;
 		text-align: center;
 		.icon {
 			position: absolute;
-			margin: auto;
-			top: 0;
-			bottom: 0;
-			left: 0;
-			right: 0;
+			margin  : auto;
+			top     : 0;
+			bottom  : 0;
+			left    : 0;
+			right   : 0;
 		}
 		svg {
 			circle {
 				stroke-miterlimit: 0;
-				transform: rotate(-90);
-				translate: (-100 0);
-				fill: none;
-				stroke: black;
-				stroke-width: 5;
-				stroke-linecap: round;
-				stroke-dasharray: 315;
+				transform        : rotate(-90);
+				translate        : (-100 0);
+				fill             : none;
+				stroke           : black;
+				stroke-width     : 5;
+				stroke-linecap   : round;
+				stroke-dasharray : 315;
 				stroke-dashoffset: 50;
 				&:nth-child(1) {
 					stroke-dashoffset: 0;
-					stroke: #f3f3f3;
+					stroke           : #f3f3f3;
 				}
 				&:nth-child(2) {
 					stroke: red;
@@ -161,8 +176,8 @@ export default {
 	font-size: 2.5em;
 }
 .line-division {
-	border-top: rgb(86, 11, 116) 5px solid;
-	transform: skewX(-20deg);
+	border-top      : rgb(86, 11, 116) 5px solid;
+	transform       : skewX(-20deg);
 	transform-origin: top left;
 }
 </style>

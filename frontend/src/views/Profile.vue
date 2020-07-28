@@ -13,15 +13,15 @@
 </template>
 
 <script>
-import Skills from '@/components/Profile/Skills'
 import Personal from '@/components/Profile/Personal'
+import Skills from '@/components/Profile/Skills'
 import Education from '@/components/Profile/Education'
 export default {
 	components: {
 		Skills,
 		Personal,
 		Education
-	}
+	}	
 }
 </script>
 
@@ -29,6 +29,7 @@ export default {
 #layout-profile-main {
 	background-color: $color_black_5;
 	width           : 100%;
+	z-index: 0;
 	.grid-division {
 		display              : grid;
 		width                : 100%;

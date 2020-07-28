@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import ExperienceList from '@/components/Experiences/ExperiencesList'
+import ExperienceList from '@/components/experiences/ExperiencesList'
 export default {
 	components: {
 		ExperienceList

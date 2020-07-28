@@ -4,16 +4,16 @@
 			<span v-textJSON="'menu.projects'" class="text-inclination"/>
 		</b-row>
 		<b-row style="grid-area: content-area;" no-gutters>
-			<ProjectList/>
+			<ProjectsList/>
 		</b-row>
 	</div>
 </template>
 
 <script>
-import ProjectList from '@/components/Project/ProjectList'
+import ProjectsList from '@/components/projects/ProjectsList'
 export default {
 	components: {
-		ProjectList
+		ProjectsList
 	}
 }
 </script>

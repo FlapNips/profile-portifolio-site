@@ -8,9 +8,12 @@ import App from './App.vue'
 import router from './router/router.js'
 import store from './store/store.js'
 import textPTBR from '../public/textPTBR.json'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
 Vue.config.productionTip = false
 Vue.use(VueCarousel)
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
 
 Vue.directive('textJSON', {
 	bind(el, binding) {

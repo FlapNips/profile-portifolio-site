@@ -1,17 +1,17 @@
 {
 	"menu": {
 		"profile": "PERFIL",
-		"experience": "EXPERIÊNCIA", 
-		"skills": "HABILIDADES", 
+		"experiences": "EXPERIÊNCIA", 
 		"projects": "PROJETOS",
 		"contact": "CONTATO",
-		"aboutme": "SOBRE MIM",
-		"login": "ENTRAR",
-		"education": "EDUCAÇÃO"
+		"manager": "GERENCIAR"
 	},
 	"profile": {
 		"tags": {
+			"aboutme": "SOBRE MIM",
 			"address" : "ENDEREÇO",
+			"skills": "HABILIDADES", 
+			"education": "EDUCAÇÃO",
 			"phone" : "CELULAR",
 			"email" : "EMAIL"
 		},

@@ -1,76 +1,88 @@
 <template>
-	<div id="layout-menu-top" no-gutters align-h="between">
-		<b-row id="row-menu" no-gutters>
-			<b-col
-			cols="12"
-			class="layout-menu"
+	<div id="layout-menu" no-gutters align-h="between">
+
+		<b-navbar v-if="windowWidth >= 1200" id="menu-desktop" no-gutters>
+			<b-nav-item 
+			class="menu-item-desktop"
 			v-for="button in menu"
+			:to="button.router"
+			:style="`width: calc(1/${menu.length}*100%)`"
 			:key="button.id">
-				<b-link
-				:to="button.router">
-					<div class="box">
-						<h3 v-textJSON="`menu.${button.id}`" class="text-button"/>
-					</div>
-				</b-link>
-			</b-col>
-		</b-row>
+				<h4 class="text-button">{{ button.title }}</h4>
+			</b-nav-item>
+		</b-navbar>
+
+		<div v-else style="z-index: 10">
+			<b-button class="button-sidemenu" @click="changeVisibleSidebar(true)">
+				<b-icon icon="list"/>
+			</b-button>
+				<sidebar :menu="menu" :changeVisibleSidebar="changeVisibleSidebar"/>
+		</div>
+
 	</div>
 </template>
 
 <script>
+import TextString from '@/../public/textPTBR.json'
+import Sidebar from '@/components/sidebar/Sidebar.vue'
+
 export default {
+	components: {
+		Sidebar
+	},
 	data() {
 		return {
-			menu: [
-				{	id: "profile",
-					router: "/profile",
-				},
-				{	id: "experience",
-					router: "/experiences"
-				},
-				{	id: "projects",
-					router: "/projects"
-				},
-				{	id: "contact",
-					router: "/contact"
-				},
-				{	id: "login",
-					router: "/login",
-				}
-			]
+			sidebarVisible: false,
+			menu: []
+		}
+	},
+	computed: {
+		windowWidth() {
+			return this.$store.getters.getWindowWidth
 		}
 	},
 	methods: {
-		pushRouter(router) {
-			return this.$router.push(router)
+		changeVisibleSidebar() {
+			this.$store.commit('changeSidebarVisible')
+			console.log(this.$store.state.sidebarVisible)
 		}
-	
+	},
+	created() {
+		const menu = TextString.menu
+		console.log(menu)
+		Object.entries(menu).forEach( element => {
+			const [key, value] = element
+			const contentMenu = {
+				id: key,
+				router: `/${key}`,
+				title: value
+			}
+			this.menu.push(contentMenu)
+		});
 	}
 }
 </script>
 
 <style lang="scss" scoped>
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1201px) {
 	#row-menu {
 		transform: skewX(-20deg);
 	}
 	.layout-menu {
-		flex     : 0 0 20%;
-		max-width: 20%;
+		flex: 0 0 max-content;
 	}
 }
-@media only screen and (max-width: 1199px) {
+@media only screen and (max-width: 1200px) {
 	.text-button {
 		transform: skewX(0deg)!important;
 	}
+	#layout-menu {
+		height: 0!important;
+		padding: 0!important;
+	}
 
 }
-#row-menu {
-	grid-area       : 1/2;
-	background-color: $color_blue_2;  //COLOR BACKGROUND BUTTONS
-	justify-content : space-between;
-}
-#layout-menu-top {
+#layout-menu {
 	display              : grid;
 	height               : max-content;
 	padding-top          : 30px;
@@ -78,31 +90,41 @@ export default {
 	width                : 100%;
 	grid-template-columns: 2fr 5fr 2fr;
 	background-color     : $color_black_4;  //COLOR BACKGROUND MENUTOP
-	.layout-menu {
-		width        : 100%;
-		height       : 50px;
-		border-radius: 0;
-		border       : 0;
-		padding      : 0;
-		text-align   : center;
+	#menu-desktop {
+		grid-area       : 1/2;
+		transform       : skewX(-20deg);
+		background-color: $color_blue_2;  //COLOR BACKGROUND BUTTONS
+		justify-content : space-between;
+		text-decoration : none;
+		padding         : 0;
+	}
+	.menu-item-desktop {
+		border    : 0;
+		padding   : 0;
+		margin    : 0;
+		text-align: center;
+		display   : block;
+		color     : $color_black_1!important;
 		.router-link-active {
 			background-color: $color_black_1;  //COLOR BACKGROUND ROUTER LINK ACTIVE
 		}
-		.box {
-			transform       : skewX(0deg);
-			background-color: inherit;
-			.text-button {
-				font-size       : 1em;
-				line-height     : 50px;
-				transform       : skewX(20deg);
-				text-decoration : none;
-				background-color: transparent;
-				color           : $color_black_4;  //COLOR TEXT MENU TOP
-				}
-			}
+		a {
+			color: $color_black_5;
+		}
 		:hover {
 			background-color: $color_blue_1;  //MENU HOVER BACKGROUND COLOR
 		}
+		.text-button {
+			transform : skewX(20deg);
+			font-size : 1em;
+			margin    : 0;
+			text-align: center;
+		}
+	}
+	.button-sidemenu {
+		position: fixed;
+		top     : 10px;
+		left    : 10px;
 	}
 }
 

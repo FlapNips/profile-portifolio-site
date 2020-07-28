@@ -82,7 +82,6 @@ export default {
 		},
 		commitAttributes(id, value) { //DEFINE O MUTATION EM STORE
 			this.$store.commit(`set${id}`, value)
-			console.log(this.$store.state.project)
 		}
 	}
 }

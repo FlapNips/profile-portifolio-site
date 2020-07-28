@@ -47,10 +47,6 @@ export default {
 		}
 	},
 	created() {
-		const array = JSON.stringify(this.educations)
-		console.log(array)
-		const teste = JSON.parse(array)
-		console.log(teste)
 	}
 }
 </script>
