@@ -1,11 +1,12 @@
 module.exports = app => {
-	const getTechnologies = (req, res) => {
-		app.db('technology_aboutme')
-			.select("icon")
-			.select("percent")
-			.then( data => res.status(200).send(data))
-			.catch(error => res.status(400).send(error))
+
+	const getAllTechnologies = (req, res) => {
+			return app.db('technology_aboutme')
+				.join('all_technologies', 'id', '=', 'technology_aboutme.icon_id')
+				.then( data => res.status(200).send(data))
+				.catch(error => res.status(400).send(error))
 	}
+
 	const addTechnologies = (req, res) => {
 		const body = { ...req.body }
 		let resultado = []
@@ -16,9 +17,9 @@ module.exports = app => {
 		try {
 			resultado.forEach( value => {
 				switch(value.name) {
-					case "": throw "Nome não pode ser vazio!"
-					case null: throw "Não pode ser nulo!"
-					case undefined: throw "Defina um nome!"
+					case '': throw 'Nome não pode ser vazio!'
+					case null: throw 'Não pode ser nulo!'
+					case undefined: throw 'Defina um nome!'
 				}
 			})
 		} catch(error) {
@@ -32,5 +33,5 @@ module.exports = app => {
 		})
 	}
 
-	return { getTechnologies, addTechnologies }
+	return { getAllTechnologies, addTechnologies }
 }
