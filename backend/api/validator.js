@@ -1,5 +1,6 @@
 module.exports = app => {
 	const existsOrError = (value, msg) => {
+		if(value == undefined) throw msg
 		if(!value) throw msg
 		if(Array.isArray(value) && value.length) throw msg
 		if(typeof value == 'string' && !value.trim()) throw msg
