@@ -5,6 +5,7 @@ module.exports = app => {
 		.post(app.api.aboutMeTechnologies.addTechnologies)
 //-----------------ABOUT ME----------------------------
 	app.route('/aboutme')
+		.put(app.api.aboutMe.updateAboutme)
 		.get(app.api.aboutMe.getAboutme)
 //-----------------EXPERIENCES-------------------------
 	app.route('/experience')
