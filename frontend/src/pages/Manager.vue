@@ -1,6 +1,7 @@
 <template>
   <div class="grid-division">
     <div style="grid-area: 1/2;">
+
       <div class="row-buttons">
         <b-button 
           v-for="button in buttons" 
@@ -11,15 +12,15 @@
           {{ button.name }}
         </b-button>
       </div>
-      <transition name="fade" mode="out-in">
+
         <component :is="componentView"/>
-      </transition>
+
     </div>
   </div>
 </template>
 
 <script>
-  import Profile from '@/components/manager/Profile.vue'
+  import Profile from '@/components/manager/Layout.vue'
   import Experiences from '@/components/manager/Experiences.vue'
   import Projects from '@/components/manager/Projects.vue'
   import Users from '@/components/manager/Users.vue'

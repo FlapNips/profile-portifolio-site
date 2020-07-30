@@ -1,14 +1,21 @@
 <template>
 	<b-col>
+
 		<div class="tag-layout">
 			<div v-textJSON="'menu.contact'" class="text-inclination"/>
 		</div>
+
 		<b-row id="contact-content">
 			<b-col cols=12 v-for="contact in menuContact" :key="contact.id" no-gutters>
 				<div v-textJSON="`profile.tags.${contact.id}`" class="separator text-center my-3"/>
-				<div class="text-center">{{ contact.content }}</div>
+				<div class="text-center">
+					<a :href="linkContact(contact)" target="blank">
+						{{ contact.content }}
+					</a>
+				</div>
 			</b-col>
 		</b-row>
+
 		<b-row class="social my-3 mx-auto" align-h="center">
 			<b-button 
 			v-for="buttonSocial in buttonsSocial"
@@ -25,6 +32,7 @@
 				</b-tooltip>
 			</b-button>
 		</b-row>
+		
 	</b-col>
 </template>
 
@@ -34,27 +42,30 @@ export default {
 		return {
 			menuContact: [
 				{ id:"address",
-					content: '',
-					contentCurrent: ''
+					content: null,
+					to: 'https://www.google.com/maps/place/Vila+Marieta,+S%C3%A3o+Paulo+-+SP,+Brasil/@-23.5154015,-46.5266787,16z/data=!4m5!3m4!1s0x94ce5e2f427a5523:0x4d8b96ecbb92fb38!8m2!3d-23.5176585!4d-46.5222792',
+					contentCurrent: null
 				},
 				{ id:"phone",
-					content: '',
-					contentCurrent: ''
+					content: null,
+					to: 'https://wa.me/55',
+					contentCurrent: null
 				},
 				{ id:"email",
-					content: '',
-					contentCurrent: ''
+					content: null,
+					to: 'mailto:',
+					contentCurrent: null
 				},
 			],
 			buttonsSocial: [
 				{	id: 'link_github',
 					icon: require('@/assets/icons/github-icon.svg'),
-					to: '',
+					to: null,
 					tooltip: 'Github'
 				},
 				{	id: 'link_linkedin',
 					icon: require('@/assets/icons/linkedin-icon.svg'),
-					to: '',
+					to: null,
 					tooltip: 'Linkedin'
 				},
 				{	id: 'link_facebook',
@@ -65,18 +76,26 @@ export default {
 			],
 		}
 	},
-	async created() {
-		this.$http.get('/aboutme').then( array => {
-			const data = array.data[0]
+	methods: {
+		linkContact(menu) {
+			if(menu.to) {
+				return `${menu.to}${menu.content}`
+			}
+		}
+	},
+	created() {
+		this.$http.get('/aboutme').then( values => {
+			const data = values.data
 			this.menuContact.forEach( (element, index) => {
 				const menuId = this.menuContact[index].id
 				this.$set(this.menuContact[index], 'content', data[menuId])
 			});
+			
 			this.buttonsSocial.forEach( (element, index) => {
 				const socialId = this.buttonsSocial[index].id
 				this.$set(this.buttonsSocial[index], 'to', data[socialId])
-			
 			})
+
 		})
 		
 	}

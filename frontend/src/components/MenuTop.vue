@@ -49,7 +49,7 @@ export default {
 	},
 	created() {
 		const menu = TextString.menu
-		console.log(menu)
+		
 		Object.entries(menu).forEach( element => {
 			const [key, value] = element
 			const contentMenu = {

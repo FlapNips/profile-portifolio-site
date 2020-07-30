@@ -14,27 +14,27 @@ const router = new VueRouter({
 				{
 					path: '/profile',
 					name: 'Perfil',
-					component: () => import('@/views/Profile.vue'),
+					component: () => import('@/pages/Profile.vue'),
 				},
 				{
 					path: '/experiences',
 					name: 'Experiencias',
-					component: () => import('@/views/Experiences.vue')
+					component: () => import('@/pages/Experiences.vue')
 				},
 				{
 					path: '/projects',
 					name: 'Projetos',
-					component: () => import('@/views/Projects.vue')
+					component: () => import('@/pages/Projects.vue')
 				},
 				{
 					path: '/contact',
 					name: 'Contato',
-					component: () => import('@/views/Contact.vue')
+					component: () => import('@/pages/Contact.vue')
 				},
 				{
 					path: '/manager',
 					name: 'Gerenciar',
-					component: () => import('@/views/Manager.vue')
+					component: () => import('@/pages/Manager.vue')
 				},
 			]
 		},
@@ -49,7 +49,6 @@ const router = new VueRouter({
 	]
 })
 router.beforeEach( (to, from, next) => {
-	console.log(to.meta)
 	next()
 })
 export default router
