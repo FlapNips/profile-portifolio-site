@@ -26,6 +26,16 @@ const router = new VueRouter({
 					name: 'Projetos',
 					component: () => import('@/views/Projects.vue')
 				},
+				{
+					path: '/contact',
+					name: 'Contato',
+					component: () => import('@/views/Contact.vue')
+				},
+				{
+					path: '/manager',
+					name: 'Gerenciar',
+					component: () => import('@/views/Manager.vue')
+				},
 			]
 		},
 		{

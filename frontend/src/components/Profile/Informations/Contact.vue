@@ -6,18 +6,20 @@
 		<b-row id="contact-content">
 			<b-col cols=12 v-for="contact in menuContact" :key="contact.id" no-gutters>
 				<div v-textJSON="`profile.tags.${contact.id}`" class="separator text-center my-3"/>
-				<div v-textJSON="`profile.${contact.id}`" class="text-center"/>
+				<div class="text-center">{{ contact.content }}</div>
 			</b-col>
 		</b-row>
 		<b-row class="social my-3 mx-auto" align-h="center">
 			<b-button 
 			v-for="buttonSocial in buttonsSocial"
-			:id="buttonSocial.name"
-			:key="buttonSocial.name"
+			:id="buttonSocial.id"
+			:key="buttonSocial.id"
+			:href="buttonSocial.to"
+			target="blank"
 			class="m-3 p-0 button-social">
 				<b-img width="50px" :src="buttonSocial.icon"/>
 				<b-tooltip 
-				:target="buttonSocial.name"
+				:target="buttonSocial.id"
 				placement="bottom">
 					{{ buttonSocial.tooltip }}
 				</b-tooltip>
@@ -31,25 +33,52 @@ export default {
 	data() {
 		return {
 			menuContact: [
-				{ id:"address" },
-				{ id:"phone" },
-				{ id:"email" },
+				{ id:"address",
+					content: '',
+					contentCurrent: ''
+				},
+				{ id:"phone",
+					content: '',
+					contentCurrent: ''
+				},
+				{ id:"email",
+					content: '',
+					contentCurrent: ''
+				},
 			],
 			buttonsSocial: [
-				{	name: 'github',
+				{	id: 'link_github',
 					icon: require('@/assets/icons/github-icon.svg'),
+					to: '',
 					tooltip: 'Github'
 				},
-				{	name: 'linkedin',
+				{	id: 'link_linkedin',
 					icon: require('@/assets/icons/linkedin-icon.svg'),
+					to: '',
 					tooltip: 'Linkedin'
 				},
-				{	name: 'facebook',
+				{	id: 'link_facebook',
 					icon: require('@/assets/icons/facebook-icon.svg'),
+					to: '',
 					tooltip: 'Facebook'
 				}
 			],
 		}
+	},
+	async created() {
+		this.$http.get('/aboutme').then( array => {
+			const data = array.data[0]
+			this.menuContact.forEach( (element, index) => {
+				const menuId = this.menuContact[index].id
+				this.$set(this.menuContact[index], 'content', data[menuId])
+			});
+			this.buttonsSocial.forEach( (element, index) => {
+				const socialId = this.buttonsSocial[index].id
+				this.$set(this.buttonsSocial[index], 'to', data[socialId])
+			
+			})
+		})
+		
 	}
 	
 }

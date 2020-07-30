@@ -3,6 +3,9 @@ module.exports = app => {
 	app.route('/teste')
 		.get(app.api.aboutMeTechnologies.getAllTechnologies)
 		.post(app.api.aboutMeTechnologies.addTechnologies)
+//-----------------ABOUT ME----------------------------
+	app.route('/aboutme')
+		.get(app.api.aboutMe.getAboutme)
 //-----------------EXPERIENCES-------------------------
 	app.route('/experience')
 		.post(app.api.experiences.addExperience)
