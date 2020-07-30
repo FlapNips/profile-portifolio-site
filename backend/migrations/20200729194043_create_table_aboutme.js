@@ -1,6 +1,7 @@
 
 exports.up = function(knex) {
   return knex.schema.createTable('aboutme', table => {
+    table.text('about').notNull()
     table.string('address').notNull()
     table.string('phone').notNull()
     table.string('email').notNull()
