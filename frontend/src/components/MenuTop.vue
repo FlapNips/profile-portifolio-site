@@ -12,7 +12,10 @@
 			</b-nav-item>
 		</b-navbar>
 
-		<div v-else style="z-index: 10">
+		<div 
+		v-else
+		style="z-index: 10" 
+		v-click-outside="onClose">
 			<b-button class="button-sidemenu" @click="changeVisibleSidebar(true)">
 				<b-icon icon="list"/>
 			</b-button>
@@ -23,6 +26,7 @@
 </template>
 
 <script>
+
 import TextString from '@/../public/textPTBR.json'
 import Sidebar from '@/components/sidebar/Sidebar.vue'
 
@@ -33,38 +37,58 @@ export default {
 	data() {
 		return {
 			sidebarVisible: false,
-			menu: []
 		}
 	},
 	computed: {
 		windowWidth() {
 			return this.$store.getters.getWindowWidth
+		},
+		menu() {
+			return	this.$store.getters.getMenu
 		}
 	},
 	methods: {
 		changeVisibleSidebar() {
 			this.$store.commit('changeSidebarVisible')
-			console.log(this.$store.state.sidebarVisible)
+		},
+		onClose() {
+			this.$store.commit('changeSidebarVisible', false)
 		}
 	},
 	created() {
 		const menu = TextString.menu
-		
-		Object.entries(menu).forEach( element => {
+		let contentMenu = []
+		Object.entries(menu).forEach( (element,index) => {
 			const [key, value] = element
-			const contentMenu = {
-				id: key,
-				router: `/${key}`,
-				title: value
+			if(value.submenu) {
+
+				contentMenu[index] = {	
+					id: key,
+					router: `/${key}`,
+					title: value.name,
+					manager: value.manager,
+					submenu: value.submenu
+				}
+
+			} else {
+
+				contentMenu[index] = {	
+					id: key,
+					router: `/${key}`,
+					title: value.name,
+					manager: value.manager
+				}
+
 			}
-			this.menu.push(contentMenu)
 		});
+		this.$store.commit('setMenu', contentMenu)
 	}
 }
 </script>
 
 <style lang="scss" scoped>
-@media only screen and (min-width: 1201px) {
+
+@media only screen and (min-width: 1200px) {
 	#row-menu {
 		transform: skewX(-20deg);
 	}
@@ -72,7 +96,7 @@ export default {
 		flex: 0 0 max-content;
 	}
 }
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1199px) {
 	.text-button {
 		transform: skewX(0deg)!important;
 	}
@@ -82,6 +106,7 @@ export default {
 	}
 
 }
+
 #layout-menu {
 	display              : grid;
 	height               : max-content;

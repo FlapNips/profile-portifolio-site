@@ -2,7 +2,7 @@
 	<b-col>
 
 		<div class="tag-layout">
-			<div v-textJSON="'menu.contact'" class="text-inclination"/>
+			<div v-textJSON="'profile.tags.contact'" class="text-inclination"/>
 		</div>
 
 		<b-row id="contact-content">

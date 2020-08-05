@@ -1,9 +1,12 @@
 <template>
 	<b-row no-gutters style="grid-area: content-area;" class="pt-5">
+
 		<b-col xl="3" class="tag-layout">
-			<span v-textJSON="'menu.education'" class="text-inclination"/>
+			<div v-textJSON="'profile.tags.education'" class="text-inclination"/>
 		</b-col>
+
 		<b-col xl="9" class="line-division"/>
+		
 		<b-col cols="12">
 			<div v-for="education in educations" :key="education.title" class="layout-education-list">
 				<div class="marking">

@@ -16,7 +16,9 @@
 	</div>
 </template>
 <script>
-import MenuTop from '@/components/MenuTop.vue'
+
+	import MenuTop from '@/components/MenuTop.vue'
+	
 export default {
 	components: {
 		MenuTop
@@ -27,27 +29,53 @@ export default {
 		}
 	},
 	methods: {
+
 		styleRouter() {
+
 			if(this.getWindowWidth >= 1200) {
+
 				return {
 					paddingTop: '0em',
 					zIndex: '-1',
 				}
+
 			} else {
+
 				return {
 					paddingTop: '2em',
 					zIndex: '-1',
 				}
+
 			}
+		},
+
+		swipeSidebar(event) {
+			console.log(event)
+			this.$store.commit('changeSidebarVisible')
 		}
+
 	}
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 
 @import url('https://fonts.googleapis.com/css2?family=Squada+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
 
+@media only screen and (max-width: 768px) {
+	.grid-division {
+			grid-template-columns: 10% 80% 10%!important;
+			grid-template-areas  : ". content-area ."!important;
+	}
+}
+
+.grid-division {
+		display              : grid;
+		width                : 100%;
+		max-width            : 100vw;
+		grid-template-columns: 20% 60% 20%;
+		grid-template-areas  : ". content-area .";
+}
 #main-app {
 	display           : grid;
 	grid-template-rows: max-content max-content;

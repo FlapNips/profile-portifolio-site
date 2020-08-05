@@ -13,16 +13,18 @@
 </template>
 
 <script>
-import Personal from '@/components/Profile/Personal'
-import Skills from '@/components/Profile/Skills'
-import Education from '@/components/Profile/Education'
-export default {
-	components: {
-		Skills,
-		Personal,
-		Education
-	}	
-}
+
+	import Personal from '@/components/Profile/Personal'
+	import Skills from '@/components/Profile/Skills'
+	import Education from '@/components/Profile/Education'
+	
+	export default {
+		components: {
+			Skills,
+			Personal,
+			Education
+		}	
+	}
 </script>
 
 <style lang="scss" scoped>
@@ -30,12 +32,5 @@ export default {
 	background-color: $color_black_5;
 	width           : 100%;
 	z-index: 0;
-	.grid-division {
-		display              : grid;
-		width                : 100%;
-		max-width            : 100vw;
-		grid-template-columns: 20% 60% 20%;
-		grid-template-areas  : ". content-area .";
-	}
 }
 </style>

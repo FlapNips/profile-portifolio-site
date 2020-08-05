@@ -1,3 +1,4 @@
+
 const mutations = {
 		setTitle(state, payload) {
 			state.project.title = payload
@@ -39,12 +40,21 @@ const mutations = {
       state.windowWidth = width
     },
     changeSidebarVisible(state, value) {
-			if(value) {
+			if(value != undefined) {
 				state.sidebarVisible = value
 			} else {
       state.sidebarVisible = !state.sidebarVisible
 			}
-    }
+    },
+		setMenu(state, value) {
+			state.menu = value
+		},
+		setDropdownMenu(state, value) {
+			state.menu.find(x => x.id === 'manager').submenu = value
+		},
+		setComponentManager(state, value) {
+			state.componentManager = value
+		}
 }
 
 export default mutations

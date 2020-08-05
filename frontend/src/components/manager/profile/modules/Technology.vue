@@ -1,5 +1,5 @@
 <template>
-	<b-row>
+	<b-row no-gutters align-h="between" class="p-3">
 		<b-button 
 		v-for="(icon, index) in buttons" 
 		:key="icon.name" 
@@ -24,27 +24,48 @@ export default {
 	methods: {
 		getIcons() {
 			this.$http.get('/alltechnologies').then( res => {
-				const icons = res.data
-				console.log(icons)
-				const lengthIcons = Object.keys(icons).length
-				for(let i = 0; i < lengthIcons; i++) {
-					this.$set(this.buttons, i, {
+
+				const data = res.data
+
+				data.forEach( (element, index) => {
+					this.$set(this.buttons, index, {
 						'pressed': false,
-						'name': Object.keys(icons)[i],
-						'value': Object.values(icons)[i]
+						'icon': element.icon,
+						'value': require(`@/${element.img}`)
 					})
-				}
+
+				})
+
 			})
 		},
+    defineIconsPressed() {
+      this.$http.get('/aboutmetechnologies').then( res => {
+        res.data.forEach( element => {
+          if( this.buttons.some( x => x.icon == element.icon ) ) {
+            this.buttons.find( x => x.icon === element.icon).pressed = true
+          }
+
+        })
+      })
+    },
 		clickIcon(iconName, iconPressed, index) {
+
 			this.buttons[index].pressed = !iconPressed
+
 			const pressed = this.buttons[index].pressed
-			if(pressed) this.$store.commit('addIcon', iconName)
-			else this.$store.commit('removeIcon', iconName)
+
+			if(pressed) {
+        this.$store.commit('addIcon', iconName)
+      }
+			else {
+        this.$store.commit('removeIcon', iconName)
+      }
+
 		}
 	},
 	created() {
 		this.getIcons()
+    this.defineIconsPressed()
 	}
 }
 </script>

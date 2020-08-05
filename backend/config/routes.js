@@ -1,6 +1,7 @@
 module.exports = app => {
 
-	app.route('/teste')
+//-----------------ABOUT ME TECHNOLOGIES---------------
+	app.route('/aboutmetechnologies')
 		.get(app.api.aboutMeTechnologies.getAllTechnologies)
 		.post(app.api.aboutMeTechnologies.addTechnologies)
 //-----------------ABOUT ME----------------------------
@@ -18,8 +19,7 @@ module.exports = app => {
 	
 	app.route('/experiences')
 		.get(app.api.experiences.getAllExperiences)
-//-----------------TECHNOLOGY--------------------------
-		//UNIQUES
+//-----------------ALL TECHNOLOGY----------------------
 	app.route('/technology')
 		.post(app.api.technologies.addTechnology)
 		.put(app.api.technologies.updateTechnology)
@@ -28,12 +28,9 @@ module.exports = app => {
 		.get(app.api.technologies.getTechnology)
 		.delete(app.api.technologies.deleteTechnology)
 
-		//ALL
 	app.route('/alltechnologies')
 		.get(app.api.technologies.getAllTechnologies)
 //-----------------USERS-------------------------------
-
-	//API USERS
 	app.route('/user')
 		.post(app.api.users.addUser)
 		.get(app.api.users.getUser)

@@ -1,3 +1,4 @@
+
 const getters = {
 		getTitle(state) {
 			return state.project.title
@@ -25,7 +26,13 @@ const getters = {
     },
     getSidebarVisible(state) {
       return state.sidebarVisible
-    }
+    },
+		getMenu(state) {
+			return state.menu
+		},
+		getComponentManager(state) {
+			return state.componentManager
+		}
 }
 
 export default getters

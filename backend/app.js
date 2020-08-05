@@ -14,6 +14,6 @@ consign()
 //Rotas
 
 //Outros
-app.listen(3000, () => {
+app.listen(3000, '192.168.1.100', () => {
 	console.log('Servidor Iniciado na porta 3000! ')
 })

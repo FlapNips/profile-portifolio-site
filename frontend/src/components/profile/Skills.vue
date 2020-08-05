@@ -1,13 +1,14 @@
 <template>
+
 	<b-row no-gutters style="grid-area: content-area;">
 
 		<b-col xl="3" class="tag-layout">
-			<span v-textJSON="'menu.skills'" class="text-inclination"/>
+			<div v-textJSON="'profile.tags.skills'" class="text-inclination"/>
 		</b-col>
 
 		<b-col xl="9" class="line-division"/>
 
-		<b-col cols="12" class="mt-4" id="layout-profile-skills">
+		<b-col cols="12" class="mt-5" id="layout-profile-skills">
 			<carousel
 			:autoplay="true"
 			:navigationEnabled="true"
@@ -15,9 +16,13 @@
 			paginationColor="green"
 			:paginationSize="15"
 			:perPage="listIconPerWindow()">
-				<slide id="slide-row" v-for="technology in sortTechnologies" :key="technology.icon">
+				<slide
+				v-for="technology in sortTechnologies" 
+				:id="technology.icon"
+				class="slide-button"
+				:key="technology.icon">
 					<div class="box">
-						<svg  viewBox="0 0 110 110">
+						<svg  viewBox="0 0 110 110" >
 							<circle 
 							cx="55" 
 							cy="55" 
@@ -28,13 +33,18 @@
 							cy="55" 
 							r="50"/>
 						</svg>
-						{{technology.percent}}
-						<b-img :src="getIcon(technology.icon)" width="100" height="100" class="icon"/>
+						{{technology.percent}}%
+						<b-img :src="getIcon(technology.img)" width="100" height="100" class="icon"/>
 					</div>
+					<b-tooltip :target="technology.icon" triggers="hover">
+						{{ getLevel(technology.percent) }}
+					</b-tooltip>
 				</slide>
 			</carousel>
+
 		</b-col>
 	</b-row>
+
 </template>
 
 <script>
@@ -45,7 +55,6 @@ export default {
 				perPage: 4,
 			},
 			technologies: [],
-			techImages: []
 		}
 	},
 	computed: {
@@ -64,10 +73,14 @@ export default {
 		},
 	},
 	methods: {
-		getIcon(name) {
-			for(const value of this.techImages) {
-				if(value.icon === name) return require(`../../${value.img}`)
-			}
+		getLevel(percent) {
+			if(percent > 100) return 'Nível Experiente'
+			if(percent > 75) return 'Nível Avançado'
+			if(percent > 50) return 'Nível Intermediário'
+			else return 'Nível Básico'
+		},
+		getIcon(urlImage) {
+			return require(`@/${urlImage}`)
 		},
 		borderList(collapsed) {
 			if(collapsed) return 'border: black 3px solid;'
@@ -84,16 +97,14 @@ export default {
 		}
 	},
 	created() {
-		this.$http.get('/teste').then( x => {
+
+		this.$http.get('/aboutmetechnologies')
+		.then( x => {
 			x.data.forEach((value, index) => {
 				this.$set(this.technologies, index, value)
 			})
-		}).catch(error => console.log(error))
-		this.$http.get('alltechnologies').then( x => {
-				x.data.forEach((value, index) => {
-					this.$set(this.techImages, index, value)
-				})
-			})
+		})
+
 	}
 }
 </script>
@@ -135,8 +146,13 @@ export default {
 			line-height: 1.5em;
 		}
 	}
-#slide-row {
+.slide-button {
 	height: 200px;
+	:hover {
+		border-radius: 50%;
+		cursor: pointer;
+		background-color: #dadada;
+	}
 	.box {
 		position  : relative;
 		width     : 170px;
@@ -149,6 +165,7 @@ export default {
 			bottom  : 0;
 			left    : 0;
 			right   : 0;
+			border-radius: 0!important;
 		}
 		svg {
 			circle {
@@ -156,7 +173,6 @@ export default {
 				transform        : rotate(-90);
 				translate        : (-100 0);
 				fill             : none;
-				stroke           : black;
 				stroke-width     : 5;
 				stroke-linecap   : round;
 				stroke-dasharray : 315;

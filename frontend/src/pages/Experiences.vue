@@ -1,7 +1,7 @@
 <template>
 	<div class="grid-division">
 		<b-row class="tag-layout" no-gutters>
-			<span v-textJSON="'menu.experience'" class="text-inclination"/>
+			<span v-textJSON="'experiences.title'" class="text-inclination"/>
 		</b-row>
 		<b-row style="grid-area: content-area;" no-gutters>
 			<ExperienceList/>
@@ -29,12 +29,5 @@ export default {
 			font-size: 1.5em;
 			line-height: 1.5em;
 		}
-}
-.grid-division {
-		display: grid;
-		width: 100%;
-		max-width: 100vw;
-		grid-template-columns: 20% 60% 20%;
-		grid-template-areas: ". content-area .";
 }
 </style>
