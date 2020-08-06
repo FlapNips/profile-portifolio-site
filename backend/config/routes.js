@@ -1,5 +1,13 @@
+const multer = require('multer')
+const multerConfig = require('./multer')
+
 module.exports = app => {
 
+//-----------------IMAGE ICON---------------
+	app.route('/icon')
+		.post(multer(multerConfig).single('icon'), app.api.images.addIcon)
+	app.route('/icon/:name')
+		.get(app.api.images.getIcon)
 //-----------------ABOUT ME TECHNOLOGIES---------------
 	app.route('/aboutmetechnologies')
 		.get(app.api.aboutMeTechnologies.getAllTechnologies)
