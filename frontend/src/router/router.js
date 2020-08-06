@@ -35,8 +35,9 @@ const router = new VueRouter({
 					path: '/manager',
 					name: 'Gerenciar',
 					component: () => import('@/pages/Manager.vue')
-				},
+				}
 			]
+
 		},
 		{
 			path: '',
