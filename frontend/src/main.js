@@ -10,7 +10,7 @@ import store from './store/store.js'
 import textPTBR from '../public/textPTBR.json'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import Vue2TouchEvents from 'vue2-touch-events'
-
+require('vue2-animate/dist/vue2-animate.min.css')
 
 Vue.config.productionTip = false
 Vue.use(VueCarousel)

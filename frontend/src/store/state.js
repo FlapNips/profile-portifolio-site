@@ -1,13 +1,4 @@
 const state = {
-		project: {
-			title       : '',
-			level       : 1,
-			introduction: '',
-			learning    : '',
-			date        : '',
-			file        : null,
-			icons       : []
-		},
 		menu: null,
 		/* MENU EXAMPLE
 		{
@@ -24,8 +15,9 @@ const state = {
 		}
 		*/
 		componentManager: 'profile',
-    windowWidth: null,
-    sidebarVisible: false
+    windowWidth: null, //in px
+    sidebarVisible: false, // windowWidth < 1200px
+		managerProfileTechnology: null
 }
 
 export default state

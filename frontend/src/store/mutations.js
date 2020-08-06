@@ -54,6 +54,9 @@ const mutations = {
 		},
 		setComponentManager(state, value) {
 			state.componentManager = value
+		},
+		setManagerProfileTechnology(state, value) {
+			state.managerProfileTechnology = { ...value }
 		}
 }
 

@@ -1,5 +1,4 @@
-
-const getters = {
+export default {
 		getTitle(state) {
 			return state.project.title
 		},
@@ -32,7 +31,8 @@ const getters = {
 		},
 		getComponentManager(state) {
 			return state.componentManager
+		},
+		getManagerProfileTechnology(state) {
+			return state.managerProfileTechnology
 		}
 }
-
-export default getters
