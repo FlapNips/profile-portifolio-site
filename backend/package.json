@@ -4,7 +4,7 @@
   "description": "Sistema de controle de projetos",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app"
+    "serve": "nodemon app"
   },
   "author": "FlapNips",
   "license": "ISC",
