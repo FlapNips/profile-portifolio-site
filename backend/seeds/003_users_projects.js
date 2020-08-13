@@ -1,0 +1,51 @@
+const dateNow = new Date().toISOString()
+
+exports.seed = async function(knex) {
+  // Deletes ALL existing entries
+  await knex('users_projects').del()
+      // Inserts seed entries
+  await knex('users_projects').insert([
+    { project_id: 1,
+      user_id: 1,
+      project_title: 'PROJETO 1',
+      project_date_start: dateNow,
+      project_date_finish: dateNow,
+      project_about: 'LOREM LOREM ABOUT PROJECT',
+    },
+    { project_id: 2,
+      user_id: 1,
+      project_title: 'PROJETO 2',
+      project_date_start: dateNow,
+      project_date_finish: dateNow,
+      project_about: 'LOREM LOREM ABOUT PROJECT',
+    },
+    { project_id: 3,
+      user_id: 2,
+      project_title: 'PROJETO 3',
+      project_date_start: dateNow,
+      project_date_finish: dateNow,
+      project_about: 'LOREM LOREM ABOUT PROJECT',
+    },
+    { project_id: 4,
+      user_id: 2,
+      project_title: 'PROJETO 4',
+      project_date_start: dateNow,
+      project_date_finish: dateNow,
+      project_about: 'LOREM LOREM ABOUT PROJECT',
+    },
+    { project_id: 5,
+      user_id: 3,
+      project_title: 'PROJETO 5',
+      project_date_start: dateNow,
+      project_date_finish: dateNow,
+      project_about: 'LOREM LOREM ABOUT PROJECT',
+    },
+    { project_id: 6,
+      user_id: 3,
+      project_title: 'PROJETO 6',
+      project_date_start: dateNow,
+      project_date_finish: dateNow,
+      project_about: 'LOREM LOREM ABOUT PROJECT',
+    },
+  ]);
+};
