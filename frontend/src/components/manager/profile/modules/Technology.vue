@@ -30,7 +30,6 @@
       <hr class="hr-text" data-content="Habilidades cadastradas"/>
     </b-col>
 
-    <form-technologies-all/>
 
     <technologies-all 
     :buttonsNotRegisted="buttonsNotRegisted"
@@ -46,13 +45,11 @@
 
   import TechnologiesProfile from './technology/TechnologiesProfile.vue'
   import TechnologiesAll from './technology/TechnologiesAll.vue'
-  import FormTechnologiesAll from './technology/FormTechnologiesAll.vue'
 
 export default {
   components: {
     TechnologiesProfile,
     TechnologiesAll,
-    FormTechnologiesAll
   },
 	data() {
 		return {

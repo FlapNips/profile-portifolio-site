@@ -28,42 +28,51 @@
 
       </div>
     </b-button>
+  <!-- FORM -->
+    <form-technologies-all/>
+
   </b-col>
 </template>
 
 <script>
-export default {
-  props: {
-    buttonsNotRegisted: {
-      type: Array,
-      required: true
-    },
-    tooltipButtons: {
-      type: Function,
-      required: true
-    },
-    getLevel: {
-      type: Function,
-      required: true
-    }
-  },
-  computed: {
-    technologySelected() {
-      const data = this.$store.getters.getManagerProfileTechnology
-      return  data === null ? '' : data
-    }
-  },
-  methods: {
-    clickIcon(icon) {
-      if(this.technologySelected === icon.name) {
-        this.$store.commit('setManagerProfileTechnology', null)    
 
-      } else {
-        this.$store.commit('setManagerProfileTechnology', { ...icon })
+  import FormTechnologiesAll from './FormTechnologiesAll.vue'
+
+  export default {
+    components: {
+      FormTechnologiesAll
+    },
+    props: {
+      buttonsNotRegisted: {
+        type: Array,
+        required: true
+      },
+      tooltipButtons: {
+        type: Function,
+        required: true
+      },
+      getLevel: {
+        type: Function,
+        required: true
+      }
+    },
+    computed: {
+      technologySelected() {
+        const data = this.$store.getters.getManagerProfileTechnology
+        return  data === null ? '' : data
+      }
+    },
+    methods: {
+      clickIcon(icon) {
+        if(this.technologySelected === icon.name) {
+          this.$store.commit('setManagerProfileTechnology', null)    
+
+        } else {
+          this.$store.commit('setManagerProfileTechnology', { ...icon })
+        }
       }
     }
   }
-}
 </script>
 
 <style>
