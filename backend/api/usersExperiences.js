@@ -79,7 +79,6 @@ module.exports = app => {
     return dbExperiences().where({
             user_id: userId
             })
-            .first()
             .then( result => res.status(200).send(result))
             .catch( error => res.sendStatus(500).send(error))
   }

@@ -18,20 +18,17 @@ module.exports = app => {
 
   /* -----------------------ADD SKILL WITH USER_ID----------------------- */
   const addSkill = async (req, res) => {
-    const userId = req.params.user_id
     const data = { ...req.body }
     const file = req.file
-    const usersDB = await dbUsers().where({ user_id: userId }).first()
 
     //VALIDATION DATA
     try {
     
-      if(isNaN(userId)) throw 'O user_id deve ser númerico'
       existsOrError(data.skillName, 'Defina um nome!')
 
-      const skillsDB = await dbSkills().where({ skill_name: data.skillName}).first()
-      if(skillsDB !== undefined) throw 'Nome já existe!'
-      if(usersDB === undefined) throw 'Usuário não encontrado!'
+      const skillExists = await dbSkills().where({ skill_name: data.skillName }).first()
+      if(skillExists !== undefined) throw 'Nome já existe!'
+
       if(file === undefined) throw 'Escolha uma imagem!'
 
     } catch(error) {
@@ -53,6 +50,48 @@ module.exports = app => {
     })
     .catch( error => {
       fs.unlinkSync(file.path)
+      return res.status(500).send(error)
+    })
+        
+  }
+  /* -----------------------ADD SKILL WITH USER_ID----------------------- */
+  const addSkillUser = async (req, res) => {
+    const userId = req.params.user_id
+    const data = { ...req.body }
+    const usersDB = await dbUsers().where({ user_id: userId }).first()
+
+    //VALIDATION DATA
+    try {
+    
+      if(isNaN(userId)) throw 'O user_id deve ser númerico'
+      existsOrError(data.skillId, 'Escolha uma habilidade! skillId')
+      if(usersDB === undefined) throw 'Usuário não encontrado!'
+
+      const skillsExists = await dbUXS().whereIn('skill_id', data.skillId).where({ user_id: userId}).first()
+      if(skillsExists !== undefined) throw 'Habilidade já cadastrada!'
+
+    } catch(error) {
+      return res.status(406).send(error)
+    }
+    //object
+    function insertObj(userId, skillId) {
+      return skillId.map( element => {
+        return { user_id: userId, skill_id: element }
+      })
+    }
+    //ADD THE DATABASE
+    app.db.transaction( async trans => {
+
+      await dbUXS().insert(
+          insertObj(userId, data.skillId)
+        )
+        .transacting(trans)
+
+    })
+    .then( () => {
+        return res.send('Habilidade adicionada !! Ao usuário' + userId)
+    })
+    .catch( error => {
       return res.status(500).send(error)
     })
         
@@ -171,7 +210,7 @@ module.exports = app => {
         if(isNaN(skillId)) throw 'skillId tem que ser numero'
         if(skillDB === undefined) throw 'Habilidade não encontrada'
         if(skillNameExists !== undefined) throw 'Nome ja cadastrado, escolha outro!'
-        if(existsValueForUpdate(data, skillDB)) throw 'Nenhum campo para atualizar'
+        if(file === undefined || data.length == 0) throw 'ERRO AQUI'
 
       } catch(error) {
         if(file) fs.unlinkSync(file.path)
@@ -235,6 +274,7 @@ module.exports = app => {
 
   return {
     addSkill,
+    addSkillUser,
     getSkillData,
     getSkillImage,
     getSkillUser,

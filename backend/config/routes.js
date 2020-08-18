@@ -25,11 +25,13 @@ module.exports = app => {
 		.put(app.api.usersExperiences.updateExperience)
 		.delete(app.api.usersExperiences.deleteExperience)
 //-----------------SKILLS--------------------------------
-	app.route('/skill/user/:user_id')
+	app.route('/skill')
 		.post(
 			upload,
 			app.api.skills.addSkill
 		)
+	app.route('/skill/user/:user_id')
+		.post(app.api.skills.addSkillUser)
 		.get(app.api.skills.getSkillUser)
 
 	app.route('/skill/image/:skill_id')

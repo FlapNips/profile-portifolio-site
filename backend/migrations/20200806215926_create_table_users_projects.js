@@ -7,6 +7,7 @@ exports.up = function(knex) {
     table.date('project_date_start').notNullable()
     table.date('project_date_finish').notNullable()
     table.text('project_about').notNullable()
+    table.text('project_list_about').notNullable()
     
     table.foreign('user_id').references('user_id').inTable('users')
         .onDelete('CASCADE')

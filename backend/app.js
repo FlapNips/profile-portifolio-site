@@ -7,6 +7,7 @@ app.db = db
 //Configuração
 consign()
 	.then('./config/middlewares.js')
+	.then('./db/verification.js')
 	.then('./api/validator.js')
 	.then('./api')
 	.then('./config/routes.js')

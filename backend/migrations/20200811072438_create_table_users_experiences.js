@@ -7,6 +7,7 @@ exports.up = function(knex) {
     table.date('experience_date_start').notNullable()
     table.date('experience_date_finish').notNullable()
     table.text('experience_about').notNullable()
+    table.text('experience_list_about').notNullable()
     
     table.foreign('user_id').references('user_id').inTable('users')
         .onDelete('CASCADE')
