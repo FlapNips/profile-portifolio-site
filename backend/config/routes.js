@@ -20,8 +20,11 @@ module.exports = app => {
 	app.route('/experience/user/:user_id')
 		.post(app.api.usersExperiences.addExperience)
 		.get(app.api.usersExperiences.getExperienceUser)
+	app.route('/totalexperience/user/:user_id')
+		.get(app.api.usersExperiences.totalExperienceUser)
 
 	app.route('/experience/:experience_id')
+		.get(app.api.usersExperiences.getExperience)
 		.put(app.api.usersExperiences.updateExperience)
 		.delete(app.api.usersExperiences.deleteExperience)
 //-----------------SKILLS--------------------------------
@@ -36,6 +39,8 @@ module.exports = app => {
 
 	app.route('/skill/image/:skill_id')
 		.get(app.api.skills.getSkillImage)
+	app.route('/skill/experience/:experience_id')
+		.get(app.api.skills.getSkillsExperience)
 
 	app.route('/skill/:skill_id')
 		.get(app.api.skills.getSkillData)

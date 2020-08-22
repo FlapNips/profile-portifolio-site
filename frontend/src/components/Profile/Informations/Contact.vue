@@ -58,17 +58,17 @@ export default {
 				},
 			],
 			buttonsSocial: [
-				{	id: 'link_github',
+				{	id: 'github',
 					icon: require('@/assets/icons/github-icon.svg'),
 					to: null,
 					tooltip: 'Github'
 				},
-				{	id: 'link_linkedin',
+				{	id: 'linkedin',
 					icon: require('@/assets/icons/linkedin-icon.svg'),
 					to: null,
 					tooltip: 'Linkedin'
 				},
-				{	id: 'link_facebook',
+				{	id: 'facebook',
 					icon: require('@/assets/icons/facebook-icon.svg'),
 					to: '',
 					tooltip: 'Facebook'
@@ -84,16 +84,13 @@ export default {
 		}
 	},
 	created() {
-		this.$http.get('/aboutme').then( values => {
-			const data = values.data
+		this.$http.get('/contact/1').then( response => {
 			this.menuContact.forEach( (element, index) => {
-				const menuId = this.menuContact[index].id
-				this.$set(this.menuContact[index], 'content', data[menuId])
+				this.$set(this.menuContact[index], 'content', response.data[element.id])
 			});
 			
 			this.buttonsSocial.forEach( (element, index) => {
-				const socialId = this.buttonsSocial[index].id
-				this.$set(this.buttonsSocial[index], 'to', data[socialId])
+				this.$set(this.buttonsSocial[index], 'to', response.data[element.id])
 			})
 
 		})
@@ -133,18 +130,6 @@ export default {
 	border: 0;
 		&:hover {
 			box-shadow: 0px 0px 10px black;
-		}
-}
-.separator {
-	display: flex;
-	align-items: center;
-	width: 100%;
-	text-align: center;
-		&::before, &::after {
-		content: '';
-		flex: 1;
-		margin: 0 0.5em;
-		border-bottom: 1px solid rgba(112, 112, 112, 0.466);	
 		}
 }
 </style>

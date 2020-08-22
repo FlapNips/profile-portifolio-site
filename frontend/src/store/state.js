@@ -1,4 +1,8 @@
 const state = {
+		//Global
+		user: {
+			userId: null,
+		},
 		menu: null,
 		/* MENU EXAMPLE
 		{
@@ -17,7 +21,10 @@ const state = {
 		componentManager: 'profile',
     windowWidth: null, //in px
     sidebarVisible: false, // windowWidth < 1200px
-		managerProfileTechnology: null
+		managerProfileTechnology: null,
+		//EXPERIENCE
+		listButtons: [],
+		pageExperience: 1
 }
 
 export default state

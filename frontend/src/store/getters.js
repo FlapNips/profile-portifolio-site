@@ -34,5 +34,12 @@ export default {
 		},
 		getManagerProfileTechnology(state) {
 			return state.managerProfileTechnology
+		},
+		//Experience
+		getListButtons(state) {
+			return state.listButtons
+		},
+		getPageExperience(state) {
+			return state.pageExperience
 		}
 }

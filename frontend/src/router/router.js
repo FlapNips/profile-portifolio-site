@@ -12,7 +12,7 @@ const router = new VueRouter({
 			component: () => import('@/views/Main.vue'),
 			children: [
 				{
-					path: '/',
+					path: '/profile',
 					name: 'Perfil',
 					component: () => import('@/pages/Profile.vue'),
 				},

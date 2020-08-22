@@ -10,11 +10,15 @@ module.exports = app => {
   const dbUXS = () => {
     return eval('app.db("users_x_skills")')
   }
+  const dbEXS = () => {
+    return eval('app.db("experiences_x_skills")')
+  }
 
 
   return {
     dbSkills,
     dbUsers,
+    dbEXS,
     dbUXS
   }
 

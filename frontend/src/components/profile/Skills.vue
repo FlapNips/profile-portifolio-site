@@ -10,17 +10,17 @@
 
 		<b-col cols="12" class="mt-5" id="layout-profile-skills">
 			<carousel
-			:autoplay="true"
+			:autoplay="false"
 			:navigationEnabled="true"
 			paginationActiveColor="red"
 			paginationColor="green"
 			:paginationSize="15"
 			:perPage="listIconPerWindow()">
 				<slide
-				v-for="technology in sortTechnologies" 
-				:id="technology.icon"
+				v-for="technology in skills" 
+				:id="technology.skill_name"
 				class="slide-button"
-				:key="technology.icon">
+				:key="technology.skill_name">
 					<div class="box">
 						<svg  viewBox="0 0 110 110" >
 							<circle 
@@ -28,16 +28,16 @@
 							cy="55" 
 							r="50"/>
 							<circle
-							:style="setStyle(technology.percent)"
+							:style="setStyle(technology.skill_percent)"
 							cx="55" 
 							cy="55" 
 							r="50"/>
 						</svg>
-						{{technology.percent}}%
-						<b-img :src="getIcon(technology.img)" width="100" height="100" class="icon"/>
+						{{technology.skill_percent}}%
+						<b-img :src="technology.skill_image" width="100" height="100" class="icon"/>
 					</div>
-					<b-tooltip :target="technology.icon" triggers="hover">
-						{{ getLevel(technology.percent) }}
+					<b-tooltip :target="technology.skill_name" triggers="hover">
+						{{ getLevel(technology.skill_percent) }}
 					</b-tooltip>
 				</slide>
 			</carousel>
@@ -48,31 +48,28 @@
 </template>
 
 <script>
+
 export default {
 	data() {
 		return {
 			swiperOption: {
 				perPage: 4,
 			},
-			technologies: [],
+			skills: []
 		}
 	},
 	computed: {
-		getListTechnology() {
-			return this.technologies.length
-		},
-		sortTechnologies() {
-			return this.technologies.filter((element, index) => {
-				return this.technologies.lastIndexOf(element) === index
-			}).sort((a, b) => {
-				return a.percent > b.percent ? -1 : 1
-			})
-		},
 		getWindowWidth() {
 			return this.$store.getters.getWindowWidth
 		},
 	},
 	methods: {
+		sortSkills() {
+			this.skills.sort((a, b) => {
+				return a.skill_percent > b.skill_percent ? -1 : 1
+			})
+			return this.skills
+		},
 		getLevel(percent) {
 			if(percent > 100) return 'Nível Experiente'
 			if(percent > 75) return 'Nível Avançado'
@@ -96,14 +93,26 @@ export default {
 			else return 1
 		}
 	},
-	created() {
+	async beforeMount() {
 
-		this.$http.get('/aboutmetechnologies')
-		.then( x => {
-			x.data.forEach((value, index) => {
-				this.$set(this.technologies, index, value)
-			})
+
+		this.$http.get('/skill/user/1')
+		.then( async x => {
+			const skills = x.data.skills
+				const result = await Promise.all(skills.map( async value => {
+
+					const response = await this.$http.get(`/skill/image/${value.skill_id}`)	
+					const header = response.headers['content-type']
+					const data = response.data
+
+					value.skill_image = `data:${header};utf8,${data}`
+					return value
+					// this.$set(this.skills, index, value)
+				})
+			)
+			this.skills = result
 		})
+		.catch( x => console.log('>>>>>>' + x))
 
 	}
 }

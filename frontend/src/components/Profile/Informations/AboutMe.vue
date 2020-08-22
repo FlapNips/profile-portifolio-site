@@ -6,10 +6,7 @@
 		</b-col>
 		<b-col cols="12" lg="9" id="content-aboutme">
 			<p>
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio quasi officiis nostrum suscipit vitae quis nam, aperiam natus dolorem rem quas aspernatur voluptatibus corporis itaque numquam voluptas sequi qui. Debitis.
-			</p>
-			<p>
-			Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iure dicta reiciendis id quam accusamus voluptatem ab, laboriosam quas tenetur tempora hic, dolores illo asperiores nostrum? Soluta adipisci fuga officia dolorem.
+				{{ aboutUser }}
 			</p>
 		</b-col>
 	</b-row>
@@ -17,8 +14,20 @@
 
 <script>
 export default {
-
+	data() {
+		return {
+			aboutUser: ''
+		}
+	},
+	beforeMount() {
+		this.$http.get('user/1').then( x => {
+			console.log(x)
+			this.aboutUser = x.data.about
+		})
+	
+	}
 }
+
 </script>
 
 <style lang="scss" scoped>

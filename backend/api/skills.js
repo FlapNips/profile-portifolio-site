@@ -11,6 +11,7 @@ module.exports = app => {
 
   const { dbUsers,
           dbSkills,
+          dbEXS,
           dbUXS } = app.api.db
 
   const { existsOrError, 
@@ -193,6 +194,54 @@ module.exports = app => {
     })
     .catch( error => res.status(500).send(error))
   }
+  /* -----------------------GET ALL SKILLS OF THE EXPERIENCE WITH EXPERIENCE_ID ----------------------- */
+  const getSkillsExperience = async (req, res) => {
+    const experienceId = req.params.experience_id
+    const exsDB = await dbEXS().where({ experience_id: experienceId })
+
+    try {
+
+      if(isNaN(experienceId)) throw 'Skill_id tem que ser numero'
+      if(exsDB.length === 0) throw 'Nenhuma habilidade encontrada desta experiência'
+
+    } catch(error) {
+      return res.status(400).send(error)
+    }
+
+    async function resultSelect() {
+      return await dbEXS()
+        .select([
+          'users_experiences.experience_id',
+          app.db.raw('GROUP_CONCAT(skills.skill_id) as skills_id'),
+          app.db.raw('GROUP_CONCAT(skills.skill_name) as skills_name')
+        ])
+        .innerJoin('users_experiences', function() {
+          this.on('users_experiences.experience_id', '=', 'experiences_x_skills.experience_id').onIn('users_experiences.experience_id', [experienceId])
+        })
+        .innerJoin('skills', 'skills.skill_id', 'experiences_x_skills.skill_id')
+        .first()
+    }
+    
+    return resultSelect().then( result => {
+      const skillsId = result.skills_id.split(',')
+      const skillsName = result.skills_name.split(',')
+      let skills = []
+
+      for(let i = 0; i < skillsId.length; i++) {
+        skills.push({
+          skill_id: skillsId[i],
+          skill_name: skillsName[i],
+        })
+      }
+
+      result = {
+        experience_id: result.experience_id,
+        skills: skills
+      }
+      res.send(result)
+    })
+    .catch( error => res.status(500).send(error))
+  }
   /* -----------------------UPDATE SKILL (image and/or data) WITH SKILL_ID----------------------- */
   const updateSkill = async (req, res) => {
       const skillId = req.params.skill_id
@@ -273,12 +322,17 @@ module.exports = app => {
   }
 
   return {
+
     addSkill,
     addSkillUser,
+
     getSkillData,
     getSkillImage,
     getSkillUser,
+    getSkillsExperience,
+
     updateSkill,
+
     deleteSkill
   }
 }

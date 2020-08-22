@@ -67,6 +67,27 @@ module.exports = app => {
   /* -----------------------GET EXPERIENCE FROM USER----------------------- */
   const getExperienceUser = async (req, res) => {
     const userId = req.params.user_id
+    const page = req.query.page
+    const existsExperience = await dbExperiences().where({user_id: userId}).first()
+
+    try {
+      if(isNaN(userId)) throw 'user_id tem que ser número'
+      existsOrError(existsExperience, 'Usuário não possui experiência')
+    } catch(error) {
+      return res.status(400).send(error)
+    }
+    
+    return dbExperiences().where({
+            user_id: userId
+            })
+            .limit(5)
+            .offset((page - 1) * 5)
+            .then( result => res.status(200).send(result))
+            .catch( error => res.sendStatus(500).send(error))
+  }
+  /* -----------------------GET TOTAL EXPERIENCE FROM USER----------------------- */
+  const totalExperienceUser = async (req, res) => {
+    const userId = req.params.user_id
     const existsExperience = await dbExperiences().where({user_id: userId}).first()
 
     try {
@@ -79,8 +100,30 @@ module.exports = app => {
     return dbExperiences().where({
             user_id: userId
             })
+            .count('experience_id as total')
+            .first()
             .then( result => res.status(200).send(result))
             .catch( error => res.sendStatus(500).send(error))
+  }
+  /* -----------------------GET EXPERIENCE WITH EXPERIENCE_ID----------------------- */
+  const getExperience = async (req, res) => {
+    const experienceId = req.params.experience_id
+    const existsExperience = await dbExperiences().where({experience_id: experienceId}).first()
+
+    try {
+      if(isNaN(experienceId)) throw 'Experience_id tem que ser número'
+      existsOrError(existsExperience, 'Experiencia não encontrada!')
+    } catch(error) {
+      return res.status(400).send(error)
+    }
+  
+    return dbExperiences()
+            .where({
+              experience_id: experienceId
+            })
+            .first()
+            .then( result => res.status(200).send(result))
+            .catch( error => res.status(500).send(error))
   }
   /* -----------------------UPDATE EXPERIENCE----------------------- */
   const updateExperience = async (req, res) => {
@@ -159,6 +202,8 @@ module.exports = app => {
   return {
     addExperience,
     getExperienceUser,
+    getExperience,
+    totalExperienceUser,
     updateExperience,
     deleteExperience
   }

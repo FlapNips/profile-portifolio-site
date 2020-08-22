@@ -12,7 +12,7 @@
 			class="m-0 p-0"/>
 		</div>
 		<MenuTop/>
-		<router-view/>
+		<router-view class="pb-5"/>
 	</div>
 </template>
 <script>

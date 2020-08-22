@@ -57,6 +57,13 @@ const mutations = {
 		},
 		setManagerProfileTechnology(state, value) {
 			state.managerProfileTechnology = { ...value }
+		},
+		//Experience
+		setListButtons(state, value) {
+			state.listButtons = value
+		},
+		setPageExperience(state, value) {
+			state.pageExperience = value
 		}
 }
 

@@ -16,16 +16,6 @@
 				<b-row no-gutters>
 					<p class="content-paragraph">{{education.contentActivity}}</p>
 				</b-row>
-				<b-row no-gutters>
-					<b-col cols=12>
-						<span>teste</span>
-						<span>teste</span>
-						<span>teste</span>
-						<span>teste</span>
-						<span>teste</span>
-						<span>teste</span>
-					</b-col>
-				</b-row>
 			</b-col>
 		</b-row>
 	</b-col>
