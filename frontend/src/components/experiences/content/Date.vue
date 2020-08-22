@@ -1,10 +1,9 @@
 <template>
-  <b-row
-  class="mr-3"
+  <span
   align-h="end"
   no-gutters>
-    {{ dateStart }} - {{ dateFinish }}
-  </b-row>
+    {{ dateStartTransform }} - {{ dateFinishTransform }}
+  </span>
 </template>
 
 <script>
@@ -18,10 +17,16 @@
         type: String,
         required: true
       }
+    },
+    computed: {
+      dateStartTransform() {
+        const data = new Date(this.dateStart)
+        return `${data.getMonth()}/${data.getFullYear()}`
+      },
+      dateFinishTransform() {
+        const data = new Date(this.dateFinish)
+        return `${data.getMonth()}/${data.getFullYear()}`
+      }
     }
   }
 </script>
-
-<style>
-
-</style>

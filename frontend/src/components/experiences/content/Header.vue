@@ -11,8 +11,15 @@
       <div class="layout-office">
         {{ header.subtitle }}
       </div>
-      <div class="layout-contract">
-        {{ header.contract }}
+
+      <div class="mt-3">
+        <slot style="position: absolute; left: 0;"></slot>
+
+        <span 
+        style="position: absolute; right: 0;"
+        class="layout-contract">
+          {{ header.contract }}
+        </span>
       </div>
     </b-col>
   </b-row>
@@ -30,6 +37,7 @@
 </script>
 
 <style lang="scss">
+
   .layout-header {
     height: 10em;
     .image {
@@ -46,18 +54,21 @@
       width: 10em;
     }
     .layout-title {
-      border-bottom: 2px solid black;
+      border-bottom: 2px solid $color_black_1;
       margin: 0.5em 0.5em 0 0.5em;
-      font-size: 1.8em;
+      font-family: 'Apollo';
+      font-size: 2em;
+      line-height: 1;
       text-align: center;
+      bottom: 0;
+      padding: 0;
     }
     .layout-office {
       text-align: center;
     
     }
     .layout-contract {
-      margin: 1.2em 1em 0 0;
-      text-align: right;
+      margin: 0 1em 0 0;
     }
   }
 </style>

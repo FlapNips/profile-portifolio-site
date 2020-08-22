@@ -1,23 +1,41 @@
 <template>
-  <b-col cols=12>
-    <b-row
-    no-gutters
-    v-for="(button) in buttons"
-    :key="button.id"
-    @click="clickButton(button.id); buttonSelected = button.id"
-    :class="{ buttonSelected: buttonSelected === button.id }"
-    class="layout-button">
+  <b-col cols=12 class="pt-4">
+    <transition name="fade">
 
-      <b-col cols=9 class="layout-text">
-        <h3>{{ button.title }}</h3>
-        <h4>{{ button.subtitle }}</h4>
-      </b-col>
+      <div v-if="!loadingButtons" class="m-0 p-0">
+        <b-row
+        no-gutters
+        v-for="button in buttons"
+        :key="button.id"
+        @click="experienceContent(button.id)"
+        :class="{ buttonSelected: buttonSelected === button.id,
+          buttonEmpty: button.id === undefined
+        }"
+        class="layout-button">
+            <b-col v-if="button.id" cols=9 class="layout-text">
+              <h3>{{ button.title }}</h3>
+              <h4>{{ button.subtitle }}</h4>
+              <h4 class="date-button">{{ dateStart(button.dateStart, button.dateFinish) }}</h4>
+            </b-col>
 
-      <b-col cols=3 class="layout-content-image">
-        <b-img src="@/assets/example.svg" class="image"/>
-      </b-col>
+            <b-col v-if="button.id" cols=3 class="layout-content-image">
+              <b-img src="@/assets/example.svg" class="image"/>
+            </b-col>
 
-    </b-row>
+        </b-row>
+      </div>
+
+    </transition>
+
+    <b-pagination-nav
+    base-url="#"
+    use-router
+    align="center"
+    class="pages"
+    limit=3
+    :pills="true"
+    hide-goto-end-buttons
+    :number-of-pages="pagesTotal"/>
 
   </b-col>
 </template>
@@ -27,17 +45,38 @@
 
 export default {
   props: {
+    //RENDER BUTTONS
+    loadingButtons: {
+      type: Boolean,
+      required: true
+    },
+    //BUTTONS
     buttons: {
       type: Array,
       required: true
     },
-    clickButton: {
+    experienceContent: {
       type: Function,
       required: true
     },
     buttonSelected: {
       type: Number,
+      required: true,
+    },
+      //PAGE
+    pagesTotal: {
+      type: Number,
       required: true
+    }
+  },
+  methods: {
+    dateStart(dateStartString, dateFinishString) {
+
+      const dateStart = new Date(dateStartString)
+      const dateFinish = new Date(dateFinishString)
+
+      return `${dateStart.getMonth()}/${dateStart.getFullYear()} - 
+        ${dateFinish.getMonth()}/${dateFinish.getFullYear()}`
     }
   }
 }
@@ -45,18 +84,39 @@ export default {
 
 <style lang="scss" scoped>
   .layout-button {
+
     height: 100px;
     width: 100%;
+
+    margin: 0.5em 0;
+    border-radius: 1em;
+    padding: 0.5em 0.5em 0 0.5em;
+
     color: black;
     cursor: pointer;
+
     .layout-text {
       h3 {
         font-size: 1.5em!important;
+        font-family: 'victoria';
+        line-height: 1;
+        margin: 0.5em 0;
       }
       h4 {
-        font-size: 1em!important;
+        font-size: 0.7em!important;
+        line-height: 1;
+        margin: 0.5em 0;
       }
     }
+    .date-button {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      text-align: center;
+      margin: 0 0 0.5em 0;
+    }
+
     .layout-content-image {
       height: 100%;
       .image {
@@ -69,9 +129,18 @@ export default {
     }
   }
   .layout-button:hover {
-    background-color: rgb(167, 167, 167)!important;
+    background-color: $color_blue_7;
   }
   .buttonSelected {
-    background-color: red;
+    background-color: rgb(219, 239, 252);
+  }
+  .buttonEmpty {
+    width: 0;
+    cursor: unset;
+    padding: 0;
+  }
+  .page {
+    width: 100%;
+  
   }
 </style>

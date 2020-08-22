@@ -6,10 +6,10 @@
     <div class="separator px-5 my-3">PRINCIPAIS APRENDIZADOS</div>
     <carousel
     :navigationEnabled="true"
-    paginationActiveColor="red"
-    paginationColor="green"
+    paginationActiveColor="rgb(0, 89, 255)"
+    paginationColor="rgb(148, 186, 255)"
     :paginationSize="15"
-    :perPage="3"
+    :perPage="4"
     class="layout-technologies">
       <slide
       v-for="image in skills"
@@ -41,10 +41,10 @@
 
 <style lang="scss">
   .layout-technologies {
-
-    height: 100%;
+    height: auto;
     width: 90%;
     margin: 0 auto;
+    color: rgb(148, 186, 255);
     .content-image {
       text-align: center;
       .image {
@@ -52,5 +52,11 @@
         cursor: pointer;
       }
     }
+  }
+  .VueCarousel-navigation {
+    position: absolute;
+    top: 0;
+    bottom: 50%;
+    width: 100%;
   }
 </style>

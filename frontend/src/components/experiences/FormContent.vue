@@ -5,19 +5,26 @@
 
     <div class="layout-container">
 
-      <Header :header="header"/>
+      <Header :header="header"
+      class="header">
+        <Date 
+        :dateStart="dateStart"
+        class="date"
+        :dateFinish="dateFinish"/>
+      </Header>
 
-      <List :list="list"/>
+      <List :list="list"
+      class="list"/>
 
-      <About :about="about"/>
+      <About :about="about"
+      class="about"/>
 
       <Skills 
       v-if="skills.length > 0"
-      :skills="skills"/>
+      :skills="skills"
+      class="skills"/>
       
-      <Date 
-      :dateStart="dateStart"
-      :dateFinish="dateFinish"/>
+      
 
     </div>
 
@@ -80,10 +87,10 @@
     height: 100%;
     padding: 0;
     color:black;
-    background-color: rgb(200, 224, 255);
 
     .layout-container {
       display: grid;
+
       grid-template-areas:  'header'
                             'list'
                             'about'
@@ -91,11 +98,30 @@
                             'date';
       grid-template-rows: auto auto auto auto auto;
       grid-template-columns: 100%;
-      height: max-content;
 
+      background: radial-gradient(circle, rgb(226, 242, 255) 70%, rgb(203, 241, 245) 100%);
+      
+      height: max-content;
       margin: 0;
-      padding: 1em 0 1em 1em;
+
+      .header {
+        grid-area: header;
+        padding: 1em 0 1em 1em;
+      }
+      .list {
+        grid-area: list;
+      }
+      .about {
+        grid-area: about;
+      }
+      .technologies {
+        grid-area: technologies;
+      }
+      .date {
+        grid-area: date;
+      }
     }
+
   }
 
   .separator {

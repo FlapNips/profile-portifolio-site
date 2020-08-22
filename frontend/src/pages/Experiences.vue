@@ -15,39 +15,28 @@
 
 			<!-- CONTENT -->
 			<b-col cols=8>
-				<transition name="slide-top" mode="out-in">
 
 					<FormContent
 					v-if="!contentLoading"
 					:content="content"/>
+					<loading v-else/>
 					
-				</transition>
 			</b-col>
 
 			<!-- BUTTONS -->
 			<b-col cols=4>
-				<transition name="fade">
+
 					<buttons
-					v-if="!loadingButtons"
+					:loadingButtons="loadingButtons"
+
+					:pagesTotal="pagesTotal"
+
 					:buttonSelected="buttonSelected"
-					:clickButton="experienceContent"
+					:experienceContent="experienceContent"
 					:buttons="getListButtons"/>
-				</transition>
 
 			</b-col>
 			
-			<!-- PAGES -->
-			<b-col 
-			offset=8 
-			cols=4>
-				<b-pagination-nav
-				v-model="page"
-				base-url="#"
-				use-router
-				align="center"
-				class="mx-auto"
-				:number-of-pages="pagesTotal"/>
-			</b-col>
 
 		</b-row>
 
@@ -73,10 +62,10 @@
 		data() {
 			return {
 				content: Object,
-				buttonSelected: String,
+				buttonSelected: Number,
 
 				totalItemsButton: Number,
-				page: 1,
+				page: '1',
 				
 				loading: true,
 				contentLoading: true,
@@ -107,6 +96,7 @@
 			async listButtons(page = 1) {
 
 				this.loadingButtons = true
+
 				page = page.replace('#', '')
 				if(page == '') page = 1
 				this.page = page
@@ -118,9 +108,18 @@
 								id: element.experience_id,
 								title: element.experience_title,
 								subtitle: element.experience_office,
-								img: element.experience_img
+								img: element.experience_img,
+								dateStart: element.experience_date_start,
+								dateFinish: element.experience_date_finish
 							}
 						})
+
+						if(listButtons.length < 5) {
+							const x = 5 - listButtons.length 
+							for(let i = 0; i < x; i++) {
+								listButtons.push({})
+							}
+						}
 
 						this.$store.commit('setListButtons', listButtons)
 						this.buttonSelected = listButtons[0].id
@@ -134,6 +133,8 @@
 
 			async experienceContent(experienceId) {
 
+				if(this.buttonSelected == experienceId) return
+				else if(experienceId === undefined) return
 				this.buttonSelected = experienceId
 				this.contentLoading = true
 
@@ -223,31 +224,6 @@
 		font-family: Verdana, Geneva, Tahoma, sans-serif;
 		height: 100%;
 	}
-}
-
-
-.slide-top-enter-active {
-  animation: slide-top 0.5s;
-}
-.slide-top-leave-active {
-  animation: slide-top 0.5s reverse;
-}
-
-@keyframes slide-top {
-  0% {
-    -webkit-transform: rotateX(-100deg);
-            transform: rotateX(-100deg);
-    -webkit-transform-origin: top;
-            transform-origin: top;
-    opacity: 0;
-  }
-  100% {
-    -webkit-transform: rotateX(0deg);
-            transform: rotateX(0deg);
-    -webkit-transform-origin: top;
-            transform-origin: top;
-    opacity: 1;
-  }
 }
 
 </style>
