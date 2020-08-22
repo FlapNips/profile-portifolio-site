@@ -104,7 +104,7 @@
 
 		//BUTTON CONFIG
 
-			async listButtons(page = Number) {
+			async listButtons(page = 1) {
 
 				this.loadingButtons = true
 				page = page.replace('#', '')
