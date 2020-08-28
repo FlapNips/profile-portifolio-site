@@ -1,23 +1,33 @@
-// Update with your config settings.
+
+//For the test
+require('dotenv').config({
+	path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env'
+})
+
+const { FsMigrations } = require('knex/lib/migrate/sources/fs-migrations')
 
 module.exports = {
 
-	client: 'mysql',
+	client: process.env.DB_DIALECT || 'mysql',
 	connection: {
-		host: '31.170.166.166',
-		user:     'u414763690_flapnips',
-		password: 'ROALromi@60',
-		database: 'u414763690_portfolio'
+		host: process.env.DB_HOST,
+		user: process.env.DB_USER,
+		password: process.env.DB_PASSWORD,
+		database: process.env.DB,
+		filename: './src/__tests__/database.sqlite'
 	},
+  	useNullAsDefault: true,
 	pool: {
 		min: 2,
 		max: 10
 	},
 	migrations: {
-		tableName: 'knex_migrations'
+		// directory: './src/migrations',
+		tableName: 'knex_migrations',
+		migrationSource: new FsMigrations('./src/migrations', false)
 	},
 	seeds: {
-		directory: './seeds'
+		directory: './src/seeds'
 	}
 
 };
