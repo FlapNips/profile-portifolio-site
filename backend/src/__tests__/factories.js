@@ -1,12 +1,17 @@
-const factory = require('factory-girl')
+const app = require('../app.js')
+
+
+const factory = require('knex-factory')(app.db)
 const faker = require('faker')
 
-const User = require('../models/user')
 
-
-
-    factory.define('User', User, {
-        username: 'teste'
-    })
+factory.define('User', 'tb_users', {
+    username: () => faker.internet.userName(),
+    password: () => faker.internet.password(),
+    full_name: () => faker.name.findName(),
+    profession: () => faker.name.jobTitle(),
+    about: () => faker.lorem.paragraph(),
+    avatar: 'Profile'
+})
 
 module.exports = factory

@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt')
+
 
 module.exports = app => {
 
@@ -13,10 +13,7 @@ module.exports = app => {
 
   const db = app.api.dbNames
 
-  const encryptPassword = password => {
-    const salt = bcrypt.genSaltSync(10)
-    return bcrypt.hashSync(password, salt)
-  }
+
 
 
   /* -----------------------ADD USER----------------------- */
@@ -24,7 +21,7 @@ module.exports = app => {
   const addUser = async (req, res) => {
   
     const data = { ...req.body }
-
+    
     try {
 
       existsOrError(data.username, 'Insira o usuário.')
@@ -33,17 +30,20 @@ module.exports = app => {
       existsOrError(data.profession, 'Qual sua profissão ?')
       existsOrError(data.about, 'Escreva sobre você.')
       
+      //if exists data.username
       notExistsOrError(await new User().exists(data.username), 'Nome do perfil já cadastrado!')
 
     } catch(error) {
       return res.status(406).send(error)
     }
-
-    data.password = encryptPassword(data.password)
-
-    return new User(data).add
-            .then(() => res.status(201).send('Perfil criado com sucesso!'))
-            .catch( error => res.status(500).send('Erro ao criar perfil. Erro:500'))
+    data.password = new User().encrypt(data.password)
+    
+    return await new User(data).add()
+      .then(() => res.status(201).send('Perfil criado com sucesso!'))
+      .catch(error => {
+        console.log(error)
+        res.status(500).send('Erro ao criar perfil. Erro:500')
+      })
 
   }
 
@@ -51,8 +51,6 @@ module.exports = app => {
   
   const getUser = async (req, res) => {
     const userId = req.params.user_id
-    
-    console.log(userId)
 
     try {
       
@@ -63,7 +61,7 @@ module.exports = app => {
       return res.status(404).send(error)
     }
 
-    return new User().find(userId)
+    return new User().get(userId)
       .then( result => {
 
           if (result.experiences_id != null) {

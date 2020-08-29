@@ -16,9 +16,9 @@ module.exports = {
 		database: process.env.DB,
 		filename: './src/__tests__/database.sqlite'
 	},
-  	useNullAsDefault: true,
+  	useNullAsDefault: false,
 	pool: {
-		min: 2,
+		min: 0,
 		max: 10
 	},
 	migrations: {
