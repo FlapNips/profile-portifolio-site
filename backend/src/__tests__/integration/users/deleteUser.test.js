@@ -5,7 +5,8 @@ const factory = require('../../factories.js')
 const truncate = require('../../utils/truncate')
 
 describe('Check request with request DELETE inside the api USERS.', () => {
-    afterEach( async () => {
+    afterEach(async () => {
+        //Delete all information table after test.
         await truncate('tb_users')
     })
 

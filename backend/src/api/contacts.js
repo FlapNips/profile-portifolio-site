@@ -56,12 +56,13 @@ module.exports = app => {
 
   const getContact = async (req, res) => {
 
-    const userId = req.params.contact_id
-    const existsContact = await db.Contacts().where({ users_id: userId }).first()
+    const userId = req.params.user_id
 
     try {
-      if(isNaN(userId)) throw 'Parâmetro precisa ser númerico!'
-      existsOrError(existsContact, 'Usuário não encontrado')
+      if(isNaN(userId)) throw 'Parâmetro precisa ser númerico.'
+      const existsContact = await db.Contacts().where({ users_id: userId }).first()
+
+      existsOrError(existsContact, 'Usuário não existe.')
 
     } catch(error) {
       return res.status(400).send(error)

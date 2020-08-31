@@ -6,12 +6,9 @@ const truncate = require('../../utils/truncate')
 
 describe('Check fields undefined with request POST using the api USERS.', () => {
     afterEach(async () => {
+        //Delete all information table after test.
         await truncate('tb_users')
     })
-    // afterAll(async () => {
-    //     await app.queryBuilder().destroy()
-    
-    // })
 
     it('Should failed in attempt to create an user with USERNAME field undefined', async () => {
         const user = await factory.build('User', {
@@ -82,6 +79,7 @@ describe('Check fields undefined with request POST using the api USERS.', () => 
 })
 describe('Check fields empty with request POST using the api USERS.', () => {
     afterEach(async () => {
+        //Delete all information table after test.
         await truncate('tb_users')
     })
 
@@ -153,6 +151,7 @@ describe('Check fields empty with request POST using the api USERS.', () => {
 })
 describe('Create User with request POST using the api USERS.', () => {
     afterEach(async () => 
+        //Delete all information table after test.
         await truncate('tb_users')
     )
 

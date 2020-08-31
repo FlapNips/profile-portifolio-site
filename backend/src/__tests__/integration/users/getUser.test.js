@@ -5,7 +5,8 @@ const factory = require('../../factories.js')
 const truncate = require('../../utils/truncate')
 
 describe('Check fields with request GET using the api USERS.', () => {
-    afterEach( async () => {
+    afterEach(async () => {
+        //Delete all information table after test.
         await truncate('tb_users')
     })
 
@@ -27,6 +28,10 @@ describe('Check fields with request GET using the api USERS.', () => {
 })
 
 describe('Return user with request GET using the api USERS.', () => {
+    afterEach(async () => {
+        //Delete all information table after test.
+        await truncate('tb_users')
+    })
     it('Should successful when get user exist', async () => {
         const user = await factory.build('User')
         await factory.create('User', user)

@@ -10,7 +10,7 @@ describe('Check fields with request POST using the api CONTACTS.', () => {
         await factory.create('User')
     })
     afterEach(async () => {
-        //Delete all information table after function 'it'
+        //Delete all information table after test.
         await truncate('tb_users')
         await truncate('tb_contacts')
     })
@@ -111,13 +111,13 @@ describe('Check fields with request POST using the api CONTACTS.', () => {
 
    
 })
-describe('Create contact with request POST using the api CONTACT.', () => {
+describe('Create contact with request POST using the api CONTACTS.', () => {
     beforeEach(async () => {
     //API CONTACTS need an user.
     await factory.create('User')
     })
     afterEach(async () => {
-        //Delete all information table after function 'it'
+        //Delete all information table after test.
         await truncate('tb_users')
         await truncate('tb_contacts')
     })

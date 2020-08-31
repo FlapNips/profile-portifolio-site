@@ -6,7 +6,8 @@ const truncate = require('../../utils/truncate')
 const bcrypt = require('bcrypt')
 
 describe('Check fields with request PUT using the api USERS.', () => {
-    afterEach( async () => {
+    afterEach(async () => {
+        //Delete all information table after test.
         await truncate('tb_users')
     })
 
