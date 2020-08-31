@@ -3,7 +3,6 @@ const app = require('../../../app.js')
 
 const factory = require('../../factories.js')
 const truncate = require('../../utils/truncate')
-const bcrypt = require('bcrypt')
 
 describe('Check fields with request PUT using the api CONTACTS.', () => {
     beforeEach(async () => {

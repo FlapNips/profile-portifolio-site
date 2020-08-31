@@ -32,6 +32,7 @@ describe('Return user with request GET using the api USERS.', () => {
         //Delete all information table after test.
         await truncate('tb_users')
     })
+    
     it('Should successful when get user exist', async () => {
         const user = await factory.build('User')
         await factory.create('User', user)

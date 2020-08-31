@@ -13,27 +13,28 @@ module.exports = app => {
   const addEducation = async (req, res) => {
     const userId = req.params.user_id
     const data = { ...req.body }
-    const existsUser = await db.Contacts().where({users_id: userId}).first()
+    const existsUser = await db.Users().where({ id: userId }).first()
     
 
     try {
 
       if(isNaN(userId)) throw 'O parâmetro precisa ser númerico.'
-      existsOrError(existsUser, 'Perfil não encontrado.')
-      contentObjectOrError(data, 'Não pode existir campos vazios')
+      existsOrError(existsUser, 'Usuário não existe.')
+      contentObjectOrError(data, 'Não pode existir campos vazios.')
 
       existsOrError(data.title, 'Insira um título.')
 
-      existsOrError(data.duration, 'Insira a duração.')
-      if(isNaN(data.duration)) throw 'Apenas números'
-
       existsOrError(data.about, 'Escreva um pouco do aprendizado.')
 
-      existsOrError(data.dateStart, 'Insira a data de inicio')
-      if(!new Date(data.dateStart).isDate()) throw 'Insira um mês de início válido.'
+      existsOrError(data.duration, 'Insira a duração.')
+      if(isNaN(data.duration)) throw 'Apenas números.'
 
-      existsOrError(data.dateFinish, 'Insira a data de finalização')
-      if(!new Date(data.dateFinish).isDate()) throw 'Insira um mês de início válido.'
+
+      existsOrError(data.dateStart, 'Insira a data de início.')
+      if(!new Date(data.dateStart).isDate()) throw 'Insira a data de início válida.'
+
+      existsOrError(data.dateFinish, 'Insira a data de finalização.')
+      if(!new Date(data.dateFinish).isDate()) throw 'Insira a data de finalização válida.'
       
     } catch(error) {
       return res.status(400).send(error)
@@ -48,7 +49,7 @@ module.exports = app => {
               date_finish: new Date(data.dateFinish),
               about: data.about,
             })
-            .then( () => res.status(201).send('Criado com sucesso!'))
+            .then( () => res.status(201).send('Criado com sucesso.'))
             .catch( error => res.status(500).send('Erro 500 inesperado.'))
   }
   /* -----------------------GET EDUCATION----------------------- */

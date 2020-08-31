@@ -25,5 +25,14 @@ factory.define('Contact', 'tb_contacts', {
         update_time: new Date().toLocaleString()
 })
 
+factory.define('Education', 'tb_educations', {
+        users_id: 1,
+        title: async () => await faker.lorem.word(),
+        duration: Math.random() * 300,
+        about: async () => await faker.lorem.paragraph(),
+        date_start: async () => await faker.date.past(),
+        date_finish: async () => await faker.date.future()
+})
+
 
 module.exports = factory
