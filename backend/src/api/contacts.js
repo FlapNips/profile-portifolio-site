@@ -2,7 +2,8 @@ module.exports = app => {
 
   const { existsOrError,
           notExistsOrError,
-          contentObjectOrError 
+          contentObjectOrError,
+          existsValueForUpdate
         } = app.api.validator
 
   const db = app.api.dbNames
@@ -37,18 +38,18 @@ module.exports = app => {
     }
 
     return db.Contacts()
-            .insert({
-              users_id: userId,
-              address: data.address,
-              phone: data.phone,
-              email: data.email,
-              github: data.github,
-              linkedin: data.linkedin,
-              facebook: data.facebook,
-              update_time: new Date().toLocaleString()
-            })
-            .then( () => res.status(201).send('Informações criadas com sucesso.'))
-            .catch( error => res.status(500).send('Erro 500 inesperado.'))
+      .insert({
+        users_id: userId,
+        address: data.address,
+        phone: data.phone,
+        email: data.email,
+        github: data.github,
+        linkedin: data.linkedin,
+        facebook: data.facebook,
+        update_time: new Date().toLocaleString()
+      })
+      .then( () => res.status(201).send('Informações criadas com sucesso.'))
+      .catch( error => res.status(500).send('Erro 500 inesperado.'))
   }
 
 
@@ -69,45 +70,51 @@ module.exports = app => {
     }
   
     return db.Contacts()
-            .where({
-              users_id: userId
-            })
-            .first()
-            .then( result => {
-              return res.status(200).send(result)
-            })
-            .catch( error => res.status(500).send('Erro 500 inesperado.'))
+      .where({
+        users_id: userId
+      })
+      .first()
+      .then( result => {
+        return res.status(200).send(result)
+      })
+      .catch( error => res.status(500).send('Erro 500 inesperado.'))
   }
 
 
   /* -----------------------UPDATE CONTACT----------------------- */
 
-  const updateContact = (req, res) => {
+  const updateContact = async (req, res) => {
     const userId = req.params.user_id
     const data = { ...req.body }
 
     try {
 
-      if(isNaN(userId)) throw 'user_id não é número'
-      contentObjectOrError(data, 'Não pode existir campos vazios')
+      if (isNaN(userId)) throw 'O parâmetro precisa ser númerico.'
+      
+      const existsContact = await db.Contacts().where({ users_id: userId }).first()
+      existsOrError(existsContact, 'Usuário não encontrado.')
+
+      existsValueForUpdate(data, existsContact)
+      contentObjectOrError(data, 'Não pode haver campos em branco.')
+      
 
     } catch(error) {
-      return res.status(400).send(error)
+      return res.status(406).send(error)
     }
 
     return db.Contacts()
-            .update({
-              address: data.address,
-              phone: data.phone,
-              email: data.email,
-              github: data.github,
-              linkedin: data.linkedin,
-              facebook: data.facebook,
-              update_time: new Date().toLocaleString()
-            })
-            .where({ users_id: userId })
-            .then( () => res.status(200).send('Atualizado com sucesso!'))
-            .catch( error => res.status(500).send('Erro 500 inesperado.'))
+      .update({
+        address: data.address,
+        phone: data.phone,
+        email: data.email,
+        github: data.github,
+        linkedin: data.linkedin,
+        facebook: data.facebook,
+        update_time: new Date().toLocaleString()
+      })
+      .where({ users_id: userId })
+      .then( () => res.status(200).send('Atualizado com sucesso.'))
+      .catch( error => res.status(500).send('Erro 500 inesperado.'))
   }
 
 

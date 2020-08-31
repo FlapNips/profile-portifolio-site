@@ -74,7 +74,7 @@ module.exports = app => {
 				throw 'O metodo EXISTS VALUE FOR UPDATE apenas para ARRAY ou OBJECTS'
 			}
 			
-			if(!validator) throw 'Precisa de ao menos um campo preenchido para atualizar'
+			if(!validator) throw 'Precisa de ao menos um campo preenchido para atualizar.'
 			return validator
 	
 	}

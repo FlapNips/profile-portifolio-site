@@ -34,7 +34,7 @@ describe('Check fields with request PUT using the api USERS.', () => {
             .put('/user/1')
         
         expect(response.status).toBe(406)
-        expect(response.text).toBe('Precisa de ao menos um campo preenchido para atualizar')
+        expect(response.text).toBe('Precisa de ao menos um campo preenchido para atualizar.')
     })
 
     it('Should failed when field FULLNAME is empty', async () => {
@@ -82,7 +82,8 @@ describe('Check fields with request PUT using the api USERS.', () => {
         expect(response.status).toBe(406)
         expect(response.text).toBe('Senha errada!')
     })
-
+})
+describe('Check update the user with request PUT using the api USERS', () => {
     it('Should success update data user.', async () => {
         let user = await factory.build('User')
         await factory.create('User', {
@@ -99,4 +100,5 @@ describe('Check fields with request PUT using the api USERS.', () => {
         expect(response.status).toBe(200)
         expect(response.text).toBe('Usuário atualizado com sucesso.')
     })
+
 })
