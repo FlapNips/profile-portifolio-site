@@ -1,5 +1,6 @@
 require('dotenv').config({
-	path: process.env.NODE_ENV === 'test' ? '../.env.test' : '../.env'
+	path:
+		process.env.NODE_ENV === 'development' ? '.env' : `.env.${process.env.NODE_ENV}`
 })
 
 const express = require('express')
@@ -19,8 +20,9 @@ const options = {
 //Configuração
 consign(options)
 	.then('./config/middlewares.js')
-	.then('./api/validator.js')
 	.then('./api/dbNames.js')
+	.then('./api/validator.js')
+	.then('./config/db.js')
 	.then('./models')
 	.then('./api')
 	.then('./config/routes.js')

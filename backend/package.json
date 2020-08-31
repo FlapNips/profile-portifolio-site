@@ -4,12 +4,15 @@
   "description": "Sistema de controle de projetos",
   "main": "src/server.js",
   "scripts": {
-    "predev": "knex migrate:latest",
-    "dev": "nodemon --ignore __tests__",
+
+    "predev": "SET NODE_ENV=development&& knex migrate:latest",
+    "dev": "SET NODE_ENV=development&& nodemon --ignore __tests__",
+
     "start": "node",
-    "pretest": "set NODE_ENV=test&& knex migrate:latest",
+
+    "pretest": "knex migrate:latest --env test",
     "test": "SET NODE_ENV=test&& jest --detectOpenHandles",
-    "posttest": "set NODE_ENV=test&& knex migrate:rollback --all"
+    "posttest": "knex migrate:rollback --all --env test"
   },
   "author": "FlapNips",
   "license": "ISC",

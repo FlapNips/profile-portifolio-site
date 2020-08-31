@@ -8,7 +8,7 @@ exports.up = function(knex) {
     table.string('github')
     table.string('linkedin')
     table.string('facebook')
-    table.datetime('update_time').defaultTo(new Date())
+    table.datetime('update_time').defaultTo(knex.fn.now())
     
     table.foreign('users_id').references('tb_users.id')
       .onDelete('CASCADE')

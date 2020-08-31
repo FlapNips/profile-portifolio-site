@@ -4,21 +4,21 @@ const app = require('../../../app.js')
 const factory = require('../../factories.js')
 const truncate = require('../../utils/truncate')
 
-describe('Validator fields undefined', () => {
+describe('Check fields undefined with request POST using the api USERS.', () => {
     afterEach(async () => {
-        truncate('tb_users')
+        await truncate('tb_users')
     })
     // afterAll(async () => {
     //     await app.queryBuilder().destroy()
     
     // })
 
-    it('An attempt to create an user with USERNAME field undefined', async () => {
+    it('Should failed in attempt to create an user with USERNAME field undefined', async () => {
         const user = await factory.build('User', {
             username: undefined
         })
         
-        console.log(user)
+        
         const response = await request(app)
             .post('/user')
             .send(user)
@@ -27,11 +27,11 @@ describe('Validator fields undefined', () => {
         expect(response.text).toBe('Insira o usuário.')
     })
 
-    it('An attempt to create an user with FULLNAME field undefined', async () => {
+    it('Should failed in attempt to create an user with FULLNAME field undefined', async () => {
         const user = await factory.build('User', {
             full_name: undefined
         })
-        console.log(user)
+        
         const response = await request(app)
             .post('/user')
             .send(user)
@@ -40,11 +40,11 @@ describe('Validator fields undefined', () => {
         expect(response.text).toBe('Insira o nome completo.')
     })
 
-    it('An attempt to create an user with PASSWORD field undefined', async () => {
+    it('Should failed in attempt to create an user with PASSWORD field undefined', async () => {
         const user = await factory.build('User', {
             password: undefined
         })
-        console.log(user)
+        
         const response = await request(app)
             .post('/user')
             .send(user)
@@ -53,7 +53,7 @@ describe('Validator fields undefined', () => {
         expect(response.text).toBe('Insira a senha.')
     })
 
-    it('An attempt to create an user with PROFESSION field undefined', async () => {
+    it('Should failed in attempt to create an user with PROFESSION field undefined', async () => {
         const user = await factory.build('User', {
             profession: undefined
         })
@@ -66,7 +66,7 @@ describe('Validator fields undefined', () => {
         expect(response.text).toBe('Qual sua profissão ?')
     })
 
-    it('An attempt to create an user with ABOUT field undefined', async () => {
+    it('Should failed in attempt to create an user with ABOUT field undefined', async () => {
         const user = await factory.build('User', {
             about: undefined
         })
@@ -80,21 +80,16 @@ describe('Validator fields undefined', () => {
     })
 
 })
-describe('Validator fields empty', () => {
+describe('Check fields empty with request POST using the api USERS.', () => {
     afterEach(async () => {
-        truncate('tb_users')
+        await truncate('tb_users')
     })
-    // afterAll(async () => {
-    //     await app.queryBuilder().destroy()
-    
-    // })
 
-    it('An attempt to create an user with USERNAME field empty', async () => {
+    it('Should failed in attempt to create an user with USERNAME field empty', async () => {
         const user = await factory.build('User', {
             username: ''
         })
         
-        console.log(user)
         const response = await request(app)
             .post('/user')
             .send(user)
@@ -103,11 +98,11 @@ describe('Validator fields empty', () => {
         expect(response.text).toBe('Insira o usuário.')
     })
 
-    it('An attempt to create an user with FULLNAME field empty', async () => {
+    it('Should failed in attempt to create an user with FULLNAME field empty', async () => {
         const user = await factory.build('User', {
             full_name: ''
         })
-        console.log(user)
+        
         const response = await request(app)
             .post('/user')
             .send(user)
@@ -116,11 +111,11 @@ describe('Validator fields empty', () => {
         expect(response.text).toBe('Insira o nome completo.')
     })
 
-    it('An attempt to create an user with PASSWORD field empty', async () => {
+    it('Should failed in attempt to create an user with PASSWORD field empty', async () => {
         const user = await factory.build('User', {
             password: ''
         })
-        console.log(user)
+        
         const response = await request(app)
             .post('/user')
             .send(user)
@@ -129,7 +124,7 @@ describe('Validator fields empty', () => {
         expect(response.text).toBe('Insira a senha.')
     })
 
-    it('An attempt to create an user with PROFESSION field empty', async () => {
+    it('Should failed in attempt to create an user with PROFESSION field empty', async () => {
         const user = await factory.build('User', {
             profession: ''
         })
@@ -142,7 +137,7 @@ describe('Validator fields empty', () => {
         expect(response.text).toBe('Qual sua profissão ?')
     })
 
-    it('An attempt to create an user with ABOUT field empty', async () => {
+    it('Should failed in attempt to create an user with ABOUT field empty', async () => {
         const user = await factory.build('User', {
             about: ''
         })
@@ -156,9 +151,9 @@ describe('Validator fields empty', () => {
     })
 
 })
-describe('Create User', () => {
+describe('Create User with request POST using the api USERS.', () => {
     afterEach(async () => 
-        truncate('tb_users')
+        await truncate('tb_users')
     )
 
     it('Should return failed when try create user with USERNAME exists', async () => {
@@ -169,8 +164,8 @@ describe('Create User', () => {
             .post('/user')
             .send(user)
         
-        console.log(await app.db('tb_users'))
-        console.log(user)
+        
+        
         
         expect(response.status).toBe(406)
         expect(response.text).toBe('Nome do perfil já cadastrado!')
@@ -182,7 +177,7 @@ describe('Create User', () => {
         const response = await request(app)
             .post('/user')
             .send(user)
-        console.log(user)
+        
         expect(response.text).toBe('Perfil criado com sucesso!')
         expect(response.status).toBe(201)
     })

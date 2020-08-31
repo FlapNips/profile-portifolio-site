@@ -14,23 +14,23 @@ module.exports = app => {
 
     const userId = req.params.user_id
     const data = { ...req.body }
-    const existsUser = await db.Users().where({ id: userId }).first()
-    const existsContact = await db.Contacts().where({ users_id: userId }).first()
 
     try {
 
-      if(isNaN(userId)) throw 'Parâmetro precisa ser númerico!'
-      existsOrError(existsUser, 'Usuário não existe')
-      existsOrError(existsContact, 'Informação já criada. Atualize!')
+      if(isNaN(userId)) throw 'Parâmetro precisa ser númerico.'
+      const existsUser = await db.Users().where({ id: userId }).first()
+      const existsContact = await db.Contacts().where({ users_id: userId }).first()
 
-      contentObjectOrError(data, 'Não pode existir campos vazios')
+      existsOrError(existsUser, 'Usuário não existe.')
+      notExistsOrError(existsContact, 'Informação já criada. Atualize.')
 
-      existsOrError(data.address, 'Insira o endereço')
+      contentObjectOrError(data, 'Não pode existir campos vazios.')
 
-      existsOrError(data.phone, 'Insira o celular')
-      if(isNaN(data.phone)) throw 'Apenas números'
+      existsOrError(data.address, 'Insira o endereço.')
+      existsOrError(data.phone, 'Insira o celular.')
+      if(isNaN(data.phone)) throw 'O celular deve ter apenas números.'
+      existsOrError(data.email, 'Insira o email.')
       
-      existsOrError(data.email, 'Insira o email')
       
     } catch(error) {
       return res.status(400).send(error)
@@ -47,7 +47,7 @@ module.exports = app => {
               facebook: data.facebook,
               update_time: new Date().toLocaleString()
             })
-            .then( () => res.status(201).send('Informações criadas com sucesso!'))
+            .then( () => res.status(201).send('Informações criadas com sucesso.'))
             .catch( error => res.status(500).send('Erro 500 inesperado.'))
   }
 

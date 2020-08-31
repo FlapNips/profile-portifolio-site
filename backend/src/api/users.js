@@ -87,27 +87,28 @@ module.exports = app => {
     const userId = req.params.user_id
     const data = { ...req.body }
     const userData = await db.Users().where({ id: userId }).first()
-    
+
     try {
 
       if (isNaN(userId)) throw 'O parâmetro precisa ser númerico.'
       existsOrError(userData, 'Usuário não encontrado.')
+
       existsValueForUpdate(data, userData)
-      contentObjectOrError(data, 'Não deixe campos vazios!')
+      contentObjectOrError(data, 'Não deixe campos vazios.')
 
       if (data.password) {
 
-        existsOrError(data.newPassword, 'Escolha uma nova senha!')
+        existsOrError(data.newPassword, 'Escolha uma nova senha.')
 
-        if (bcrypt.compareSync(data.password, userData.password)) {
-          data.newPassword = bcrypt.hashSync(data.newPassword, 10)
+        if (new User().compareEncrypt(data.password, userData.password)) {
+          data.newPassword = await new User().encrypt(data.newPassword)
         } else throw 'Senha errada!'
 
       } else data.newPassword = undefined
 
       
     } catch(error) {
-      return res.status(400).send(error)
+      return res.status(406).send(error)
     }
 
     return db.Users().update({
@@ -121,7 +122,7 @@ module.exports = app => {
             .where({
               id: userId
             })
-            .then( () => res.status(200).send('Atualizado!'))
+            .then( () => res.status(200).send('Usuário atualizado com sucesso.'))
             .catch( error => res.status(500).send(error))
   }
   /* -----------------------DELETE USER----------------------- */
@@ -131,8 +132,8 @@ module.exports = app => {
     const userData = await db.Users().where({ id: userId }).first()
 
     try {
-      if (isNan(userId)) throw 'O parâmetro precisa ser númerico.'
-      existsOrError(userData, 'Usuário não existe!')
+      if (isNaN(userId)) throw 'O parâmetro precisa ser númerico.'
+      existsOrError(userData, 'Usuário não existe.')
     } catch(error) {
       return res.status(400).send(error)
     }

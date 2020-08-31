@@ -56,6 +56,9 @@ module.exports = app => {
             }
         }
 
+        compareEncrypt(valueNotEncrypt, valueEncrypt) {
+            return bcrypt.compareSync(valueNotEncrypt, valueEncrypt)
+        }
         encrypt(value) {
             const salt = bcrypt.genSaltSync(10)
             return bcrypt.hashSync(value, salt)
