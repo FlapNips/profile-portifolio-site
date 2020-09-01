@@ -4,12 +4,9 @@
   "description": "Sistema de controle de projetos",
   "main": "src/server.js",
   "scripts": {
-
-    "predev": "SET NODE_ENV=development&& knex migrate:latest",
+    "predev": "SET NODE_ENV=development&& knex migrate:latest --env development",
     "dev": "SET NODE_ENV=development&& nodemon --ignore __tests__",
-
     "start": "node",
-
     "pretest": "knex migrate:latest --env test",
     "test": "SET NODE_ENV=test&& jest --detectOpenHandles",
     "posttest": "knex migrate:rollback --all --env test"
@@ -24,9 +21,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-handlebars": "^5.0.0",
-    "factory-girl": "^5.0.4",
     "knex": "^0.21.2",
-    "mongose": "0.0.2-security",
     "multer": "^1.4.2",
     "mysql": "^2.18.1"
   },

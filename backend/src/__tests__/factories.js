@@ -28,10 +28,31 @@ factory.define('Contact', 'tb_contacts', {
 factory.define('Education', 'tb_educations', {
         users_id: 1,
         title: async () => await faker.lorem.word(),
-        duration: Math.random() * 300,
+        duration: Math.round(Math.random() * 300),
         about: async () => await faker.lorem.paragraph(),
         date_start: async () => await faker.date.past(),
         date_finish: async () => await faker.date.future()
+})
+
+factory.define('Project', 'tb_projects', {
+        users_id: 1,
+        title: async () => await faker.lorem.word(),
+        subtitle: async () => await faker.lorem.word(),
+        about: async () => await faker.lorem.paragraph(),
+        list: async () => {
+                let result = []
+                result.push(await faker.lorem.paragraphs())
+                result.push(await faker.lorem.paragraphs())
+                return result
+        },
+        link: async () => await faker.internet.url(),
+        date_start: async () => await faker.date.past(),
+        date_finish: async () => await faker.date.future()
+})
+
+factory.define('SkillsXProjects', 'tbx_skills_projects', {
+        projects_id: 1,
+        skills_id: [1,2,3]
 })
 
 

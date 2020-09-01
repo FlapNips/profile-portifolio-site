@@ -1,10 +1,12 @@
 module.exports = app => {
 
-  const { existsOrError,
-          notExistsOrError,
-          validateDate,
-          contentObjectOrError 
-        } = app.api.validator
+  const {
+      existsOrError,
+      notExistsOrError,
+      existsValueForUpdate,
+      validateDate,
+      contentObjectOrError 
+    } = app.api.validator
 
   const db = app.api.dbNames
 
@@ -15,7 +17,6 @@ module.exports = app => {
     const data = { ...req.body }
     const existsUser = await db.Users().where({ id: userId }).first()
     
-
     try {
 
       if(isNaN(userId)) throw 'O parâmetro precisa ser númerico.'
@@ -55,7 +56,7 @@ module.exports = app => {
   /* -----------------------GET EDUCATION----------------------- */
   const getEducation = async (req, res) => {
     const educationId = req.params.education_id
-    const existsEducation = await db.Educations().where({id: educationId}).first()
+    const existsEducation = await db.Educations().where({ id: educationId }).first()
 
     try {
 
@@ -75,16 +76,18 @@ module.exports = app => {
             .catch( error => res.status(500).send('Erro 500 inesperado.'))
   }
   /* -----------------------UPDATE EDUCATION----------------------- */
-  const updateEducation = (req, res) => {
-    const contactId = req.params.contact_id
+  const updateEducation = async (req, res) => {
+    const educationId = req.params.education_id
     const data = { ...req.body }
-    const existsEducation = db.Educations().where({ id: contactId }).first()
+    const existsEducation = await db.Educations().where({ id: educationId }).first()
 
     try {
-
-      if(isNaN(contactId)) throw 'O parâmetro precisa ser númerico.'
+      if(isNaN(educationId)) throw 'O parâmetro precisa ser númerico.'
       existsOrError(existsEducation, 'Educação não encontrada.')
-      contentObjectOrError(data, 'Não pode existir campos vazios')
+
+      existsValueForUpdate(data, existsEducation)
+      contentObjectOrError(data, 'Não pode haver campos em branco.')
+      
 
     } catch(error) {
       return res.status(400).send(error)
@@ -92,16 +95,35 @@ module.exports = app => {
 
     return db.Educations()
               .update({
-                address: data.address,
-                phone: data.phone,
-                email: data.email,
-                github: data.github,
-                linkedin: data.linkedin,
-                facebook: data.facebook,
+                title: data.title,
+                duration: data.duration,
+                about: data.about,
+                date_start: data.dateStart,
+                date_finish: data.dateFinish
               })
-              .where({ id: contactId })
+              .where({ id: educationId })
               .then( () => res.status(200).send('Atualizado com sucesso.'))
               .catch( error => res.status(500).send('Erro 500 inesperado.'))
+  }
+
+  /* -----------------------DELETE EDUCATION----------------------- */
+  const deleteEducation = async (req, res) => {
+    const educationId = req.params.education_id
+    const existsEducation = await db.Educations().where({ id: educationId }).first()
+
+    try {
+      if(isNaN(educationId)) throw 'O parâmetro precisa ser númerico.'
+      existsOrError(existsEducation, 'Educação não encontrada.')
+
+    } catch(error) {
+      return res.status(400).send(error)
+    }
+
+    return db.Educations()
+      .del()
+      .where({ id: educationId })
+      .then( () => res.status(200).send('Deletado com sucesso.'))
+      .catch( error => res.status(500).send('Erro 500 inesperado.'))
   }
 
 
@@ -109,6 +131,7 @@ module.exports = app => {
   return {
     addEducation,
     getEducation,
-    updateEducation
+    updateEducation,
+    deleteEducation
   }
 }

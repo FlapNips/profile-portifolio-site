@@ -21,6 +21,8 @@ module.exports = app => {
 		.post(app.api.educations.addEducation)
 	app.route('/education/:education_id')
 		.get(app.api.educations.getEducation)
+		.put(app.api.educations.updateEducation)
+		.delete(app.api.educations.deleteEducation)
 //-----------------PROJECTS------------------------------
 	app.route('/project/:user_id')
 		.post(app.api.projects.addProject)

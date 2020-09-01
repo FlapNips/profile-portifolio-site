@@ -4,7 +4,7 @@ const app = require('../../../app.js')
 const factory = require('../../factories.js')
 const truncate = require('../../utils/truncate')
 
-describe('Check request with request DELETE inside the api USERS.', () => {
+describe('Check fields in DELETE - USERS.', () => {
     afterEach(async () => {
         //Delete all information table after test.
         await truncate('tb_users')
@@ -27,6 +27,12 @@ describe('Check request with request DELETE inside the api USERS.', () => {
         expect(response.text).toBe('Usuário não existe.')
     })
 
+})
+describe('Delete - USER', () => {
+    afterEach(async () => {
+        //Delete all information table after test.
+        await truncate('tb_users')
+    })
     it('Should success when delete user exists.', async () => {
         await factory.create('User')
 

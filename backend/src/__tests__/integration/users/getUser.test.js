@@ -4,7 +4,7 @@ const app = require('../../../app.js')
 const factory = require('../../factories.js')
 const truncate = require('../../utils/truncate')
 
-describe('Check fields with request GET using the api USERS.', () => {
+describe('Check fields in GET - USERS.', () => {
     afterEach(async () => {
         //Delete all information table after test.
         await truncate('tb_users')
@@ -27,7 +27,7 @@ describe('Check fields with request GET using the api USERS.', () => {
     })
 })
 
-describe('Return user with request GET using the api USERS.', () => {
+describe('Get - USERS.', () => {
     afterEach(async () => {
         //Delete all information table after test.
         await truncate('tb_users')

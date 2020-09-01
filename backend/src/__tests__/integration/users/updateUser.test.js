@@ -5,7 +5,7 @@ const factory = require('../../factories.js')
 const truncate = require('../../utils/truncate')
 const bcrypt = require('bcrypt')
 
-describe('Check fields with request PUT using the api USERS.', () => {
+describe('Check fields in UPDATE - USERS.', () => {
     afterEach(async () => {
         //Delete all information table after test.
         await truncate('tb_users')
@@ -83,8 +83,8 @@ describe('Check fields with request PUT using the api USERS.', () => {
         expect(response.text).toBe('Senha errada!')
     })
 })
-describe('Check update the user with request PUT using the api USERS', () => {
-    it('Should success update data user.', async () => {
+describe('Update - USERS', () => {
+    it('Should success update user.', async () => {
         let user = await factory.build('User')
         await factory.create('User', {
             ...user,

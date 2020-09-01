@@ -11,31 +11,40 @@ module.exports = app => {
   const addProject = async (req, res) => {
     const userId = req.params.user_id
     const data = { ...req.body }
-    const userProject = await db.Users().where({ id: userId }).first()
+    const userExists = await db.Users().where({ id: userId }).first()
 
     //Verification to continue
     try {
-      if (isNaN(userId)) throw 'Insira o ID do usuário!'
-      existsOrError(userProject, 'Usuário não encontrado!')
-      existsOrError(data.title, 'Insira o título do projeto')
-      existsOrError(data.subtitle, 'Insira o subtítulo do projeto')
+      if (isNaN(userId)) throw 'O parâmetro precisa ser númerico.'
+      existsOrError(userExists, 'Usuário não existe.')
+
+      contentObjectOrError(data, 'Não pode existir campos vazios.')
+      existsOrError(data.title, 'Insira um título.')
+      existsOrError(data.subtitle, 'Insira um subtítulo.')
+
       existsOrError(data.list, 'Escreva as principais atividades.')
-      if (!Array.isArray(data.skills)) throw 'Escolha ao menos uma habilidade.'
-      existsOrError(data.about, 'Escreva um pouco sobre o projeto')
-      
-      existsOrError(data.dateStart, 'Insira a data de início')
+      if (!Array.isArray(data.list)) throw 'LIST deve ser um Array.'
+
+      existsOrError(data.skills, 'Defina pelo menos uma habilidade.')
+      if (!Array.isArray(data.skills)) throw 'SKILLS deve ser um Array.'
+
+      existsOrError(data.about, 'Escreva um pouco sobre o projeto.')
+
+      existsOrError(data.dateStart, 'Insira a data de início.')
       if (!new Date(data.dateStart).isDate()) throw 'Insira uma data de início válida.'
 
-      existsOrError(data.dateFinish, 'Insira a data de finalização')
+      existsOrError(data.dateFinish, 'Insira a data de finalização.')
       if (!new Date(data.dateFinish).isDate()) throw 'Insira uma data de finalização válida.'
 
     } catch(error) {
       return res.status(400).send(error)
     }
 
+    //Transform array in text
+    data.list = data.list.join(';')
+
     //Check all operations is success or undo operations
     app.db.transaction(async trans => {
-      
       //Add DATA to projects
       const projectId = await db.Projects()
         .transacting(trans)
@@ -51,12 +60,15 @@ module.exports = app => {
       
       //Add skills in TBX_SKILLS_PROJECTS only if exists
       if (data.skills) {
-        data.skills = data.skills.map( element => {
+        
+        //Transform in object
+        const result = data.skills.map( element => {
             return {
               projects_id: projectId[0],
               skills_id: element
             }
-          })
+        })
+        
         await db.SXP()
           .transacting(trans)
           .insert(result)
@@ -65,7 +77,7 @@ module.exports = app => {
       
     })
     .then( () => {
-      return res.status(200).send('Projeto adicionado com sucesso.')
+      return res.status(201).send('Criado com sucesso.')
     })
     .catch( error => {
       return res.status(500).send('Erro 500 inesperado.')
@@ -84,7 +96,7 @@ module.exports = app => {
     try {
       
       if (isNaN(projectId)) throw 'O parâmetro precisa ser númerico.'
-     existsOrError(project, 'Nenhum projeto encontrado!')
+     existsOrError(project, 'Nenhum projeto encontrado.')
       
     } catch(error) {
       return res.status(400).send(error)
@@ -123,16 +135,24 @@ module.exports = app => {
     //Verification DATA to continue
     try {
       
-      if (isNaN(projectId)) throw 'O parâmetro precisa ser númerico'
-      existsOrError(projectsUser, 'Nenhum projeto encontrado!')
-      if (!Array.isArray(data.skills)) throw 'Skills precisa ser um Array.'
-      contentObjectOrError(data, 'Não pode existir campos vazios')
+      if (isNaN(projectId)) throw 'O parâmetro precisa ser númerico.'
+      existsOrError(projectsUser, 'Nenhum projeto encontrado.')
+
+      if (data.skills) {
+        if (!Array.isArray(data.skills)) throw 'SKILLS precisa ser um Array.'
+      }
+      if (data.list) {
+        if (!Array.isArray(data.list)) throw 'LIST precisa ser um Array.'
+        //Transform Array in string.
+        data.list = data.list.join(';')
+      }
+
       existsValueForUpdate(data, projectsUser)
+      contentObjectOrError(data, 'Não pode haver campos em branco.')
 
     } catch(error) {
       return res.status(400).send(error)
     }
-
 
     //Check all operations is success or undo operations
     return app.db.transaction(async trans => {
@@ -153,8 +173,13 @@ module.exports = app => {
       
       //Update skills in TBX_SKILLS_PROJECTS only if exists alteration
       if (data.skills) {
+        
+        //Transform in Object
         const skills = data.skills.map(element => {
-          return { projects_id: projectId, skills_id: element}
+          return {
+            projects_id: projectId,
+            skills_id: element
+          }
         })
         console.log(skills)
         await db.SXP().del().where({ projects_id: projectId }).transacting(trans)
@@ -178,8 +203,8 @@ module.exports = app => {
     //Verification DATA to continue
     try {
 
-      if (isNaN(projectId)) throw 'O project_id precisa ser número'
-      existsOrError(project, 'Projeto não encontrado!')
+      if (isNaN(projectId)) throw 'O parâmetro precisa ser númerico.'
+      existsOrError(project, 'Projeto não encontrado.')
       
     } catch(error) {
       return res.status(400).send(error)
@@ -190,7 +215,7 @@ module.exports = app => {
     return db.Projects()
       .del()
       .where({ id: projectId})
-      .then(() => res.status(200).send('Projeto deletado com sucesso.'))
+      .then(() => res.status(200).send('Deletado com sucesso.'))
       .catch( error => res.status(500).send('Erro 500 inesperado.'))
   }
 

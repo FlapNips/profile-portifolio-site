@@ -4,82 +4,83 @@ const app = require('../../../app.js')
 const factory = require('../../factories.js')
 const truncate = require('../../utils/truncate')
 
-describe('Check fields with request PUT using the api CONTACTS.', () => {
+describe('Check fields in UPDATE - CONTACTS.', () => {
     beforeEach(async () => {
         //API CONTACTS need an user.
         await factory.create('User')
         //Need one contact to tests.
-        await factory.create('Contact')
+        await factory.create('Education')
     })
     afterEach(async () => {
         //Delete all information table after test.
         await truncate('tb_users')
-        await truncate('tb_contacts')
+        await truncate('tb_educations')
     })
 
     it('Should failed when param not is number', async () => {
         const response = await request(app)
-            .put('/contact/a')
+            .put('/education/a')
         
-        expect(response.status).toBe(406)
+        expect(response.status).toBe(400)
         expect(response.text).toBe('O parâmetro precisa ser númerico.')
     })
 
-    it('Should failed when user not exists', async () => {
+    it('Should failed when education not exists', async () => {
         const response = await request(app)
-            .put('/contact/2')
+            .put('/education/2')
         
-        expect(response.status).toBe(406)
-        expect(response.text).toBe('Usuário não encontrado.')
+        expect(response.status).toBe(400)
+        expect(response.text).toBe('Educação não encontrada.')
     })
 
     it('Should failed when not exits field to update', async () => {
         const response = await request(app)
-            .put('/contact/1')
+            .put('/education/1')
+            .send({})
         
-        expect(response.status).toBe(406)
+        expect(response.status).toBe(400)
         expect(response.text).toBe('Precisa de ao menos um campo preenchido para atualizar.')
     })
 
     it('Should failed when field is empty to update', async () => {
         const contact = {
-            address: ''
+            title: ''
         }
-        
         const response = await request(app)
-            .put('/contact/1')
+            .put('/education/1')
             .send(contact)
         
-        expect(response.status).toBe(406)
+        expect(response.status).toBe(400)
         expect(response.text).toBe('Não pode haver campos em branco.')
     })
 })
-describe('Check update the user contact with request PUT using the api CONTACTS', () => {
+describe('Update - EDUCATIONS', () => {
     beforeEach(async () => {
         //API CONTACTS need an user.
         await factory.create('User')
-        //Need one contact to tests.
-        await factory.create('Contact')
+        //Need one education to tests.
+        await factory.create('Education')
     })
     afterEach(async () => {
         //Delete all information table after test.
         await truncate('tb_users')
-        await truncate('tb_contacts')
+        await truncate('tb_educations')
     })
-    it('Should success update contact user.', async () => {
-        let contact = await app.db('tb_contacts').first()
-        
-        contact.address = 'CHANGE ADDRESS.'
+    it('Should success update education user.', async () => {
+
+        const education = {
+            title: 'CHANGE TITLE.'
+        }
 
         const response = await request(app)
-            .put('/contact/1')
-            .send(contact)
+            .put('/education/1')
+            .send(education)
         
-        const contactAfterUpdate = await app.db('tb_contacts').first()
+        const educationAfterUpdate = await app.db('tb_educations').first()
 
         expect(response.status).toBe(200)
         expect(response.text).toBe('Atualizado com sucesso.')
-        expect(contactAfterUpdate.address).toBe(contact.address)
+        expect(educationAfterUpdate.title).toBe('CHANGE TITLE.')
     })
 
 })

@@ -3,7 +3,6 @@ require('dotenv').config({
 })
 const { FsMigrations } = require('knex/lib/migrate/sources/fs-migrations')
 
-
 module.exports = {
 	development: {
 		client: process.env.DB_DIALECT,

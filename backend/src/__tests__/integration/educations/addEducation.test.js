@@ -4,7 +4,7 @@ const app = require('../../../app.js')
 const factory = require('../../factories.js')
 const truncate = require('../../utils/truncate')
 
-describe('Check fields with request POST using the api EDUCATION.', () => {
+describe('Check fields in POST - EDUCATIONS.', () => {
     beforeEach(async () => {
         //API educationS need an user.
         await factory.create('User')
@@ -138,7 +138,7 @@ describe('Check fields with request POST using the api EDUCATION.', () => {
     })
    
 })
-describe('Create education with request POST using the api EDUCATIONS.', () => {
+describe('Create - EDUCATIONS.', () => {
     beforeEach(async () => {
         //API educationS need an user.
         await factory.create('User')

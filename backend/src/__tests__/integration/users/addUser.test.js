@@ -4,7 +4,7 @@ const app = require('../../../app.js')
 const factory = require('../../factories.js')
 const truncate = require('../../utils/truncate')
 
-describe('Check fields undefined with request POST using the api USERS.', () => {
+describe('Check fields undefined in POST - USERS.', () => {
     afterEach(async () => {
         //Delete all information table after test.
         await truncate('tb_users')
@@ -77,7 +77,7 @@ describe('Check fields undefined with request POST using the api USERS.', () => 
     })
 
 })
-describe('Check fields empty with request POST using the api USERS.', () => {
+describe('Check fields empty in POST - USERS.', () => {
     afterEach(async () => {
         //Delete all information table after test.
         await truncate('tb_users')
@@ -149,7 +149,7 @@ describe('Check fields empty with request POST using the api USERS.', () => {
     })
 
 })
-describe('Create User with request POST using the api USERS.', () => {
+describe('Create - USERS.', () => {
     afterEach(async () => 
         //Delete all information table after test.
         await truncate('tb_users')
