@@ -1,0 +1,39 @@
+$color_blue_1: rgb(3, 0, 41);
+$color_blue_2: rgb(1, 0, 65);
+$color_blue_3: rgb(0, 2, 122);
+$color_blue_4: rgb(0, 3, 206);
+$color_blue_5: rgb(0, 113, 206);
+$color_blue_6: rgb(175, 220, 255);
+$color_blue_7:rgb(197, 218, 235);
+
+$color_black_1: rgb(0, 0, 0);
+$color_black_2: rgb(49, 49, 49);
+$color_black_3: rgb(122, 122, 122);
+$color_black_4: rgb(184, 184, 184);
+$color_black_5: rgb(255, 255, 255);
+
+.separator {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	text-align: center;
+
+		&::before, &::after {
+			content: '';
+			flex: 1;
+			margin: 0 0.5em;
+			border-bottom: 1px solid rgba(112, 112, 112, 0.466);	
+		}
+}
+	// FONTS
+	@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
+	//font-family: 'Noto Sans JP', sans-serif;
+  @font-face {
+    font-family: "victoria";
+    src: url("~@/assets/fonts/victoria-serif.ttf");
+  }
+  @font-face {
+    font-family: "APOLLO";
+    src: url("~@/assets/fonts/APOLLO.otf");
+  }
+	

@@ -1,210 +1,208 @@
 <template>
-	<b-col id="layout-profile-skills">
-		<flickity ref="flickity" :options="flickityOptions" class="mb-5">
-			<div v-for="icon in technologies" :key="icon.id" class="carousel-cell">
-				<div class="box">
-					<svg>
-						<circle cx="70" cy="70" r="70"/>
-						<circle cx="70" cy="70" r="70"/>
-					</svg>
-					<b-img :src="getIcon(icon.id)" width="90" height="90" class="icon"/>
-				</div>
-					<div class="percent">
-						90%
+
+	<b-row no-gutters style="grid-area: content-area;">
+
+		<b-col xl="3" class="tag-layout">
+			<div v-textJSON="'profile.tags.skills'" class="text-inclination"/>
+		</b-col>
+
+		<b-col xl="9" class="line-division"/>
+
+		<b-col cols="12" class="mt-5" id="layout-profile-skills">
+			<carousel
+			:autoplay="false"
+			:navigationEnabled="true"
+			paginationActiveColor="red"
+			paginationColor="green"
+			:paginationSize="15"
+			:perPage="listIconPerWindow()">
+				<slide
+				v-for="technology in skills" 
+				:id="technology.skill_name"
+				class="slide-button"
+				:key="technology.skill_name">
+					<div class="box">
+						<svg  viewBox="0 0 110 110" >
+							<circle 
+							cx="55" 
+							cy="55" 
+							r="50"/>
+							<circle
+							:style="setStyle(technology.skill_percent)"
+							cx="55" 
+							cy="55" 
+							r="50"/>
+						</svg>
+						{{technology.skill_percent}}%
+						<b-img :src="technology.skill_image" width="100" height="100" class="icon"/>
 					</div>
-			</div>
-		</flickity>
-		<b-row
-		v-for="icon in technologies"
-		:key="icon.id"
-		class="list-technology my-2 mx-auto w-75"
-		:style="borderList(icon.collapsed)">
-			<b-collapse :id="icon.id" v-model="icon.collapsed" accordion="unique-active">
-				<div id="layout-list-technology">
-					<div class="icon">
-						<b-img :src="getIcon(icon.id)" width="150" height="150"/>
-					</div>
-					<div class="content">
-						<p>{{ icon.description }}</p>
-					</div>
-					<div class="level">
-						<b-progress 
-						:value="icon.level"
-						variant="success"
-						striped
-						animated>
-							<b-progress-bar :value="icon.level" :label="`${icon.level} %`"/>
-						</b-progress>
-					</div>
-				</div>
-			</b-collapse>
-		</b-row>
-		<b-row>
-			
-		</b-row>
-	</b-col>
+					<b-tooltip :target="technology.skill_name" triggers="hover">
+						{{ getLevel(technology.skill_percent) }}
+					</b-tooltip>
+				</slide>
+			</carousel>
+
+		</b-col>
+	</b-row>
+
 </template>
 
 <script>
-import Flickity from 'vue-flickity';
+
 export default {
-	components: {
-		Flickity
-	},
 	data() {
 		return {
-			currentPage: 1,
-			perPage: 3,
-			flickityOptions: {
-				initialIndex: 3,
-				prevNextButtons: true,
-				pageDots: true,
-				wrapAround: false
+			swiperOption: {
+				perPage: 4,
 			},
-			technologies: [
-				{	id: 'vuejs',
-					level: 20,
-					collapsed: false,
-					description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio deleniti laborum mollitia, repellat pariatur quaerat! Expedita, provident. Molestiae nostrum quisquam est ut iste dolores pariatur. Numquam asperiores eaque eum delectus!'
-				},
-				{	id: 'html5',
-					level: '',
-					collapsed: false,
-					description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio deleniti laborum mollitia, repellat pariatur quaerat! Expedita, provident. Molestiae nostrum quisquam est ut iste dolores pariatur. Numquam asperiores eaque eum delectus!'
-				},
-				{	id: 'css3',
-					level: '',
-					collapsed: false,
-					description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio deleniti laborum mollitia, repellat pariatur quaerat! Expedita, provident. Molestiae nostrum quisquam est ut iste dolores pariatur. Numquam asperiores eaque eum delectus!'
-				},
-				{	id: 'javascript',
-					level: '',
-					collapsed: false,
-					description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio deleniti laborum mollitia, repellat pariatur quaerat! Expedita, provident. Molestiae nostrum quisquam est ut iste dolores pariatur. Numquam asperiores eaque eum delectus!'
-				},
-				{	id: 'sass',
-					level: '',
-					collapsed: false,
-					description: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio deleniti laborum mollitia, repellat pariatur quaerat! Expedita, provident. Molestiae nostrum quisquam est ut iste dolores pariatur. Numquam asperiores eaque eum delectus!'
-				},
-				{	id: 'bootstrap',
-					level: '',
-					collapsed: false,
-					description: ''
-				},
-				{	id: 'docker',
-					level: '',
-					collapsed: false,
-					description: ''
-				},
-				{	id: 'api',
-					level: '',
-					collapsed: false,
-					description: ''
-				},
-				{	id: 'json',
-					level: '',
-					collapsed: false,
-					description: ''
-				},
-			
-			]
+			skills: []
 		}
 	},
 	computed: {
-		getListTechnology() {
-			return this.technologies.length
-		}
+		getWindowWidth() {
+			return this.$store.getters.getWindowWidth
+		},
 	},
 	methods: {
-		getIcon(name) {
-			return this.$store.getters.getIcon(name)
+		sortSkills() {
+			this.skills.sort((a, b) => {
+				return a.skill_percent > b.skill_percent ? -1 : 1
+			})
+			return this.skills
+		},
+		getLevel(percent) {
+			if(percent > 100) return 'Nível Experiente'
+			if(percent > 75) return 'Nível Avançado'
+			if(percent > 50) return 'Nível Intermediário'
+			else return 'Nível Básico'
+		},
+		getIcon(urlImage) {
+			return require(`@/${urlImage}`)
 		},
 		borderList(collapsed) {
-			if(collapsed) return 'border: black 3px solid;';
+			if(collapsed) return 'border: black 3px solid;'
 			return
+		},
+		setStyle(percent) {
+				return `stroke-dashoffset: calc(315 - (315 * ${percent}) / 100 );`
+		},
+		listIconPerWindow() {
+			if(this.getWindowWidth >= 1200) return 4
+			else if(this.getWindowWidth >= 900) return 3
+			else if(this.getWindowWidth >= 600) return 2
+			else return 1
 		}
+	},
+	async beforeMount() {
+
+
+		this.$http.get('/skill/user/1')
+		.then( async x => {
+			const skills = x.data.skills
+				const result = await Promise.all(skills.map( async value => {
+
+					const response = await this.$http.get(`/skill/image/${value.skill_id}`)	
+					const header = response.headers['content-type']
+					const data = response.data
+
+					value.skill_image = `data:${header};utf8,${data}`
+					return value
+					// this.$set(this.skills, index, value)
+				})
+			)
+			this.skills = result
+		})
+		.catch( x => console.log('>>>>>>' + x))
+
 	}
 }
 </script>
 
 <style lang="scss" scoped>
+.VueCarousel-slide {
+	display        : flex;
+	justify-content: center;
+}
 #layout-profile-skills {
-	position: relative;
+	position : relative;
 	grid-area: content-area;
-	.list-technology {
-		background-color: wheat;
-	}
-	#layout-list-technology {
-		display: grid;
-		grid-template-rows: 200px 50px;
-		grid-template-columns: 1fr 4fr;
-		grid-template-areas:	"icon content"
-								"icon level";
-	}
-	.icon { 
-	grid-area: icon;
-	margin: auto;
-	
-	}
-	.content { grid-area: content}
-	.level {
-		grid-area: level
-		
+	max-width: 100%!important;
+	.swiper {
+		height: 200px;
+		width : 100%;
+
+		.swiper-slide {
+			display        : flex;
+			justify-content: center;
+			align-items    : center;
+			text-align     : center;
+			font-weight    : bold;
+			font-size      : 2em;
+		}
 	}
 }
-.carousel-cell {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	align-items: center;;
-	width: 200px;
-	height: max-content;
-	text-align: center;
-	
+.tag-layout {
+	grid-area       : content-area;
+	background-color: rgb(86, 11, 116);
+	height          : max-content;
+	color           : white;
+	transform       : skewX(-20deg);
+	transform-origin: left bottom;
+	text-align      : center;
+		.text-inclination {
+			transform  : skewX(20deg);
+			font-size  : 1.5em;
+			line-height: 1.5em;
+		}
+	}
+.slide-button {
+	height: 200px;
+	:hover {
+		border-radius: 50%;
+		cursor: pointer;
+		background-color: #dadada;
+	}
 	.box {
-		position: relative;
-		margin: 0 auto;
-		right: 0;
-		top: 0;
-		left: 0;
-		width: 150px;
-		height: 150px;
+		position  : relative;
+		width     : 170px;
+		height    : 170px;
+		text-align: center;
 		.icon {
 			position: absolute;
-			margin: auto;
-			top: 0;
-			bottom: 0;
-			left: 0;
-			right: 0;
+			margin  : auto;
+			top     : 0;
+			bottom  : 0;
+			left    : 0;
+			right   : 0;
+			border-radius: 0!important;
 		}
 		svg {
-			width: 150px;
-			height: 150px;
 			circle {
-				width: 150px;
-				height: 150px;
-				fill: none;
-				stroke: black;
-				stroke-width: 10;
-				stroke-linecap: round;
-				transform: translate(5px, 5px);
-				stroke-dasharray: 440;
-				stroke-dashoffset: 440;
+				stroke-miterlimit: 0;
+				transform        : rotate(-90);
+				translate        : (-100 0);
+				fill             : none;
+				stroke-width     : 5;
+				stroke-linecap   : round;
+				stroke-dasharray : 315;
+				stroke-dashoffset: 50;
 				&:nth-child(1) {
 					stroke-dashoffset: 0;
-					stroke: #f3f3f3;
+					stroke           : #f3f3f3;
 				}
 				&:nth-child(2) {
-					stroke-dashoffset: calc(440 - (440 * 90) / 100 );
 					stroke: red;
 				}
-					
 			}
 		}
 	}
-	.percent {
-		font-size: 2.5em;
-	}
+}
+.percent {
+	font-size: 2.5em;
+}
+.line-division {
+	border-top      : rgb(86, 11, 116) 5px solid;
+	transform       : skewX(-20deg);
+	transform-origin: top left;
 }
 </style>

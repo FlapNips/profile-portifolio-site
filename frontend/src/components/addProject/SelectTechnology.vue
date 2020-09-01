@@ -23,15 +23,18 @@ export default {
 	},
 	methods: {
 		getIcons() {
-			const icons = this.$store.state.icons
-			const lengthIcons = Object.keys(icons).length
-			for(let i = 0; i < lengthIcons; i++) {
-				this.$set(this.buttons, i, {
-					'pressed': false,
-					'name': Object.keys(icons)[i],
-					'value': Object.values(icons)[i]
-				})
-			}
+			this.$http.get('/alltechnologies').then( res => {
+				const icons = res.data
+				console.log(icons)
+				const lengthIcons = Object.keys(icons).length
+				for(let i = 0; i < lengthIcons; i++) {
+					this.$set(this.buttons, i, {
+						'pressed': false,
+						'name': Object.keys(icons)[i],
+						'value': Object.values(icons)[i]
+					})
+				}
+			})
 		},
 		clickIcon(iconName, iconPressed, index) {
 			this.buttons[index].pressed = !iconPressed

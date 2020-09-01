@@ -1,6 +1,7 @@
 <template>
 	<div id="layout-add-project">
 		<b-row class="content-area">
+
 			<b-col id="content-form-layout" cols="6" class="p-3 h-100">
 				<b-form>
 					<FormInput/>
@@ -10,12 +11,14 @@
 					<FormButtons/>
 				</b-form>
 			</b-col>
+
 			<b-col cols="6">
 				<SelectTechnology/>
 				<b-button id="button-submit">
 					SALVAR E ENVIAR
 				</b-button>
 			</b-col>
+			
 		</b-row>
 	</div>
 </template>

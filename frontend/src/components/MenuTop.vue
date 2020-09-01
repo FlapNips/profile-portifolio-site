@@ -1,82 +1,156 @@
 <template>
-	<div id="layout-menu-top" no-gutters align-h="between">
-		<b-row id="layout-menu" align-h="between">
-			<b-col
-			v-for="button in menu" 
-			:key="button.id"
-			class="button-menu"
-			@click="pushRouter(button.router)"
-			:style="button.style">
-				<div v-textJSON="`menu.${button.id}`"
-				class="text-button"/>
-			</b-col>
-		</b-row>
+	<div id="layout-menu" no-gutters align-h="between">
+
+		<b-navbar v-if="windowWidth >= 1200" id="menu-desktop" no-gutters>
+			<b-nav-item 
+			class="menu-item-desktop"
+			v-for="button in menu"
+			:to="button.router"
+			:style="`width: calc(1/${menu.length}*100%)`"
+			:key="button.id">
+				<h4 class="text-button">{{ button.title }}</h4>
+			</b-nav-item>
+		</b-navbar>
+
+		<div 
+		v-else
+		style="z-index: 10" 
+		v-click-outside="onClose">
+			<b-button class="button-sidemenu" @click="changeVisibleSidebar(true)">
+				<b-icon icon="list"/>
+			</b-button>
+				<sidebar :menu="menu" :changeVisibleSidebar="changeVisibleSidebar"/>
+		</div>
+
 	</div>
 </template>
 
 <script>
+
+import TextString from '@/../public/textPTBR.json'
+import Sidebar from '@/components/sidebar/Sidebar.vue'
+
 export default {
+	components: {
+		Sidebar
+	},
 	data() {
 		return {
-			menu: [
-				{	id: "profile",
-					router: "/foi",
-					style:	'border-radius: 25px 0 0 25px;'
-				},
-				{	id: "experience",
-					router: ""
-				},
-				{	id: "projects",
-					router: ""
-				},
-				{	id: "contact",
-					router: ""
-				},
-				{	id: "login",
-					router: "",
-					style: 'border-radius: 0 25px 25px 0;'
-				}
-			]
+			sidebarVisible: false,
+		}
+	},
+	computed: {
+		windowWidth() {
+			return this.$store.getters.getWindowWidth
+		},
+		menu() {
+			return	this.$store.getters.getMenu
 		}
 	},
 	methods: {
-		pushRouter(router) {
-			return this.$router.push(router)
+		changeVisibleSidebar() {
+			this.$store.commit('changeSidebarVisible')
+		},
+		onClose() {
+			this.$store.commit('changeSidebarVisible', false)
 		}
-	
+	},
+	created() {
+		const menu = TextString.menu
+		let contentMenu = []
+		Object.entries(menu).forEach( (element,index) => {
+			const [key, value] = element
+			if(value.submenu) {
+
+				contentMenu[index] = {	
+					id: key,
+					router: `/${key}`,
+					title: value.name,
+					manager: value.manager,
+					submenu: value.submenu
+				}
+
+			} else {
+
+				contentMenu[index] = {	
+					id: key,
+					router: `/${key}`,
+					title: value.name,
+					manager: value.manager
+				}
+
+			}
+		});
+		this.$store.commit('setMenu', contentMenu)
 	}
 }
 </script>
 
 <style lang="scss" scoped>
-#layout-menu-top {
-	display: grid;
-	height: max-content;
-	padding-top: 30px;
-	padding-bottom: 30px;
-	width: 100%;
-	background-color: rgb(209, 209, 209);
-	grid-template-columns: 2fr 5fr 2fr;
-	#layout-menu {
-		grid-area: 1/2;
-		border-radius: 50px;
-		background-color: rgb(81, 11, 122);
-		.button-menu {
-			min-width: 130px;
-			width: 20%;
-			height: 50px;
-			cursor: pointer;
-			line-height: 50px;
-			color: white;
-			text-align: center;
-			border-radius: 0;
-			border: 0;
-			padding: 0;
-			background-color: transparent;
-			&:hover {
-				background-color: rgb(52, 5, 80);
-			}
+
+@media only screen and (min-width: 1200px) {
+	#row-menu {
+		transform: skewX(-20deg);
 	}
+	.layout-menu {
+		flex: 0 0 max-content;
 	}
 }
+@media only screen and (max-width: 1199px) {
+	.text-button {
+		transform: skewX(0deg)!important;
+	}
+	#layout-menu {
+		height: 0!important;
+		padding: 0!important;
+	}
+
+}
+
+#layout-menu {
+	display              : grid;
+	height               : max-content;
+	padding-top          : 30px;
+	padding-bottom       : 30px;
+	width                : 100%;
+	grid-template-columns: 2fr 5fr 2fr;
+	background-color     : $color_black_4;  //COLOR BACKGROUND MENUTOP
+	#menu-desktop {
+		grid-area       : 1/2;
+		transform       : skewX(-20deg);
+		background-color: $color_blue_2;  //COLOR BACKGROUND BUTTONS
+		justify-content : space-between;
+		text-decoration : none;
+		padding         : 0;
+	}
+	.menu-item-desktop {
+		border    : 0;
+		padding   : 0;
+		margin    : 0;
+		text-align: center;
+		display   : block;
+		color     : $color_black_1!important;
+		.router-link-active {
+			background-color: $color_black_1;  //COLOR BACKGROUND ROUTER LINK ACTIVE
+		}
+		a {
+			color: $color_black_5;
+		}
+		:hover {
+			background-color: $color_blue_1;  //MENU HOVER BACKGROUND COLOR
+		}
+		.text-button {
+			transform : skewX(20deg);
+			font-size : 1em;
+			margin    : 0;
+			text-align: center;
+		}
+	}
+	.button-sidemenu {
+		position: fixed;
+		top     : 10px;
+		left    : 10px;
+	}
+}
+
 </style>

@@ -2,17 +2,34 @@
   "name": "backend-portfolio",
   "version": "1.0.0",
   "description": "Sistema de controle de projetos",
-  "main": "index.js",
+  "main": "src/server.js",
   "scripts": {
-    "start": "nodemon app"
+    "predev": "SET NODE_ENV=development&& knex migrate:latest --env development",
+    "dev": "SET NODE_ENV=development&& nodemon --ignore __tests__",
+    "start": "node",
+    "pretest": "knex migrate:latest --env test",
+    "test": "SET NODE_ENV=test&& jest --detectOpenHandles",
+    "posttest": "knex migrate:rollback --all --env test"
   },
   "author": "FlapNips",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
+    "consign": "^0.1.6",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-handlebars": "^5.0.0",
-    "mongose": "0.0.2-security",
-    "nodemon": "^2.0.4"
+    "knex": "^0.21.2",
+    "multer": "^1.4.2",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "jest": "^26.4.2",
+    "knex-factory": "0.0.7",
+    "nodemon": "^2.0.4",
+    "sqlite3": "^5.0.0",
+    "supertest": "^4.0.2"
   }
 }

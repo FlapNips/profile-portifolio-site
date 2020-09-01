@@ -1,0 +1,58 @@
+{
+	"menu": {
+			"profile": {	
+				"name": "Perfil",
+				"manager": true,
+				"submenu": [
+					"contact",
+					"about",
+					"technology",
+					"courses"
+				]
+			},
+			"experiences": {
+				"name": "Experiências",
+				"manager": true,
+				"submenu": []
+			},
+      "projects": {
+				"name": "Projetos",
+				"manager": true,
+				"submenu": []
+			},
+      "contact": {
+        "name": "Contato",
+				"manager": true,
+				"submenu": []
+			},
+			"manager": {	
+				"name": "Gerenciar",
+				"manager": false,
+				"modules": []
+			}
+	},
+	"profile": {
+		"tags": {
+			"address" : "ENDEREÇO",
+			"phone" : "CELULAR",
+			"email" : "EMAIL",
+			"skills": "HABILIDADES",
+			"contact": "CONTATO",
+			"aboutme": "SOBRE MIM",
+			"education": "EDUCAÇÃO"
+		},
+		"fullname": "BRUNO ALFIERI",
+		"profession": "Desenvolvedor FullStack Web",
+		"age": 21, 
+		"phone": "(11) 95468-2303",
+		"email": "ALFIERI@OUTLOOK.COM.BR",
+		"aboutme": "WRITE TO ABOUT YOU !!!!!",
+		"address": "Brasil, SP, São Paulo - Zona Leste"
+	},
+	"experiences": {
+		"title": "Experiências"
+	},
+	"projects": {
+		"title": "Projetos"
+	}
+}
