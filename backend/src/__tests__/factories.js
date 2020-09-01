@@ -55,5 +55,27 @@ factory.define('SkillsXProjects', 'tbx_skills_projects', {
         skills_id: [1,2,3]
 })
 
+factory.define('Experience', 'tb_experiences', {
+        users_id: 1,
+        title: async () => await faker.lorem.word(),
+        subtitle: async () => await faker.lorem.word(),
+        contract: async () => await faker.lorem.word(),
+        about: async () => await faker.lorem.paragraph(),
+        list: async () => {
+                let result = []
+                result.push(await faker.lorem.paragraphs())
+                result.push(await faker.lorem.paragraphs())
+                return result
+        },
+        image: async () => await faker.internet.url(),
+        date_start: async () => await faker.date.past(),
+        date_finish: async () => await faker.date.future()
+})
+
+factory.define('SkillsXExperiences', 'tbx_skills_experiences', {
+        experiences_id: 1,
+        skills_id: [1,2,3]
+})
+
 
 module.exports = factory

@@ -6,7 +6,7 @@ const truncate = require('../../utils/truncate')
 
 describe('Check fields in GET - PROJECT.', () => {
     beforeEach(async () => {
-        //API projectS need an user.
+        //API projects need an user.
         await factory.create('User')
         //Need one project to tests.
         await factory.create('Project')
@@ -20,7 +20,6 @@ describe('Check fields in GET - PROJECT.', () => {
     })
 
     it('Should failed in attempt to get a project with PARAM not number.', async () => {
-        
         const response = await request(app)
             .get('/project/a')
                 
@@ -29,7 +28,6 @@ describe('Check fields in GET - PROJECT.', () => {
     })
 
     it('Should failed in attempt to get a project with USER not exists.', async () => {
-
         const response = await request(app)
             .get('/project/2')
                 
@@ -40,7 +38,7 @@ describe('Check fields in GET - PROJECT.', () => {
 })
 describe('Get - PROJECT.', () => {
     beforeEach(async () => {
-        //API projectS need an user.
+        //API projects need an user.
         await factory.create('User')
         //Need one project to tests.
         await factory.create('Project')
