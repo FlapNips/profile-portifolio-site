@@ -31,7 +31,7 @@ module.exports = app => {
 
 
 	const contentObjectOrError = (obj, msg) => {
-
+		console.log(obj)
 		if(Object.values(obj).some( element => {
 			if(typeof element == 'string' && !element.trim()) return true
 			})

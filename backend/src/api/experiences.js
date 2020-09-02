@@ -3,7 +3,7 @@ module.exports = app => {
 
   const { existsOrError,
           existsValueForUpdate,
-          contentObjectOrError } = app.api.validator
+          contentObjectOrError } = app.models.validator
 
   const db = app.api.dbNames
 
@@ -155,7 +155,7 @@ module.exports = app => {
       if (data.skills) {
         if (!Array.isArray(data.skills)) throw 'SKILLS precisa ser um Array.'
       }
-      contentObjectOrError(data, 'Não pode existir campos vazios')
+      contentObjectOrError(data, 'Não pode haver campos em branco.')
 
       existsValueForUpdate(data, experience)
 

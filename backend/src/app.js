@@ -21,7 +21,6 @@ const options = {
 consign(options)
 	.then('./config/middlewares.js')
 	.then('./api/dbNames.js')
-	.then('./api/validator.js')
 	.then('./config/db.js')
 	.then('./models')
 	.then('./api')

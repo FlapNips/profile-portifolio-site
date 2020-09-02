@@ -9,7 +9,7 @@ module.exports = app => {
   const { existsOrError,
           notExistsOrError,
           existsValueForUpdate,
-          contentObjectOrError } = app.api.validator
+          contentObjectOrError } = app.models.validator
 
   const db = app.api.dbNames
 

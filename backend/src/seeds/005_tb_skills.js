@@ -6,20 +6,28 @@ exports.seed = async function(knex) {
       // Inserts seed entries
   await knex('tb_skills').insert([
     { id: 1, 
-      name: 'html5', 
-      image: path.join(__dirname, '../images/icons', 'html5.svg')
+      users_id: 1, 
+      title: 'html5', 
+      fileName: '1_html5.svg', 
+      percent: 50
     },
     { id: 2, 
-      name: 'css3', 
-      image: path.join(__dirname, '../images/icons', 'css3.svg')
+      users_id: 1, 
+      title: 'css3',
+      fileName: '1_css3.svg', 
+      percent: 54
     },
     { id: 3, 
-      name: 'java', 
-      image: path.join(__dirname, '../images/icons', 'java.svg')
+      users_id: 1, 
+      title: 'java',
+      fileName: '1_java.svg', 
+      percent: 24
     },
     { id: 4,
-      name: 'javascript',
-      image: path.join(__dirname, '../images/icons', 'javascript.svg')
+      users_id: 1, 
+      title: 'javascript',
+      fileName: '1_javascript.svg',
+      percent: 100
     },
     // { id: 5,
     //   name: 'vuejs',

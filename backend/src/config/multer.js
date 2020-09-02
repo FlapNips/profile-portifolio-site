@@ -9,7 +9,6 @@ module.exports = {
       callback(null, path.resolve(path.join(__dirname, '..', '/images/temp')))
     },
     filename: async (req, file, callback) => {
-      console.log(file)
       const filename = file.originalname.split('.')[0]
       callback(null, `${Date.now()}-${filename}${path.extname(file.originalname)}`)
     }

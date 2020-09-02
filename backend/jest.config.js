@@ -28,6 +28,7 @@ module.exports = {
     "\\\\node_modules\\\\",
     "./src/migrations",
     "./src/seeds",
+    "./src/server.js",
   ],
 
   // Indicates which provider should be used to instrument code for coverage
