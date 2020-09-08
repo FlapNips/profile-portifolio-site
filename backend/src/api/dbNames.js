@@ -24,10 +24,6 @@ module.exports = app => {
     return eval('app.db("tb_skills")')
   }
 
-  function SXU() {
-    return eval('app.db("tbx_skills_users")')
-  }
-
   function SXE() {
     return eval('app.db("tbx_skills_experiences")')
   }
@@ -43,7 +39,6 @@ module.exports = app => {
     Projects,
     Experiences,
     Skills,
-    SXU,
     SXE,
     SXP
   }

@@ -7,11 +7,11 @@ module.exports = app => {
 	app.use(cors())
 	app.use(bodyParser.urlencoded({ extended: true }));
 
+	//Change space to underline ( ' ' = _ ) example: test_string = testString
 	app.use(function (req, res, next) {
-		
 		const data = { ...req.body }
 
-		Object.keys(data).forEach( newKey => {
+		Object.keys(data).forEach(newKey => {
 			const oldKey = newKey
 			newKey = newKey.split('_')
 			newKey.forEach( (key, index) => {

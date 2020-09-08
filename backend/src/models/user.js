@@ -27,7 +27,7 @@ module.exports = app => {
 
                     app.db.raw('GROUP_CONCAT(DISTINCT tb_projects.id) as projects_id'),
                 
-                    app.db.raw('GROUP_CONCAT(DISTINCT tbx_skills_users.skills_id) as skills_id')
+                    app.db.raw('GROUP_CONCAT(DISTINCT tb_skills.id) as skills_id')
                 ])
                 .leftJoin('tb_experiences', function () {
                     this.on('tb_users.id', 'tb_experiences.users_id').onIn('tb_experiences.users_id', id)
@@ -35,8 +35,8 @@ module.exports = app => {
                 .leftJoin('tb_projects', function () {
                     this.on('tb_users.id', 'tb_projects.users_id').onIn('tb_projects.users_id', id)
                 })
-                .leftJoin('tbx_skills_users', function () {
-                    this.on('tb_users.id', '=', 'tbx_skills_users.users_id').onIn('tbx_skills_users.users_id', id)
+                .leftJoin('tb_skills', function () {
+                    this.on('tb_users.id', '=', 'tb_skills.users_id').onIn('tb_skills.users_id', id)
                 })
                 .where('tb_users.id', id)
                 .groupBy('tb_users.id')

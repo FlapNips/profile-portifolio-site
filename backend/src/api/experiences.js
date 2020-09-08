@@ -3,11 +3,11 @@ module.exports = app => {
 
   const { existsOrError,
           existsValueForUpdate,
-          contentObjectOrError } = app.api.validator
+          contentObjectOrError } = app.models.validator
 
   const db = app.api.dbNames
 
-  /* -----------------------ADD PROJECT----------------------- */
+  /* -----------------------ADD EXPERIENCE----------------------- */
   const addExperience = async (req, res) => {
     const userId = req.params.user_id
     const data = { ...req.body }
@@ -15,18 +15,30 @@ module.exports = app => {
 
     //Verification to continue
     try {
-      if (isNaN(userId)) throw 'Insira o ID do usuário!'
-      existsOrError(userExperience, 'Usuário não encontrado!')
-      existsOrError(data.title, 'Insira o título do projeto')
-      existsOrError(data.subtitle, 'Insira o subtítulo do projeto')
+      if (isNaN(userId)) throw 'O parâmetro precisa ser numérico.'
+      existsOrError(userExperience, 'Usuário não existe.')
+
+      contentObjectOrError(data, 'Não pode existir campos vazios.')
+
+      existsOrError(data.title, 'Insira um título.')
+      existsOrError(data.subtitle, 'Insira um subtítulo.')
+
       existsOrError(data.list, 'Escreva as principais atividades.')
-      if (!Array.isArray(data.skills)) throw 'Escolha ao menos uma habilidade.'
-      existsOrError(data.about, 'Escreva um pouco sobre o projeto')
+      if (!Array.isArray(data.list)) throw 'LIST deve ser um Array.'
       
-      existsOrError(data.dateStart, 'Insira a data de início')
+      existsOrError(data.skills, 'Defina pelo menos uma habilidade.')
+      if (!Array.isArray(data.skills)) {
+        throw 'SKILLS deve ser um Array.'
+        //Transform Array in string.
+        data.skills = data.skills.join(';')
+      }
+
+      existsOrError(data.about, 'Escreva um pouco sobre a experiência.')
+      
+      existsOrError(data.dateStart, 'Insira a data de início.')
       if (!new Date(data.dateStart).isDate()) throw 'Insira uma data de início válida.'
 
-      existsOrError(data.dateFinish, 'Insira a data de finalização')
+      existsOrError(data.dateFinish, 'Insira a data de finalização.')
       if (!new Date(data.dateFinish).isDate()) throw 'Insira uma data de finalização válida.'
 
     } catch(error) {
@@ -36,8 +48,8 @@ module.exports = app => {
     //Check all operations is success or undo operations
     app.db.transaction(async trans => {
       
-      //Add DATA to projects
-      const projectId = await db.Experiences()
+      //Add DATA to experiences
+      const experienceId = await db.Experiences()
         .transacting(trans)
         .insert({
           users_id: userId,
@@ -45,15 +57,18 @@ module.exports = app => {
           subtitle: data.subtitle,
           about: data.about,
           list: data.list,
+          image: data.image,
           date_start: new Date(data.dateStart),
           date_finish: new Date(data.dateFinish),
         })
       
-      //Add skills in TBX_SKILLS_PROJECTS only if exists
+      //Add skills in TBX_SKILLS_EXPERIENCES only if exists
       if (data.skills) {
-        data.skills = data.skills.map( element => {
+        
+        //Transform Array in Object.
+        const result = data.skills.map( element => {
             return {
-              projects_id: projectId[0],
+              experiences_id: experienceId[0],
               skills_id: element
             }
           })
@@ -65,41 +80,44 @@ module.exports = app => {
       
     })
     .then( () => {
-      return res.status(200).send('Projeto adicionado com sucesso.')
+      return res.status(201).send('Criado com sucesso.')
     })
-    .catch( error => {
+    .catch(error => {
+      console.warn(error)
       return res.status(500).send('Erro 500 inesperado.')
     });
   }
 
   
-/* -----------------------GET PROJECT----------------------- */
+/* -----------------------GET EXPERIENCE----------------------- */
   
   const getExperience = async (req, res) => {
-    const projectId = req.params.project_id
-    const project = await db.Experiences().where({ id: projectId}).first()
+    const experienceId = req.params.experience_id
+    const experience = await db.Experiences().where({ id: experienceId}).first()
 
     
     //Verification to continue
     try {
       
-      if (isNaN(projectId)) throw 'O parâmetro precisa ser númerico.'
-     existsOrError(project, 'Nenhum projeto encontrado!')
+      if (isNaN(experienceId)) throw 'O parâmetro precisa ser numérico.'
+     existsOrError(experience, 'Experiência não encontrada.')
       
     } catch(error) {
       return res.status(400).send(error)
     }
 
-    //Return DATA to project + skills
+    //Return DATA of the experiences + skills
+
     return db.Experiences()
       .select([
-        'tb_projects.*',
-        app.db.raw('GROUP_CONCAT(tbx_skills_projects.skills_id) as skills')
+        'tb_experiences.*',
+        app.db.raw('GROUP_CONCAT(tbx_skills_experiences.skills_id) as skills')
       ])
-      .leftJoin('tbx_skills_projects', function () {
-        this.on('tb_projects.id', 'tbx_skills_projects.projects_id')
-          .onIn('tbx_skills_projects.projects_id', projectId)
+      .leftJoin('tbx_skills_experiences', function () {
+        this.on('tb_experiences.id', 'tbx_skills_experiences.experiences_id')
+          .onIn('tbx_skills_experiences.experiences_id', experienceId)
       })
+      .groupBy('tb_experiences.id')
       .first()
       .then(result => {
         
@@ -109,25 +127,37 @@ module.exports = app => {
   
         res.status(200).send(result)
       })
-      .catch(error => res.status(500).send(error))
+      .catch(error => {
+        return res.status(500).send(error)
+      })
   }
   
 
-/* -----------------------UPDATE PROJECT----------------------- */
+/* -----------------------UPDATE EXPERIENCE----------------------- */
   
   const updateExperience = async (req, res) => {
-    const projectId = req.params.project_id
+    const experienceId = req.params.experience_id
     const data = { ...req.body }
-    const projectsUser = await db.Experiences().where({ id: projectId}).first()
+    const experience = await db.Experiences().where({ id: experienceId}).first()
 
     //Verification DATA to continue
     try {
       
-      if (isNaN(projectId)) throw 'O parâmetro precisa ser númerico'
-      existsOrError(projectsUser, 'Nenhum projeto encontrado!')
-      if (!Array.isArray(data.skills)) throw 'Skills precisa ser um Array.'
-      contentObjectOrError(data, 'Não pode existir campos vazios')
-      existsValueForUpdate(data, projectsUser)
+      if (isNaN(experienceId)) throw 'O parâmetro precisa ser numérico.'
+      existsOrError(experience, 'Nenhuma experiência encontrada.')
+
+      if (data.list) {
+        if (!Array.isArray(data.list)) throw 'LIST precisa ser um Array.'
+        //Transform Array in string.
+        data.list = data.list.join(';')
+      }
+
+      if (data.skills) {
+        if (!Array.isArray(data.skills)) throw 'SKILLS precisa ser um Array.'
+      }
+      contentObjectOrError(data, 'Não pode haver campos em branco.')
+
+      existsValueForUpdate(data, experience)
 
     } catch(error) {
       return res.status(400).send(error)
@@ -137,7 +167,7 @@ module.exports = app => {
     //Check all operations is success or undo operations
     return app.db.transaction(async trans => {
       
-      //Update project
+      //Update experience
       await db.Experiences()
         .transacting(trans)
         .update({
@@ -149,15 +179,18 @@ module.exports = app => {
           date_start: data.dateStart,
           date_finish: data.dateFinish,
           })
-        .where({ id: projectId })
+        .where({ id: experienceId })
       
-      //Update skills in TBX_SKILLS_PROJECTS only if exists alteration
+      //Update skills in TBX_SKILLS_EXPERIENCES only if exists alteration
       if (data.skills) {
         const skills = data.skills.map(element => {
-          return { projects_id: projectId, skills_id: element}
+          return {
+            experiences_id: experienceId,
+            skills_id: element
+          }
         })
         console.log(skills)
-        await db.SXE().del().where({ projects_id: projectId }).transacting(trans)
+        await db.SXE().del().where({ experiences_id: experienceId }).transacting(trans)
         await db.SXE().insert(skills).transacting(trans)
       }
 
@@ -169,28 +202,28 @@ module.exports = app => {
     })
 
   }
-  /* -----------------------DELETE PROJECT----------------------- */
+  /* -----------------------DELETE EXPERIENCE----------------------- */
   const deleteExperience = async (req, res) => {
-    const projectId = req.params.project_id
-    const project = await db.Experiences().where({ id: projectId}).first()
+    const experienceId = req.params.experience_id
+    const experience = await db.Experiences().where({ id: experienceId }).first()
 
     
     //Verification DATA to continue
     try {
 
-      if (isNaN(projectId)) throw 'O project_id precisa ser número'
-      existsOrError(project, 'Projeto não encontrado!')
+      if (isNaN(experienceId)) throw 'O parâmetro precisa ser numérico.'
+      existsOrError(experience, 'Experiência não encontrada.')
       
     } catch(error) {
       return res.status(400).send(error)
     }
 
     
-    //Delete project and skills in table TABLE TBX_SKILLS_PROJECTS
+    //Delete experience and skills in table TABLE TBX_SKILLS_EXPERIENCES
     return db.Experiences()
       .del()
-      .where({ id: projectId})
-      .then(() => res.status(200).send('Projeto deletado com sucesso.'))
+      .where({ id: experienceId })
+      .then(() => res.status(200).send('Deletado com sucesso.'))
       .catch( error => res.status(500).send('Erro 500 inesperado.'))
   }
 

@@ -4,7 +4,7 @@ module.exports = app => {
           notExistsOrError,
           contentObjectOrError,
           existsValueForUpdate
-        } = app.api.validator
+        } = app.models.validator
 
   const db = app.api.dbNames
 
@@ -18,7 +18,7 @@ module.exports = app => {
 
     try {
 
-      if(isNaN(userId)) throw 'Parâmetro precisa ser númerico.'
+      if(isNaN(userId)) throw 'Parâmetro precisa ser numérico.'
       const existsUser = await db.Users().where({ id: userId }).first()
       const existsContact = await db.Contacts().where({ users_id: userId }).first()
 
@@ -60,7 +60,7 @@ module.exports = app => {
     const userId = req.params.user_id
 
     try {
-      if(isNaN(userId)) throw 'Parâmetro precisa ser númerico.'
+      if(isNaN(userId)) throw 'Parâmetro precisa ser numérico.'
       const existsContact = await db.Contacts().where({ users_id: userId }).first()
 
       existsOrError(existsContact, 'Usuário não existe.')
@@ -89,7 +89,7 @@ module.exports = app => {
 
     try {
 
-      if (isNaN(userId)) throw 'O parâmetro precisa ser númerico.'
+      if (isNaN(userId)) throw 'O parâmetro precisa ser numérico.'
       
       const existsContact = await db.Contacts().where({ users_id: userId }).first()
       existsOrError(existsContact, 'Usuário não encontrado.')
