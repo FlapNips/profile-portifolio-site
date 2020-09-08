@@ -21,7 +21,7 @@ describe('Check fields in POST - EDUCATIONS.', () => {
             .post('/education/a')
                 
         expect(response.status).toBe(400)
-        expect(response.text).toBe('O parâmetro precisa ser númerico.')
+        expect(response.text).toBe('O parâmetro precisa ser numérico.')
     })
 
     it('Should failed in attempt to create an education with USER not exists.', async () => {

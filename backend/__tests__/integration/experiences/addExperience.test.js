@@ -21,7 +21,7 @@ describe('Check fields - EXPERIENCES.', () => {
             .post('/experience/a')
                 
         expect(response.status).toBe(400)
-        expect(response.text).toBe('O parâmetro precisa ser númerico.')
+        expect(response.text).toBe('O parâmetro precisa ser numérico.')
     })
 
     it('Should failed in attempt to create an experience with USER not exists.', async () => {

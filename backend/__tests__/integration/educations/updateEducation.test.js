@@ -22,7 +22,7 @@ describe('Check fields in UPDATE - CONTACTS.', () => {
             .put('/education/a')
         
         expect(response.status).toBe(400)
-        expect(response.text).toBe('O parâmetro precisa ser númerico.')
+        expect(response.text).toBe('O parâmetro precisa ser numérico.')
     })
 
     it('Should failed when education not exists', async () => {

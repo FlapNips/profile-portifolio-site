@@ -15,7 +15,7 @@ describe('Check fields in GET - USERS.', () => {
             .get('/user/a')
         
         expect(response.status).toBe(404)
-        expect(response.text).toBe('O parâmetro precisa ser númerico.')
+        expect(response.text).toBe('O parâmetro precisa ser numérico.')
     })
 
     it('Should failed when user not exists', async () => {
@@ -42,6 +42,6 @@ describe('Get - USERS.', () => {
         const response = await request(app)
             .get('/user/1')
         
-        expect(response.body).toMatchObject(userCreated)
+        expect(response.status).toBe(200)
     })
 })

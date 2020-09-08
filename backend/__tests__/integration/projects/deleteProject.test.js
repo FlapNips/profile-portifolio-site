@@ -22,7 +22,7 @@ describe('Check fields in DELETE - PROJECTS.', () => {
             .delete('/project/a')
         
         expect(response.status).toBe(400)
-        expect(response.text).toBe('O parâmetro precisa ser númerico.')
+        expect(response.text).toBe('O parâmetro precisa ser numérico.')
     })
 
     it('Should failed when project not exists', async () => {

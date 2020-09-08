@@ -21,7 +21,7 @@ describe('Check fields - PROJECTS.', () => {
             .post('/project/a')
                 
         expect(response.status).toBe(400)
-        expect(response.text).toBe('O parâmetro precisa ser númerico.')
+        expect(response.text).toBe('O parâmetro precisa ser numérico.')
     })
 
     it('Should failed in attempt to create a project with USER not exists.', async () => {

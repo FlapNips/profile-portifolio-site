@@ -23,7 +23,7 @@ describe('Check fields in GET - EDUCATIONS.', () => {
             .get('/education/a')
                 
         expect(response.status).toBe(400)
-        expect(response.text).toBe('O parâmetro precisa ser númerico.')
+        expect(response.text).toBe('O parâmetro precisa ser numérico.')
     })
 
     it('Should failed in attempt to get a contact with USER not exists.', async () => {

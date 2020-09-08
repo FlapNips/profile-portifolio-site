@@ -3,8 +3,6 @@ const app = require(process.cwd() +'/src/app.js')
 const factory = require('knex-factory')(app.db)
 const faker = require('faker')
 
-console.log(factory)
-
 factory.define('User', 'tb_users', {
         username: async () => await faker.internet.userName(),
         password: async () => await faker.internet.password(),
@@ -12,6 +10,13 @@ factory.define('User', 'tb_users', {
         profession: async () => await faker.name.jobTitle(),
         about: async () => await faker.lorem.paragraph(),
         avatar: 'Profile'
+})
+
+factory.define('Skill', 'tb_skills', {
+        users_id: 1,
+        title: async () => await faker.lorem.word(),
+        //fileName: Define in build after create.
+        percent: () => Math.round(Math.random() * 100),
 })
 
 factory.define('Contact', 'tb_contacts', {

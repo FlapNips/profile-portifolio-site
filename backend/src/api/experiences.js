@@ -15,7 +15,7 @@ module.exports = app => {
 
     //Verification to continue
     try {
-      if (isNaN(userId)) throw 'O parâmetro precisa ser númerico.'
+      if (isNaN(userId)) throw 'O parâmetro precisa ser numérico.'
       existsOrError(userExperience, 'Usuário não existe.')
 
       contentObjectOrError(data, 'Não pode existir campos vazios.')
@@ -99,7 +99,7 @@ module.exports = app => {
     //Verification to continue
     try {
       
-      if (isNaN(experienceId)) throw 'O parâmetro precisa ser númerico.'
+      if (isNaN(experienceId)) throw 'O parâmetro precisa ser numérico.'
      existsOrError(experience, 'Experiência não encontrada.')
       
     } catch(error) {
@@ -143,7 +143,7 @@ module.exports = app => {
     //Verification DATA to continue
     try {
       
-      if (isNaN(experienceId)) throw 'O parâmetro precisa ser númerico.'
+      if (isNaN(experienceId)) throw 'O parâmetro precisa ser numérico.'
       existsOrError(experience, 'Nenhuma experiência encontrada.')
 
       if (data.list) {
@@ -211,7 +211,7 @@ module.exports = app => {
     //Verification DATA to continue
     try {
 
-      if (isNaN(experienceId)) throw 'O parâmetro precisa ser númerico.'
+      if (isNaN(experienceId)) throw 'O parâmetro precisa ser numérico.'
       existsOrError(experience, 'Experiência não encontrada.')
       
     } catch(error) {

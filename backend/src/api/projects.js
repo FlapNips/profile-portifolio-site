@@ -15,7 +15,7 @@ module.exports = app => {
 
     //Verification to continue
     try {
-      if (isNaN(userId)) throw 'O parâmetro precisa ser númerico.'
+      if (isNaN(userId)) throw 'O parâmetro precisa ser numérico.'
       existsOrError(userExists, 'Usuário não existe.')
 
       contentObjectOrError(data, 'Não pode existir campos vazios.')
@@ -95,7 +95,7 @@ module.exports = app => {
     //Verification to continue
     try {
       
-      if (isNaN(projectId)) throw 'O parâmetro precisa ser númerico.'
+      if (isNaN(projectId)) throw 'O parâmetro precisa ser numérico.'
      existsOrError(project, 'Nenhum projeto encontrado.')
       
     } catch(error) {
@@ -135,7 +135,7 @@ module.exports = app => {
     //Verification DATA to continue
     try {
       
-      if (isNaN(projectId)) throw 'O parâmetro precisa ser númerico.'
+      if (isNaN(projectId)) throw 'O parâmetro precisa ser numérico.'
       existsOrError(projectsUser, 'Nenhum projeto encontrado.')
 
       if (data.skills) {
@@ -181,7 +181,6 @@ module.exports = app => {
             skills_id: element
           }
         })
-        console.log(skills)
         await db.SXP().del().where({ projects_id: projectId }).transacting(trans)
         await db.SXP().insert(skills).transacting(trans)
       }
@@ -203,7 +202,7 @@ module.exports = app => {
     //Verification DATA to continue
     try {
 
-      if (isNaN(projectId)) throw 'O parâmetro precisa ser númerico.'
+      if (isNaN(projectId)) throw 'O parâmetro precisa ser numérico.'
       existsOrError(project, 'Projeto não encontrado.')
       
     } catch(error) {

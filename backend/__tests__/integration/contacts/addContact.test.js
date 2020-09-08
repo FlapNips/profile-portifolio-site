@@ -22,7 +22,7 @@ describe('Check fields with request POST using the api CONTACTS.', () => {
             .post('/contact/a')
                 
         expect(response.status).toBe(400)
-        expect(response.text).toBe('Parâmetro precisa ser númerico.')
+        expect(response.text).toBe('Parâmetro precisa ser numérico.')
     })
 
     it('Should failed in attempt to create a contact with USER not exists.', async () => {

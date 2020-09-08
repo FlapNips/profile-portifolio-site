@@ -1,16 +1,20 @@
 const multer = require('multer')
 const path = require('path')
-//const crypto = require('crypto')  PARA CRIPTOGRAFAR E NAO REPETIR NOME DE IMAGEM
 
 module.exports = {
   dest: path.join(__dirname, '..', '/images/temp'), //Caso destination não esteja setado
   storage: multer.diskStorage({
     destination: (req, file, callback) => {
-      callback(null, path.resolve(path.join(__dirname, '..', '/images/temp')))
+      if (process.env.NODE_ENV === 'test') {
+        return callback(null, path.join(`${process.cwd()}/__tests__/integration/skills/images`))
+      }
+      return callback(null, path.resolve(path.join(__dirname, '..', '/images/temp')))
     },
     filename: async (req, file, callback) => {
-      const filename = file.originalname.split('.')[0]
-      callback(null, `${Date.now()}-${filename}${path.extname(file.originalname)}`)
+      let fileName = file.originalname.split('.')[0]
+      fileName = fileName.replace(' ', '_')
+      console.log('AQUI VEM')
+      callback(null, `${Date.now()}-${fileName}${path.extname(file.originalname)}`)
     }
   }),
   limits: {

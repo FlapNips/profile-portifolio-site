@@ -19,7 +19,7 @@ module.exports = app => {
     
     try {
 
-      if(isNaN(userId)) throw 'O parâmetro precisa ser númerico.'
+      if(isNaN(userId)) throw 'O parâmetro precisa ser numérico.'
       existsOrError(existsUser, 'Usuário não existe.')
       contentObjectOrError(data, 'Não pode existir campos vazios.')
 
@@ -60,7 +60,7 @@ module.exports = app => {
 
     try {
 
-      if(isNaN(educationId)) throw 'O parâmetro precisa ser númerico.'
+      if(isNaN(educationId)) throw 'O parâmetro precisa ser numérico.'
       existsOrError(existsEducation, 'Educação não encontrada.')
       
     } catch(error) {
@@ -82,7 +82,7 @@ module.exports = app => {
     const existsEducation = await db.Educations().where({ id: educationId }).first()
 
     try {
-      if(isNaN(educationId)) throw 'O parâmetro precisa ser númerico.'
+      if(isNaN(educationId)) throw 'O parâmetro precisa ser numérico.'
       existsOrError(existsEducation, 'Educação não encontrada.')
 
       existsValueForUpdate(data, existsEducation)
@@ -112,7 +112,7 @@ module.exports = app => {
     const existsEducation = await db.Educations().where({ id: educationId }).first()
 
     try {
-      if(isNaN(educationId)) throw 'O parâmetro precisa ser númerico.'
+      if(isNaN(educationId)) throw 'O parâmetro precisa ser numérico.'
       existsOrError(existsEducation, 'Educação não encontrada.')
 
     } catch(error) {

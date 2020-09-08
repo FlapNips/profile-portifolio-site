@@ -16,7 +16,7 @@ describe('Check fields in DELETE - USERS.', () => {
             .delete('/user/a')
         
         expect(response.status).toBe(400)
-        expect(response.text).toBe('O parâmetro precisa ser númerico.')
+        expect(response.text).toBe('O parâmetro precisa ser numérico.')
     })
 
     it('Should failed when delete user not exists.', async () => {

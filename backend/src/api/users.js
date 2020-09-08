@@ -54,7 +54,7 @@ module.exports = app => {
 
     try {
       
-      if (isNaN(userId)) throw 'O parâmetro precisa ser númerico.'
+      if (isNaN(userId)) throw 'O parâmetro precisa ser numérico.'
       existsOrError(await new User().exists(userId), 'Usuário não encontrado!') 
 
     } catch(error) {
@@ -77,7 +77,10 @@ module.exports = app => {
         return res.status(200).send(result)
       
       })
-      .catch( error => res.status(500).send(error))
+      .catch(error => {
+        console.error(error)
+        return res.status(500).send(error)
+      })
 
   }
 
@@ -90,7 +93,7 @@ module.exports = app => {
 
     try {
 
-      if (isNaN(userId)) throw 'O parâmetro precisa ser númerico.'
+      if (isNaN(userId)) throw 'O parâmetro precisa ser numérico.'
       existsOrError(userData, 'Usuário não encontrado.')
 
       existsValueForUpdate(data, userData)
@@ -132,7 +135,7 @@ module.exports = app => {
     const userData = await db.Users().where({ id: userId }).first()
 
     try {
-      if (isNaN(userId)) throw 'O parâmetro precisa ser númerico.'
+      if (isNaN(userId)) throw 'O parâmetro precisa ser numérico.'
       existsOrError(userData, 'Usuário não existe.')
     } catch(error) {
       return res.status(400).send(error)

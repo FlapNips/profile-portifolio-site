@@ -2,13 +2,12 @@ const fs = require('fs')
 const path = require('path')
 
 
-
 module.exports = app => {
 
   const { addSkillFile,
     getSkillFile,
     updateSkillFile,
-    changePathDB } = app.api.images
+    deleteSkillFile} = app.models.images
 
   const db = app.api.dbNames
 
@@ -23,22 +22,25 @@ module.exports = app => {
     const data = { ...req.body }
     const file = req.file
 
-    console.log(file)
     //VALIDATION DATA
     try {
     
-      existsOrError(data.title, 'Defina um nome.')
-      const userExists = await db.Users().where({ id: userId }).first()
-      const skillExists = await db.Skills().where({users_id: userId, title: data.title }).first()
+      if (isNaN(userId)) throw 'O parâmetro precisa ser numérico.'
 
-      existsOrError(userExists, 'Perfil não encontrado.')
+      const userExists = await db.Users().where({ id: userId }).first()
+      existsOrError(userExists, 'Usuário não existe.')
+
+      existsOrError(data.title, 'Defina um título.')
+
+      
+      const skillExists = await db.Skills().where({ users_id: userId, title: data.title }).first()
       notExistsOrError(skillExists, 'Habilidade já cadastrada.')
 
       existsOrError(file, 'Escolha uma imagem.')
 
     } catch(error) {
-      if(file) fs.unlinkSync(file.path)
-      return res.status(406).send(error)
+      if (file) fs.unlinkSync(file.path)
+      return res.status(400).send(error)
     }
 
     //Add Skill
@@ -48,9 +50,9 @@ module.exports = app => {
         title: data.title,
         percent: data.percent
       })
-      .then(() => res.send('Criado com sucesso.'))
+      .then( async() => res.status(201).send('Criado com sucesso.'))
       .catch( error => {
-      
+        console.error(error)
         fs.unlinkSync(file.path)
         return res.status(500).send(error)
       })
@@ -71,57 +73,63 @@ module.exports = app => {
         return res.status(400).send(error)
       }
 
-      return db.Skills().where({
-          id: skillId
-        })
-        .first()
-        .then(result => {
-          const image = getSkillFile(result.fileName)
-          result.image = image
-          return res.status(202).send(result)
-        })
-        .catch(error => {
-          return res.status(500).send(error)
-        })
+    return db.Skills()
+      .where({
+        id: skillId
+      })
+      .first()
+      .then(result => {
+        const image = getSkillFile(result.fileName)
+        result.image = image
+        return res.status(200).send(result)
+      })
+      .catch(error => {
+        console.error(error)
+        return res.status(500).send(error)
+      })
   }
 
-  /* -----------------------UPDATE SKILL (image and/or data) WITH SKILL_ID----------------------- */
+  /* -----------------------UPDATE SKILL (image and/or data)----------------------- */
   const updateSkill = async (req, res) => {
     const skillId = req.params.skill_id
     const data = { ...req.body }
     const file = req.file
-    const skillExists = await db.Skills().where({ id: skillId }).first()
+    const skill = await db.Skills().where({ id: skillId }).first()
 
     //VALIDATION 
     try {
 
       if(isNaN(skillId)) throw 'O parâmetro precisa ser numérico.'
-      existsOrError(skillExists, 'Habilidade não encontrada.') 
+      existsOrError(skill, 'Habilidade não encontrada.') 
 
       contentObjectOrError(data, 'Não pode haver campos em branco.')
-      existsValueForUpdate(data, skillExists)
-
-      if (data.title === undefined) data.title = skillExists.title
+      if (!file) {
+        existsValueForUpdate(data, skill)
+      }
       
     } catch(error) {
       if(file) fs.unlinkSync(file.path)
-      return res.status(406).send(error)
+      return res.status(400).send(error)
     }
 
-    const pathFileOld = `../images/icons/${skillExists.fileName}`
+    if (data.title === undefined) data.title = skill.title
 
     //UPDATE THE DATABASE
     return db.Skills()
       .update({
-        title: data.skillName,
-        fileName: updateSkillFile(data.title, file, skillExists.users_id, pathFileOld),
+        title: data.title,
+        fileName: updateSkillFile(data.title, skill.fileName, file, skill.users_id),
         percent: data.percent
       })
       .where({
         id: skillId
       })
-    .then( async () =>  res.status(202).send('Atualizado com sucesso.'))
-    .catch( error => res.status(500).send(error))
+      .then( async () =>  res.status(200).send('Atualizado com sucesso.'))
+      .catch(error => {
+        
+        console.error(error)
+        return res.status(500).send(error)
+      })
 
   }
   /* -----------------------DELETE SKILL WITH SKILL_ID----------------------- */
@@ -145,11 +153,11 @@ module.exports = app => {
         id: skillId
       })
       .then(() => {
-        fs.unlinkSync(path.join(__dirname, `../images/icons/${skillExists.fileName}`))
+        deleteSkillFile(skillExists.fileName)
         res.status(200).send('Deletado com sucesso.')
       })
       .catch( error => {
-        console.log(error)
+        console.error(error)
         return res.status(500).send(error)
       })
   }
