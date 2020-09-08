@@ -1,7 +1,6 @@
 .vscode
-
-/backend/__tests__/coverage
-/backend/node_modules
-/backend/.env
-/backend/.env.test
-/backend/node_modules
+backend/.env
+backend/.env.test
+backend/node_modules/
+backend/__tests__/coverage/
+backend/__tests__/database.sqlite
