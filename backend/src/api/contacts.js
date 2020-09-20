@@ -8,6 +8,7 @@ module.exports = app => {
 
   const db = app.api.dbNames
 
+    const filter = app.models.filters   
 
   /* -----------------------ADD CONTACT----------------------- */
 
@@ -74,7 +75,10 @@ module.exports = app => {
         users_id: userId
       })
       .first()
-      .then( result => {
+      .then(result => {
+      
+        result = filter.changeUnderlineToUpperCase(result)
+
         return res.status(200).send(result)
       })
       .catch( error => res.status(500).send('Erro 500 inesperado.'))

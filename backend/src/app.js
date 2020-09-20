@@ -8,22 +8,22 @@ const app = express()
 const consign = require('consign')
 const db = require('./config/db.js')
 
-//const mongose = require('mongose')
 app.db = db
 
-//Consign
+//Consign Config
 const options = {
 	locale: 'pt-br',
 	cwd: 'src',
 	verbose: process.env.NODE_ENV === 'test' ? false : true
 }
-//Configuração
+//Config
 consign(options)
-	.then('./config/middlewares.js')
+	.then('./config/middlewares/global.js')
 	.then('./api/dbNames.js')
 	.then('./config/db.js')
 	.then('./models')
 	.then('./api')
+	.then('./config/middlewares/afterRequestGet.js')
 	.then('./config/routes.js')
 	.into(app)
 

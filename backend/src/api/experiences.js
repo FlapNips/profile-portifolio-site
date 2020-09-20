@@ -6,6 +6,8 @@ module.exports = app => {
           contentObjectOrError } = app.models.validator
 
   const db = app.api.dbNames
+  
+  const filter = app.models.filters
 
   /* -----------------------ADD EXPERIENCE----------------------- */
   const addExperience = async (req, res) => {
@@ -117,14 +119,18 @@ module.exports = app => {
         this.on('tb_experiences.id', 'tbx_skills_experiences.experiences_id')
           .onIn('tbx_skills_experiences.experiences_id', experienceId)
       })
+      .where('tb_experiences.id', experienceId)
       .groupBy('tb_experiences.id')
       .first()
       .then(result => {
         
         //Transform in Array if exists
         if (result.list) result.list = result.list.split(';')
-        if (result.skills) result.skills = result.skills.split(';')
-  
+        if (result.skills) result.skills = result.skills.split(',')
+
+        console.log(result.skills)
+        result = filter.changeUnderlineToUpperCase(result)
+
         res.status(200).send(result)
       })
       .catch(error => {

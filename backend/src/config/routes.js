@@ -5,6 +5,7 @@ const upload = multer(multerConfig).single('file')
 module.exports = app => {
 
 //!-----------------USERS---------------------------------
+
 	app.route('/user')
 		.post(app.api.users.addUser)
 	app.route('/user/:user_id')
@@ -31,12 +32,17 @@ module.exports = app => {
 		.get(app.api.projects.getProject)
 		.put(app.api.projects.updateProject)
 		.delete(app.api.projects.deleteProject)
+
 //!-----------------EXPERIENCES------------------------------
 	app.route('/experience/:user_id')
 		.post(app.api.experiences.addExperience)
 
 	app.route('/experience/:experience_id')
-		.get(app.api.experiences.getExperience)
+		.get(app.api.experiences.getExperience, (req,res,next) => {
+			console.log('pasou aqui')
+			console.log(req,body)
+			next()
+		})
 		.put(app.api.experiences.updateExperience)
 		.delete(app.api.experiences.deleteExperience)
 //!-----------------SKILLS--------------------------------
@@ -45,7 +51,7 @@ module.exports = app => {
 			upload,
  			app.api.skills.addSkill
  		)
- 	app.route('/skill/:skill_id')
+	app.route('/skill/:skill_id')
 		.get(app.api.skills.getSkill)
 		.put(upload, app.api.skills.updateSkill)
 		.delete(app.api.skills.deleteSkill)
@@ -63,5 +69,4 @@ module.exports = app => {
 // 			upload,
 // 			app.api.skills.updateSkill
 // 		)
-// 		.delete(app.api.skills.deleteSkill)
 }

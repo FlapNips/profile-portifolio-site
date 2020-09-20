@@ -7,7 +7,7 @@ module.exports = app => {
 	app.use(cors())
 	app.use(bodyParser.urlencoded({ extended: true }));
 
-	//Change space to underline ( ' ' = _ ) example: test_string = testString
+	//Change underline to uppercase ( _  = '' ) example: test_string = testString
 	app.use(function (req, res, next) {
 		const data = { ...req.body }
 
@@ -27,6 +27,5 @@ module.exports = app => {
 		})
 		req.body = data
 		next()
-
 	})
 }

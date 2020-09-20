@@ -7,6 +7,8 @@ module.exports = app => {
 
   const db = app.api.dbNames
 
+  const filter = app.models.filters
+
   /* -----------------------ADD PROJECT----------------------- */
   const addProject = async (req, res) => {
     const userId = req.params.user_id
@@ -117,8 +119,10 @@ module.exports = app => {
         
         //Transform in Array if exists
         if (result.list) result.list = result.list.split(';')
-        if (result.skills) result.skills = result.skills.split(';')
-  
+        if (result.skills) result.skills = result.skills.split(',')
+        
+        result = filter.changeUnderlineToUpperCase(result)
+
         res.status(200).send(result)
       })
       .catch(error => res.status(500).send(error))

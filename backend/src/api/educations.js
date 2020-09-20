@@ -10,7 +10,7 @@ module.exports = app => {
 
   const db = app.api.dbNames
 
-
+    const filter = app.models.filters
   /* -----------------------ADD EDUCATION----------------------- */
   const addEducation = async (req, res) => {
     const userId = req.params.user_id
@@ -68,12 +68,17 @@ module.exports = app => {
     }
   
     return db.Educations()
-            .where({
-              id: educationId
-            })
-            .first()
-            .then( result => res.status(200).send(result))
-            .catch( error => res.status(500).send('Erro 500 inesperado.'))
+        .where({
+            id: educationId
+        })
+        .first()
+        .then(result => {
+        
+            result = filter.changeUnderlineToUpperCase(result)
+
+            res.status(200).send(result)
+        })
+        .catch( error => res.status(500).send('Erro 500 inesperado.'))
   }
   /* -----------------------UPDATE EDUCATION----------------------- */
   const updateEducation = async (req, res) => {

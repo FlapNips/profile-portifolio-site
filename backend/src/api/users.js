@@ -13,6 +13,8 @@ module.exports = app => {
 
   const db = app.api.dbNames
 
+  const filter = app.models.filters
+
 
 
 
@@ -73,7 +75,11 @@ module.exports = app => {
           if (result.projects_id != null) {
             result.projects_id = result.projects_id.split(',')
           }
-
+          if (result.educations_id != null) {
+            result.educations_id = result.educations_id.split(',')
+          }
+        result = filter.changeUnderlineToUpperCase(result)
+        
         return res.status(200).send(result)
       
       })

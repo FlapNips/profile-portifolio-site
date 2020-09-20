@@ -15,6 +15,8 @@ module.exports = app => {
     notExistsOrError,
     contentObjectOrError,
     existsValueForUpdate } = app.models.validator
+  
+  const filter = app.models.filters
 
   /* -----------------------ADD SKILL WITH USER_ID----------------------- */
   const addSkill = async (req, res) => {
@@ -81,6 +83,9 @@ module.exports = app => {
       .then(result => {
         const image = getSkillFile(result.fileName)
         result.image = image
+
+        result = filter.changeUnderlineToUpperCase(result)
+
         return res.status(200).send(result)
       })
       .catch(error => {
