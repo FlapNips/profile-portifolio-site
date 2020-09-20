@@ -2,7 +2,9 @@
 	<b-row no-gutters style="grid-area: content-area;" class="pt-5">
 
 		<b-col xl="3" class="tag-layout">
-			<div v-textJSON="'profile.tags.education'" class="text-inclination"/>
+			<div class="text-inclination">
+				Educação
+			</div>
 		</b-col>
 
 		<b-col xl="9" class="line-division"/>
@@ -51,7 +53,7 @@ export default {
 	},
 	methods: {
 		getIcon(name) {
-			return this.$store.getters.getIcon(name)
+			return this.$store.getters.icon(name)
 		},
 		borderList(collapsed) {
 			if(collapsed) return 'border: black 3px solid;';

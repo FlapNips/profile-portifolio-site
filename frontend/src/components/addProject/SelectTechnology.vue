@@ -25,7 +25,6 @@ export default {
 		getIcons() {
 			this.$http.get('/alltechnologies').then( res => {
 				const icons = res.data
-				console.log(icons)
 				const lengthIcons = Object.keys(icons).length
 				for(let i = 0; i < lengthIcons; i++) {
 					this.$set(this.buttons, i, {

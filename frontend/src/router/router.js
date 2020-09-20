@@ -8,33 +8,33 @@ const router = new VueRouter({
 	base: process.env.BASE_URL,
 	routes: [
 		{
-			path: '',
-			component: () => import('@/views/Main.vue'),
+			path: '/',
+			component: () => import('@/views/Home.vue'),
 			children: [
 				{
 					path: '/profile',
 					name: 'Perfil',
-					component: () => import('@/pages/Profile.vue'),
+					component: () => import('@/views/Inside/Profile.vue'),
 				},
 				{
 					path: '/experiences',
 					name: 'Experiencias',
-					component: () => import('@/pages/Experiences.vue')
+					component: () => import('@/views/Inside/Experiences.vue')
 				},
 				{
 					path: '/projects',
 					name: 'Projetos',
-					component: () => import('@/pages/Projects.vue')
+					component: () => import('@/views/Inside/Projects.vue')
 				},
 				{
 					path: '/contact',
 					name: 'Contato',
-					component: () => import('@/pages/Contact.vue')
+					component: () => import('@/views/Inside/Contact.vue')
 				},
 				{
 					path: '/manager',
 					name: 'Gerenciar',
-					component: () => import('@/pages/Manager.vue')
+					component: () => import('@/views/Inside/Manager.vue')
 				}
 			]
 

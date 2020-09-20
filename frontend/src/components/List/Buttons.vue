@@ -2,16 +2,17 @@
   <b-col cols=12 class="pt-4">
     <transition name="fade">
 
-      <div v-if="!loadingButtons" class="m-0 p-0">
+      <div v-if="loading" class="m-0 p-0">
         <b-row
         no-gutters
-        v-for="button in buttons"
+        v-for="(button, index) in listButtons"
         :key="button.id"
-        @click="experienceContent(button.id)"
+        @click="buttonSelected(index)"
         :class="{ buttonSelected: buttonSelected === button.id,
           buttonEmpty: button.id === undefined
         }"
         class="layout-button">
+
             <b-col v-if="button.id" cols=9 class="layout-text">
               <h3>{{ button.title }}</h3>
               <h4>{{ button.subtitle }}</h4>
@@ -35,7 +36,7 @@
     limit=3
     :pills="true"
     hide-goto-end-buttons
-    :number-of-pages="pagesTotal"/>
+    :number-of-pages="5"/>
 
   </b-col>
 </template>
@@ -43,43 +44,32 @@
 <script>
 
 
-export default {
-  props: {
-    //RENDER BUTTONS
-    loadingButtons: {
-      type: Boolean,
-      required: true
-    },
-    //BUTTONS
-    buttons: {
-      type: Array,
-      required: true
-    },
-    experienceContent: {
-      type: Function,
-      required: true
-    },
-    buttonSelected: {
-      type: Number,
-      required: true,
-    },
-      //PAGE
-    pagesTotal: {
-      type: Number,
-      required: true
-    }
-  },
-  methods: {
-    dateStart(dateStartString, dateFinishString) {
+    export default {
+        props: {
+            listButtons: {
+            type: Array,
+            required: true
+            }
+        },
+        computed: {
+            loading() {
+            return this.listButtons.length !== 0
+            }
+        },
+        methods: {
+            dateStart(dateStartString, dateFinishString) {
 
-      const dateStart = new Date(dateStartString)
-      const dateFinish = new Date(dateFinishString)
+                const dateStart = new Date(dateStartString)
+                const dateFinish = new Date(dateFinishString)
 
-      return `${dateStart.getMonth()}/${dateStart.getFullYear()} - 
-        ${dateFinish.getMonth()}/${dateFinish.getFullYear()}`
+                return `${dateStart.getMonth()}/${dateStart.getFullYear()} - 
+                    ${dateFinish.getMonth()}/${dateFinish.getFullYear()}`
+                },
+                buttonSelected(buttonIndex) {
+                this.$emit('button-selected', buttonIndex)
+            }
+        }
     }
-  }
-}
 </script>
 
 <style lang="scss" scoped>

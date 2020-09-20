@@ -42,16 +42,13 @@ export default {
                     this.imageResult
     },
     getFile() {
-      return this.$store.getters.getManagerProfileTechnology
+      return this.$store.getters.managerProfileTechnology
     }
   },
   watch: {
-    '$store.getters.getManagerProfileTechnology'(value) {
+    '$store.getters.managerProfileTechnology'(value) {
       this.form = { ...value }
       this.imageResult = null
-    },
-    getFile(value) {
-      console.log(value)
     }
   },
   methods: {
@@ -63,12 +60,6 @@ export default {
       reader.onload = e => {
         this.imageResult = e.target.result
       }
-    },
-    formatFileName(files) {
-      console.log(files)
-      const teste =  `${this.form.name}-icon.svg`
-      console.log(teste)
-      return teste
     }
   }
 }

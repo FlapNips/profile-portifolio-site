@@ -31,21 +31,10 @@ export default {
         };
     },
     methods: {
-      teste(value, value2) {
-        console.log(value)
-        console.log(value2)
-      },
-      teste2(value, value2) {
-
-        console.log(value)
-        console.log(value2)
-      },
-        handleFilePondInit: function() {
-            console.log('FilePond has initialized');
-
-            // example of instance method call on pond reference
-            this.$refs.pond.getFiles();
-        }
+      handleFilePondInit: function() {
+          // example of instance method call on pond reference
+          this.$refs.pond.getFiles();
+      }
     }
 };
 </script>

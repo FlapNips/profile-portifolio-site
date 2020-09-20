@@ -15,10 +15,10 @@ export default {
 	computed: {
 		datePicker: {
 			get() {
-				return this.$store.getters.getDate
+				return this.$store.getters.date
 			},
 			set(value) {
-				this.$store.commit('setDate', value)
+				this.$store.commit('date', value)
 			}
 		}
 	}

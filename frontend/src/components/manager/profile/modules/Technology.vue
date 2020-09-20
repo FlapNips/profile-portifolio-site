@@ -82,7 +82,7 @@ export default {
       require(`@/assets/${this.formTechnology.img}`)
     },
     getManagerProfileTechnology() {
-      return this.$store.getters.getManagerProfileTechnology
+      return this.$store.getters.managerProfileTechnology
     }
   },
 	methods: {

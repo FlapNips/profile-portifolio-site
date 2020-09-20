@@ -47,18 +47,18 @@ export default {
 	},
 	computed: {
 		getTitle() {
-			return this.transformTextTitle(this.$store.getters.getTitle)
+			return this.transformTextTitle(this.$store.getters.title)
 		},
 		getLevelName() {
-			return this.transformLevelInName(this.$store.getters.getLevel)
+			return this.transformLevelInName(this.$store.getters.level)
 		},
 		getLevelNumber() {
-			return this.$store.getters.getLevel
+			return this.$store.getters.level
 		}
 	},
 	methods: {
 		returnValue(id) {
-			return eval(`this.$store.getters.get${id}`)
+			return eval(`this.$store.getters.${id}`)
 		},
 		returnClassLevel(id) { //RETORNA A CLASSE DO LABEL DO NÍVEL
 			if(id == 1) {

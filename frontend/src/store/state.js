@@ -1,30 +1,43 @@
 const state = {
-		//Global
-		user: {
-			userId: null,
-		},
-		menu: null,
-		/* MENU EXAMPLE
+	
+	//Global
+	userId: 1,
+	user: {},
+	userContact: {},
+	menu: [
 		{
-			id: menu_id,
-			router: router_menu,
-			title: title_menu,
-			submenu: [
-				{
-					id: id_item,
-					component: component_item,
-					title: title_item
-				}
-			]
+			id: 'profile',
+			title: 'Perfil',
+			to: '/profile',
+			submenu: []
+		},
+		{
+			id: 'experiences',
+			title: 'Experiências',
+			to: '/experiences',
+			submenu: []
+		},
+		{
+			id: 'projects',
+			title: 'Projetos',
+			to: '/projects',
+			submenu: []
+		},
+		{
+			id: 'manager',
+			title: 'Gerenciar',
+			to: '/manager',
+			submenu: []
 		}
-		*/
-		componentManager: 'profile',
+	],
+    menuMobileVisible: false, // windowWidth < 1200px
+	componentManager: 'profile',
     windowWidth: null, //in px
-    sidebarVisible: false, // windowWidth < 1200px
-		managerProfileTechnology: null,
-		//EXPERIENCE
-		listButtons: [],
-		pageExperience: 1
+	managerProfileTechnology: null,
+
+	//EXPERIENCE
+	listButtons: [],
+	pageExperience: 1
 }
 
 export default state

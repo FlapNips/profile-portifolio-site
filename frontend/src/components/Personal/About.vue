@@ -2,31 +2,42 @@
 	<b-row id="layout-aboutme">
 		<b-col cols="12" lg="3" id="content-image-profile">
 			<b-img src="@/assets/profile.png" class="image-profile"/>
-			<div v-textJSON="'profile.fullname'" class="aboutme-fullname"/>
+			<div class="aboutme-fullname">
+				{{ fullName }}
+			</div>
 		</b-col>
-		<b-col cols="12" lg="9" id="content-aboutme">
+		<b-col v-if="render" cols="12" lg="9" id="content-aboutme">
 			<p>
-				{{ aboutUser }}
+				{{ about }}
 			</p>
+		</b-col>
+		<b-col cols="12" lg="9" v-else class="loading">
+			<b-spinner medium label="Medium Spinner"/>
 		</b-col>
 	</b-row>
 </template>
 
 <script>
-export default {
-	data() {
-		return {
-			aboutUser: ''
+	export default {
+        props: {
+            about: {
+                type: String,
+                required: true
+            }
+        },
+		computed: {
+			render() {
+				if(this.about === undefined) {
+					return false
+				} else {
+                    return true
+				}
+			},
+			fullName() {
+				return this.$store.getters.user.fullName
+			}
 		}
-	},
-	beforeMount() {
-		this.$http.get('user/1').then( x => {
-			console.log(x)
-			this.aboutUser = x.data.about
-		})
-	
 	}
-}
 
 </script>
 
@@ -58,6 +69,11 @@ export default {
 		text-align: center;
 		line-height: 2;
 		font-size: 1.3em;
+	}
+	.loading {
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 }
 </style>

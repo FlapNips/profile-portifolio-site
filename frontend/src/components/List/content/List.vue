@@ -2,11 +2,9 @@
   <b-row no-gutters>
     <b-col cols=12>
 
-      <div
-      id="title-activities" 
-      class="separator px-5 mb-4">
+      <Separator>
         PRINCIPAIS ATIVIDADES
-      </div>
+      </Separator>
 
       <div
       class="layout-list">
@@ -43,7 +41,13 @@
 </template>
 
 <script>
+
+  import Separator from '@/components/Separator/Default.vue'
+
   export default {
+    components: {
+        Separator
+    },
     props: {
       list: {
         type: Array,
@@ -84,11 +88,16 @@
 </script>
 
 <style lang="scss">
+  @media screen and (max-width: 576px) {
+    .layout-list {
+      margin: 0!important;
+    }
+  }
 
   .layout-list {
     max-width: 100%;
     margin: 0 2em;
-    padding: 0 1em 1em 1em;
+    padding: 0.5em 1em;
     min-height: 2em;
     border-radius: 1em;
 

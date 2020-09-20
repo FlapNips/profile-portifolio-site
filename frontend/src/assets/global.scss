@@ -12,19 +12,6 @@ $color_black_3: rgb(122, 122, 122);
 $color_black_4: rgb(184, 184, 184);
 $color_black_5: rgb(255, 255, 255);
 
-.separator {
-	display: flex;
-	align-items: center;
-	width: 100%;
-	text-align: center;
-
-		&::before, &::after {
-			content: '';
-			flex: 1;
-			margin: 0 0.5em;
-			border-bottom: 1px solid rgba(112, 112, 112, 0.466);	
-		}
-}
 	// FONTS
 	@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
 	//font-family: 'Noto Sans JP', sans-serif;

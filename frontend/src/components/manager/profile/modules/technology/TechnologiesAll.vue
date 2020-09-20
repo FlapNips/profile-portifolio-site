@@ -58,17 +58,17 @@
     },
     computed: {
       technologySelected() {
-        const data = this.$store.getters.getManagerProfileTechnology
+        const data = this.$store.getters.managerProfileTechnology
         return  data === null ? '' : data
       }
     },
     methods: {
       clickIcon(icon) {
         if(this.technologySelected === icon.name) {
-          this.$store.commit('setManagerProfileTechnology', null)    
+          this.$store.commit('managerProfileTechnology', null)    
 
         } else {
-          this.$store.commit('setManagerProfileTechnology', { ...icon })
+          this.$store.commit('managerProfileTechnology', { ...icon })
         }
       }
     }

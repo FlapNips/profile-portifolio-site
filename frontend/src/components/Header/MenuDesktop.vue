@@ -1,89 +1,33 @@
 <template>
 	<div id="layout-menu" no-gutters align-h="between">
 
-		<b-navbar v-if="windowWidth >= 1200" id="menu-desktop" no-gutters>
+		<b-navbar id="menu-desktop" no-gutters>
 			<b-nav-item 
 			class="menu-item-desktop"
 			v-for="button in menu"
-			:to="button.router"
+			:to="button.to"
 			:style="`width: calc(1/${menu.length}*100%)`"
 			:key="button.id">
 				<h4 class="text-button">{{ button.title }}</h4>
 			</b-nav-item>
 		</b-navbar>
 
-		<div 
-		v-else
-		style="z-index: 10" 
-		v-click-outside="onClose">
-			<b-button class="button-sidemenu" @click="changeVisibleSidebar(true)">
-				<b-icon icon="list"/>
-			</b-button>
-				<sidebar :menu="menu" :changeVisibleSidebar="changeVisibleSidebar"/>
-		</div>
-
 	</div>
 </template>
 
 <script>
 
-import TextString from '@/../public/textPTBR.json'
-import Sidebar from '@/components/sidebar/Sidebar.vue'
 
-export default {
-	components: {
-		Sidebar
-	},
-	data() {
-		return {
-			sidebarVisible: false,
-		}
-	},
-	computed: {
-		windowWidth() {
-			return this.$store.getters.getWindowWidth
-		},
-		menu() {
-			return	this.$store.getters.getMenu
-		}
-	},
-	methods: {
-		changeVisibleSidebar() {
-			this.$store.commit('changeSidebarVisible')
-		},
-		onClose() {
-			this.$store.commit('changeSidebarVisible', false)
-		}
-	},
-	created() {
-		const menu = TextString.menu
-		let contentMenu = []
-		Object.entries(menu).forEach( (element,index) => {
-			const [key, value] = element
-			if(value.submenu) {
-
-				contentMenu[index] = {	
-					id: key,
-					router: `/${key}`,
-					title: value.name,
-					manager: value.manager,
-					submenu: value.submenu
-				}
-
-			} else {
-
-				contentMenu[index] = {	
-					id: key,
-					router: `/${key}`,
-					title: value.name,
-					manager: value.manager
-				}
-
+	export default {
+		computed: {
+			windowWidth() {
+				return this.$store.getters.windowWidth
+			},
+			menu() {
+				return this.$store.getters.menu
 			}
-		});
-		this.$store.commit('setMenu', contentMenu)
+		}
 	}
-}
 </script>
 
 <style lang="scss" scoped>

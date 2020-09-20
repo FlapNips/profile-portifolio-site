@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     menuManager() {
-      const menu = this.$store.getters.getMenu
+      const menu = this.$store.getters.menu
       return menu.filter( x => x.manager == true)
     },
   },
@@ -48,7 +48,7 @@ export default {
     },
   },
   created() {
-    this.componentManager = this.$store.getters.getComponentManager
+    this.componentManager = this.$store.getters.componentManager
   }
 }
 </script>

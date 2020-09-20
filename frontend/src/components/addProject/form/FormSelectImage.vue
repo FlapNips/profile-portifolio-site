@@ -30,7 +30,7 @@ export default {
 	},
 	computed: {
 		getFile() {
-			return this.$store.getters.getFile
+			return this.$store.getters.file
 		}
 	},
 	methods: {
@@ -48,7 +48,7 @@ export default {
 			return true
 		},
 		commitFile(file) {
-			this.$store.commit('setFile', file)
+			this.$store.commit('file', file)
 		}
 	}
 }

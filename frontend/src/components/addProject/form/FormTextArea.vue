@@ -45,13 +45,13 @@ export default {
 	},
 	methods: {
 		returnValue(id) {
-			return eval(`this.$store.getters.get${id}`)
+			return eval(`this.$store.getters.${id}`)
 		},
 		commitAttribute(id, value) {
 			this.$store.commit( `set${id}`, value)
 		},
 		warningLimitText(id) {
-			const textAreaLength = eval(`this.$store.getters.get${id}.length`)
+			const textAreaLength = eval(`this.$store.getters.${id}.length`)
 			return textAreaLength
 		},
 		getLength(id) {

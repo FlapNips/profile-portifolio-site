@@ -81,7 +81,7 @@
     methods: {
       windowWidth() {
         this.setDropdownMenu()
-        return this.$store.getters.getWindowWidth >= 1200
+        return this.$store.getters.windowWidth >= 1200
       },
       setComponent(modules, managerView, moduleView) {
         if(!modules.some( element => element == moduleView)) {
@@ -113,11 +113,11 @@
             title: element
           })
         })
-        this.$store.commit('setDropdownMenu', value)
+        this.$store.commit('dropdownMenu', value)
 
       },
       responsiveColumns(modules) {
-        if(this.$store.getters.getWindowWidth < 1200) {
+        if(this.$store.getters.windowWidth < 1200) {
           
           return 12
         }
